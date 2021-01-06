@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../../layouts/head.ejs')%>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+      <%- include('../../layouts/header.ejs') %>
+      <!-- Left side column. contains the logo and sidebar -->
+      <%- include('../../layouts/sidebar.ejs') %>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <% if (message) { %>
+          <h1><%= message %></h1>
+          <% } %>
+          <ol class="breadcrumb">
+            <li>
+              <a href="#"><i class="fa fa-dashboard"></i> Home</a>
+            </li>
+            <li><a href="#">Forms</a></li>
+            <li class="active">General Elements</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <!-- left column -->
+            <!--/.col (left) -->
+            <div class="col-md-2"></div>
+            <!-- right column -->
+            <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Quick Example</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" enctype="multipart/form-data">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Tên danh mục</label>
+                  <input value="<%-category.categoryEdit.name%>" type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Tên danh mục">
+                </div>
+                <div class="form-group">
+                  <label for="parent_id">Danh mục cha</label>
+                  <select class="form-control" name="parent_id" id="parent_id">
+                    <% if(category.categoryEdit.parent_id) {%>
+                    <% category.categoryParents.forEach((cate, index)=>{ %>
+                    <option value="<%-cate._id%>" <%= (JSON.stringify(cate._id)==JSON.stringify(category.categoryEdit.parent_id._id))?"selected":"" %> ><%-cate.name%></option>
+                    <% }); %>
+                    <% }else{ %>
+                    <option value="none">Không có danh mục cha</option>
+                    <%}%>
+                  </select>
+                </div>
+              
+                <div class="form-group">
+                  <label for="img">Image</label>
+                  <input type="file" id="img" name="avatar" onchange="showPreview(event);">
+                  <img id="img-preview"
+                    name="image" 
+                    src="" 
+                    alt="..." 
+                    width=200 
+                  />
+                  <img width=200 src="/uploads/category/<%=category.categoryEdit.avatar%>" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="">
+                </div>
+                <label for="nav_active">nav_active</label>
+                <div class="form-check">
+                    <input <%= (category.categoryEdit.nav_active===true)?"checked":"" %> value="true" type="radio" class="form-check-input" name="nav_active" id="nav_active"  checked>
+                    On
+                    <br>
+                    <input <%= (category.categoryEdit.nav_active===false)?"checked":"" %> value="false" type="radio" class="form-check-input" name="nav_active" id="nav_active"  >
+                    Off
+                </div>
+                
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+              </div>
+            </form>
+          </div>
+          
+          <!-- /.box -->
+
+        </div>
+            <!--/.col (right) -->
+          </div>
+          <!-- /.row -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+      <%- include('../../layouts/footer.ejs') %>
+      <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <%-include('../../layouts/script.ejs')%>
+  </body>
+</html>

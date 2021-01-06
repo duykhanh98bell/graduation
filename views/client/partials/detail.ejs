@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <%-include('../layouts/head.ejs')%>
+</head>
+
+<body>
+    
+
+    <%-include('../layouts/header.ejs')%>
+
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <span>Shop</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__left product__thumb nice-scroll">
+                        <% detail.images.forEach((image, index)=>{%>
+                            <a class="pt" href="#product-<%=index+1%>">
+                                <img src="/uploads/product/<%=image.image%>" alt="">
+                            </a>
+                        <% }); %>
+                        </div>
+                        <div class="product__details__slider__content">
+                            <div class="product__details__pic__slider owl-carousel">
+                            <% detail.images.forEach((image, index)=>{%>
+                                <img  data-hash="product-<%=index+1%>" class="product__big__img" src="/uploads/product/<%=image.image%>" alt="">
+                            <% }); %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="product__details__text">
+                        <h3><%=detail.detail.name%> <span>Thương hiệu: <%=detail.detail.brand_id.name%></span></h3>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <span>( 138 reviews )</span>
+                        </div>
+                        <div class="product__details__price"><%=detail.detail.price%> vnđ<span><%=detail.detail.price%> vnđ</span></div>
+                        <p><%=detail.detail.description%></p>
+                        <div class="product__details__button">
+                            <div class="quantity">
+                                <span>Quantity:</span>
+                                <div class="pro-qty">
+                                    <input type="text" value="1">
+                                </div>
+                            </div>
+                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                            <ul>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__details__widget">
+                            <ul>
+                                <li>
+                                    <span>Availability:</span>
+                                    <div class="stock__checkbox">
+                                        <label for="stockin">
+                                            In Stock
+                                            <input type="checkbox" id="stockin">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span>Kích cỡ:</span>
+                                    <div class="form-check">
+                                    <% all.valueProducts.forEach((valuePro, index)=>{ %>
+                                    <% if(valuePro.product_id!=null){ %>
+                                    <% if(JSON.stringify(valuePro.value_id.attribute_id)==JSON.stringify(all.attributes[0]._id)){ %>
+                                        <label class="form-check-label" style="margin-right: 45px;">
+                                            <input type="radio" class="form-check-input" name="size" id="" value="checkedValue" checked>
+                                            <%=valuePro.value_id.value%>
+                                        </label>
+                                    <%}%>
+                                    <% } %>
+                                    <% }) %>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span>Màu sắc :</span>
+                                    <div class="form-check">
+                                    <% all.valueProducts.forEach((valuePro, index)=>{ %>
+                                    <% if(valuePro.product_id!=null){ %>
+                                    <% if(JSON.stringify(valuePro.value_id.attribute_id)==JSON.stringify(all.attributes[1]._id)){ %>
+                                        <label class="form-check-label" style="margin-right: 45px;">
+                                        <input type="radio" class="form-check-input" name="color" id="" value="checkedValue" checked>
+                                        <%=valuePro.value_id.value%>
+                                      </label>
+                                    <%}%>
+                                    <% } %>
+                                    <% }) %>
+                                    </div>
+                                </li>
+                                
+                                
+                                <li>
+                                    <span>Promotions:</span>
+                                    <p>Free shipping</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Mô tả</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Chi tiết</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Đánh giá ( 2 )</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <h6>Mô tả</h6>
+                                <p><%=detail.detail.description%></p>
+                            </div>
+                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                <h6>Chi tiết</h6>
+                                <p><%=detail.detail.detail%></p>
+                            </div>
+                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                <h6>Đánh giá</h6>
+                                <div class="col-md-12" style="margin-bottom: 20px;">
+                                    <b>Ten</b>
+                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium, perferendis!</p>
+
+                                </div>
+                                <form class="row g-3 needs-validation" novalidate>
+                                    <div class="col-md-12" style="margin-bottom: 20px;">
+                                        <label for="validationCustom01" class="form-label">Nhận xét *</label>
+                                        <textarea type="text" class="form-control" id="validationCustom03" value="" required></textarea>
+                                        <div class="valid-feedback">
+                                        Looks good!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="validationCustom01" class="form-label">Tên *</label>
+                                        <input type="text" class="form-control" id="validationCustom01" value="" required>
+                                        <div class="valid-feedback">
+                                        Looks good!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="validationCustom02" class="form-label">Email *</label>
+                                        <input type="text" class="form-control" id="validationCustom02" value="" required>
+                                        <div class="valid-feedback">
+                                        Looks good!
+                                        </div>
+                                    </div>
+                                    <div class="col-12" style="margin-top: 20px;">
+                                        <button class="btn btn-primary" type="submit">Gửi đánh giá</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="related__title">
+                        <h5>SẢN PHẨM LIÊN QUAN</h5>
+                    </div>
+                </div>
+                <% all.relateds.forEach((relate, index)=>{%>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="/uploads/product/<%=relate.image%>">
+                            <div class="label new">New</div>
+                            <ul class="product__hover">
+                                <li><a href="/uploads/product/<%=relate.image%>" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="/home/product/<%=relate._id%>"><span class="icon_bag_alt"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a href="/home/product/<%=relate._id%>"><%=relate.name%></a></h6>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product__price"><%=relate.price%> vnđ</div>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+                
+                
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+<script>
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+
+
+<%-include('../layouts/footer.ejs')%>
+
+<!-- Js Plugins -->
+<%-include('../layouts/script.ejs')%>
+</body>
+
+</html>

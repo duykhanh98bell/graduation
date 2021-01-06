@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../../layouts/head.ejs')%>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+      <%- include('../../layouts/header.ejs')%>
+      <!-- Left side column. contains the logo and sidebar -->
+      <%- include('../../layouts/sidebar.ejs')%>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <% if (message) { %>
+            <h1><%= message %></h1>
+          <% } %>
+          <ol class="breadcrumb">
+            <li>
+              <a href="#"><i class="fa fa-dashboard"></i> Home</a>
+            </li>
+            <li><a href="#">Tables</a></li>
+            <li class="active">Data tables</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <!-- /.box -->
+
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title"><a class="btn btn-success" href="/product">Quay về</a></h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <table
+                    id="example1"
+                    class="table table-bordered table-striped"
+                  >
+                    <thead>
+                      <tr>
+                        <th>STT</th>
+                        <% selectValue.attributes.forEach((attr, index)=>{%>
+                        <th><%=attr.name%></th>
+                        <% }) %>
+                        <th>Số lượng</th>
+                        <th>Đã bán</th>
+                        <th>Ngày Tao</th>
+                        <th>Tùy chọn</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <% if(selectValue !== null){ %>
+                    <% selectValue.variants.forEach((variant, index)=>{ %>
+                      <tr>
+                        <td><%=index+1%></td>
+                        <% selectValue.variantValues.forEach((variantValue, index)=>{%>
+                        <% if(JSON.stringify(variant._id)==JSON.stringify(variantValue.variant_id)){%>
+                        <td><%=variantValue.value_id.value%></td>
+                        <% } %>
+                        <% }) %>
+                        <td><%=variant.quantity%>
+                        
+                        </td>
+                        <td><%=variant.sold%></td>
+                        <td><%=variant.createdAt%></td>
+                        <td>
+                        <form action="/product/variant/update/<%=variant._id%>"  method="POST" >
+                            <div class="form-group">
+                              <label for="">Thêm số lượng</label>
+                              <input type="number"
+                                class="form-control" name="quantity" id="" placeholder="Thêm số lượng">
+                              <button class="btn btn-warning">Thêm</button>
+                              <a
+                                class="btn btn-danger"
+                                href="/product/variant/delete/<%=variant._id%>"
+                                onclick="return confirm('xác nhận xóa')"
+                                >Xóa</a
+                              >
+                            </div>
+                        </form>
+                          
+                        </td>
+                      </tr>
+                      <% }) %>
+                    <% } %>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>STT</th>
+                        <% selectValue.attributes.forEach((attr, index)=>{%>
+                        <th><%=attr.name%></th>
+                        <% }) %>
+                        <th>Số lượng</th>
+                        <th>Đã bán</th>
+                        <th>Ngày Tao</th>
+                        <th>Tùy chọn</th>
+                      </tr>
+                    </tfoot>
+                    <form  method="POST">
+                      <tr>
+                        <td></td>
+                        <% selectValue.attributes.forEach((attr, index)=>{%>
+                        <td>
+                            <div class="form-group">
+                              <label for="value"><%=attr.name%></label>
+                              <select class="form-control" name="value_id[]" id="value">
+                                <% selectValue.values.forEach((value, index)=>{%>
+                                <% if(JSON.stringify(value.value_id.attribute_id)==JSON.stringify(attr._id)){%>
+                                <option value="<%=value.value_id._id%>" ><%=value.value_id.value%></option>
+                                <% } %>
+                                <%})%>
+                              </select>
+                            </div>
+                            
+                        </td>
+                        <% }) %>
+                        <td>
+                            <div class="form-group">
+                              <label for="quantity">So luong</label>
+                              <input type="number"
+                                class="form-control" name="quantity" id="quantity"  placeholder="Nhap so luong">
+                            </div>
+                            <button class="btn btn-success">Cập nhật</button>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </form>
+                  </table>
+                </div>
+                <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+      <%- include('../../layouts/footer.ejs')%>
+      <!-- /.control-sidebar -->
+      <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <%-include('../../layouts/script.ejs')%>
+  </body>
+</html>

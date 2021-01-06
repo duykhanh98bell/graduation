@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('../../layouts/head.ejs')%>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <%- include('../../layouts/header.ejs')%>
+  <!-- Left side column. contains the logo and sidebar -->
+  <%- include('../../layouts/sidebar.ejs')%>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Data Tables
+        <small>advanced tables</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Tables</a></li>
+        <li class="active">Data tables</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <!-- /.box -->
+
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Data Table With Full Features</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên thuộc tính</th>
+                  <th>Ngày tạo</th>
+                  <th>Tùy chọn</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% brands.forEach((brand, index)=>{ %>
+                <tr>
+                  <td><%- index+1 %></td>
+                  <td><%-brand.name%></td>
+                  <td><%-brand.createdAt%></td>
+                  <td>
+                    <a class="btn btn-warning" href="/brand/update/<%-brand._id%>" >Sửa</a>
+                    <a class="btn btn-danger" href="/brand/delete/<%-brand._id%>" onclick= "return confirm('xác nhận xóa')" >Xóa</a>
+                  </td>
+                </tr>
+                <% }); %>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên thuộc tính</th>
+                  <th>Ngày tạo</th>
+                  <th>Tùy chọn</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <%- include('../../layouts/footer.ejs')%>
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<%-include('../../layouts/script.ejs')%>
+</body>
+</html>

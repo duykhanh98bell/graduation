@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('../../layouts/head.ejs')%>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <%- include('../../layouts/header.ejs') %>
+  <!-- Left side column. contains the logo and sidebar -->
+  <%- include('../../layouts/sidebar.ejs') %>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <% if (message) { %>
+            <h1><%= message %></h1>
+          <% } %>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Forms</a></li>
+        <li class="active">General Elements</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-2">
+        </div>
+        <!--/.col (left) -->
+        <!-- right column -->
+        <div class="col-md-8">
+          <!-- Horizontal Form -->
+          <div class="box box-info">
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form  method="POST" enctype="multipart/form-data">
+                <div class="box-header">
+                  <h3 class="box-title"><a class="btn btn-success" href="/product">Quay về</a></h3>
+                </div>
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Tên sản phẩm</label>
+                  <input value="<%=select.product.name%>" type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Tên sản phẩm">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail2">Mã sản phẩm</label>
+                  <input value="<%=select.product.product_code%>" type="text" name="product_code" class="form-control" id="exampleInputEmail2" placeholder="Mã sản phẩm">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail3">Giá gốc</label>
+                  <input value="<%=select.product.price%>" type="number" name="price" class="form-control" id="exampleInputEmail3" placeholder="Giá gốc">
+                </div>
+                <div class="form-group">
+                  <label for="description">Mô tả</label>
+                  <textarea class="form-control" name="description" id="description" rows="3"><%=select.product.description%></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="detail">Chi tiết</label>
+                  <textarea class="form-control" name="detail" id="detail" rows="3"><%=select.product.detail%></textarea>
+                </div>
+                <label for="">Danh muc</label>
+                <div class="form-check">
+                <% select.categories.forEach((category, index)=>{ %>
+                    <input type="checkbox" <% select.categoryProduct.forEach((catePro, index)=>{ if(JSON.stringify(catePro.category_id)==JSON.stringify(category._id)){ %> checked  <% }}) %> class="form-check-input" name="category[]" id="" value="<%=category._id%>">
+                    <%=category.name%>
+                    <br>
+                <% }); %>
+                </div>
+                <% select.attributes.forEach((attribute, index)=>{%>
+
+                  <label for=""><%=attribute.name%></label>
+                  <div class="form-check">
+                  <% select.values.forEach((value, index)=>{ %>
+                      <% if(JSON.stringify(value.attribute_id._id)==JSON.stringify(attribute._id)){%>
+                      <input type="checkbox" <% select.valueProduct.forEach((valuePro, index)=>{ if(JSON.stringify(valuePro.value_id._id)==JSON.stringify(value._id)){ %> checked <% }})%> class="form-check-input" name="value[]" id="" value="<%=value._id%>">
+                        <%=value.value%>
+                      <br>
+                      <%}%>
+                  <% }); %>
+                  </div>
+
+                <% }); %>
+              
+                <div class="form-group">
+                  <label for="brand">Brand</label>
+                  <select class="form-control" name="brand_id" id="brand">
+                  <% select.brands.forEach((brand, index)=>{ %>
+                    <option <% if(JSON.stringify(select.product.brand_id)==JSON.stringify(brand._id)){ %> selected <% } %> value="<%=brand._id%>"><%=brand.name%></option>
+                  <% }); %>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="trend">Trend</label>
+                  <select class="form-control" name="trend_id" id="trend">
+                  <% select.trends.forEach((trend, index)=>{%>
+                    <option <% if(JSON.stringify(select.product.trend_id)==JSON.stringify(trend._id)){ %> selected <% } %> value="<%=trend._id%>" ><%=trend.name%></option>
+                  <% }); %>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="exampleInputFile">Image</label>
+                  <input id="img" type="file" id="exampleInputFile" name="image" onchange="showPreview(event);">
+                  <img id="img-preview"
+                    name="image" 
+                    width=200 
+                  />
+                  <br>
+                  <img width=200 src="/uploads/product/<%=select.product.image%>" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="">
+                  Ảnh hiện tại
+                </div>
+
+                <label for="">Nổi bật</label>
+                <div class="form-check">
+                    <input <% if(select.product.highlight===true){%> checked <% } %> value="true" type="radio" class="form-check-input" name="highlight" id="" >
+                    Sản phẩm nổi bật
+                    <br>
+                    <input <% if(select.product.highlight===false){%> checked <% } %> value="false" type="radio" class="form-check-input" name="highlight" id="">
+                    Sản phẩm Thường
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                  <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+          <!-- /.box -->
+          <!-- general form elements disabled -->
+          
+          <!-- /.box -->
+        </div>
+        <!--/.col (right) -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <%- include('../../layouts/footer.ejs') %>
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<%-include('../../layouts/script.ejs')%>
+</body>
+</html>
