@@ -53,7 +53,7 @@ export class TrendController {
   @Get('create')
   @Render('admin/partials/trend/create')
   getCreate() {
-    return { message: 'Them xu huong', title: 'Xu hướng' };
+    return { pageName: 'Them xu huong', title: 'Xu hướng' };
   }
 
   @Post('create')
@@ -66,7 +66,7 @@ export class TrendController {
   ) {
     await this.trendService.create(createTrendDto, file);
     return {
-      message: 'Them thanh cong',
+      pageName: 'Them thanh cong',
     };
   }
 
@@ -75,7 +75,7 @@ export class TrendController {
   async findAll() {
     const getAll = await this.trendService.findAll();
     return {
-      message: 'Danh sach Xu huong',
+      pageName: 'Danh sach Xu huong',
       trends: getAll,
       title: 'Xu hướng',
     };
@@ -85,7 +85,7 @@ export class TrendController {
   @Render('admin/partials/trend/update')
   async findOne(@Param('id') id: string) {
     const getOne = await this.trendService.findOne(id);
-    return { getOne, message: 'Cap nhat xu huong', title: 'Xu hướng' };
+    return { getOne, pageName: 'Cap nhat xu huong', title: 'Xu hướng' };
   }
 
   @Post('update/:id')
@@ -98,7 +98,7 @@ export class TrendController {
     @UploadedFile() file,
   ) {
     return {
-      message: 'cap nhat thanh cong',
+      pageName: 'cap nhat thanh cong',
       Trend: this.trendService.update(id, updateTrendDto, file),
     };
   }
@@ -108,7 +108,7 @@ export class TrendController {
   remove(@Res() res, @Param('id') id: string) {
     this.trendService.remove(id);
     return res.json({
-      message: 'Xoa thanh cong',
+      pageName: 'Xoa thanh cong',
     });
   }
 

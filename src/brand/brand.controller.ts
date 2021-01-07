@@ -24,7 +24,7 @@ export class BrandController {
   @Get('/create')
   @Render('admin/partials/brand/create')
   getCreateBrand() {
-    return { message: 'Thêm mới thương hiệu', title: 'Thương hiệu' };
+    return { pageName: 'Thêm mới thương hiệu', title: 'Thương hiệu' };
   }
 
   @Post('/create')
@@ -42,7 +42,7 @@ export class BrandController {
   @Render('admin/partials/brand/read')
   async getAllBrand() {
     const brands = await this.brandService.findAll();
-    return { brands, title: 'Thương hiệu' };
+    return { pageName: 'Danh sách thương hiệu', brands, title: 'Thương hiệu' };
   }
 
   @Get(':id')
@@ -56,7 +56,7 @@ export class BrandController {
   @Render('admin/partials/brand/update')
   async getUpdateBrand(@Param('id') id) {
     const brand = await this.brandService.findOne(id);
-    return { brand, message: 'Sửa thương hiệu', title: 'Thương hiệu' };
+    return { brand, pageName: 'Sửa thương hiệu', title: 'Thương hiệu' };
   }
 
   @Post('/update/:id')

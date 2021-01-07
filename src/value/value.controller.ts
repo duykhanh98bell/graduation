@@ -22,7 +22,7 @@ export class ValueController {
   @Render('admin/partials/value/create')
   async getCreate() {
     const attributes = await this.valueService.getAttribute();
-    return { message: 'Thêm mới giá trị', attributes, title: 'Giá trị' };
+    return { pageName: 'Thêm mới giá trị', attributes, title: 'Giá trị' };
   }
 
   @Post('/create')
@@ -37,7 +37,7 @@ export class ValueController {
     const values = (await this.valueService.findAll()).values;
     const attributes = await this.valueService.getAttribute();
     return {
-      message: 'Hiển thị danh sách giá trị',
+      pageName: 'Hiển thị danh sách giá trị',
       values,
       attributes,
       title: 'Giá trị',
@@ -50,7 +50,7 @@ export class ValueController {
     const value = await this.valueService.findOne(id);
     const attributes = await this.valueService.getAttribute();
     return {
-      message: 'Chỉnh sửa giá trị',
+      pageName: 'Chỉnh sửa giá trị',
       value,
       attributes,
       title: 'Giá trị',

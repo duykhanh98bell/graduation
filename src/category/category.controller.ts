@@ -41,7 +41,7 @@ export class CategoryController {
   @Render('admin/partials/category/create')
   async getCreate() {
     const categories = await this.categoryService.findAll();
-    return { message: 'Thêm mới danh mục', categories, title: 'Danh mục' };
+    return { pageName: 'Thêm mới danh mục', categories, title: 'Danh mục' };
   }
 
   @Post('create')
@@ -65,7 +65,7 @@ export class CategoryController {
       return { categories, parents };
     });
     return {
-      message: 'Danh sách danh mục',
+      pageName: 'Danh sách danh mục',
       categoryAndParent,
       title: 'Danh mục',
     };
@@ -86,7 +86,7 @@ export class CategoryController {
     ]).then(([categoryEdit, categoryParents]) => {
       return { categoryEdit, categoryParents };
     });
-    return { message: 'Cập nhật danh mục', category, title: 'Danh mục' };
+    return { pageName: 'Cập nhật danh mục', category, title: 'Danh mục' };
   }
 
   @Post('update/:id')

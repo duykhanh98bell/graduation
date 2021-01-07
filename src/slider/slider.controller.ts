@@ -39,7 +39,7 @@ export class SliderController {
   @Get('/create')
   @Render('admin/partials/slider/create')
   getCreate() {
-    return { message: 'them moi slide', title: 'Slider' };
+    return { pageName: 'them moi slide', title: 'Slider' };
   }
 
   @Post('/create')
@@ -52,7 +52,7 @@ export class SliderController {
   ) {
     await this.sliderService.create(createSliderDto, file);
     return {
-      message: 'Them thanh cong',
+      pageName: 'Them thanh cong',
     };
   }
 
@@ -62,7 +62,7 @@ export class SliderController {
     const sliders = await this.sliderService.findAll();
     return {
       sliders,
-      message: 'Danh sách slider',
+      pageName: 'Danh sách slider',
       title: 'Slider',
     };
   }
@@ -71,7 +71,7 @@ export class SliderController {
   @Render('admin/partials/slider/update')
   async findOne(@Param('id') id: string) {
     const slider = await this.sliderService.findOne(id);
-    return { slider, message: 'Cập nhật slider', title: 'Slider' };
+    return { slider, pageName: 'Cập nhật slider', title: 'Slider' };
   }
 
   @Post('update/:id')

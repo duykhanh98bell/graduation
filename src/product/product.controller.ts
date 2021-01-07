@@ -52,7 +52,7 @@ export class ProductController {
     ]).then(([brands, trends, categories, values, attributes]) => {
       return { brands, trends, categories, values, attributes };
     });
-    return { message: 'Thêm mới sản phẩm', select, title: 'Sản phẩm' };
+    return { pageName: 'Thêm mới sản phẩm', select, title: 'Sản phẩm' };
   }
 
   @Post('create')
@@ -69,14 +69,14 @@ export class ProductController {
   @Render('admin/partials/product/read')
   async findAll() {
     const select = await this.productService.findAll();
-    return { message: 'Danh sách sản phẩm', select, title: 'Sản phẩm' };
+    return { pageName: 'Danh sách sản phẩm', select, title: 'Sản phẩm' };
   }
 
   @Get('update/:id')
   @Render('admin/partials/product/update')
   async findOne(@Param('id') id: string) {
     const select = await this.productService.findOne(id);
-    return { message: 'Cập nhật sản phẩm', select, title: 'Sản phẩm' };
+    return { pageName: 'Cập nhật sản phẩm', select, title: 'Sản phẩm' };
   }
 
   @Post('update/:id')
@@ -100,7 +100,7 @@ export class ProductController {
   @Render('admin/partials/product/image')
   async getImage(@Param('id') id: string) {
     const images = await this.productService.getImage(id);
-    return { message: 'Danh sách ảnh', images, title: 'Ảnh sản phẩm' };
+    return { pageName: 'Danh sách ảnh', images, title: 'Ảnh sản phẩm' };
   }
 
   @Post('image/:id')
@@ -132,7 +132,7 @@ export class ProductController {
   async createVariant(@Param('id') id: string) {
     const selectValue = await this.productService.findValue(id);
     return {
-      message: 'Danh sách biến thể',
+      pageName: 'Danh sách biến thể',
       selectValue,
       title: 'Biến thể sản phẩm',
     };

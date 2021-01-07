@@ -40,7 +40,10 @@ export class ShipController {
   @Get('/create')
   @Render('admin/partials/ship/create')
   getCreateShip() {
-    return { message: 'Thêm mới đơn vị vận chuyển', title: 'Đơn vị giao hàng' };
+    return {
+      pageName: 'Thêm mới đơn vị vận chuyển',
+      title: 'Đơn vị giao hàng',
+    };
   }
 
   @Post('/create')
@@ -48,7 +51,7 @@ export class ShipController {
   @UseInterceptors(FileInterceptor('logo', storage))
   async create(@Body() createShipDto: CreateShipDto, @UploadedFile() file) {
     await this.shipService.create(createShipDto, file);
-    return { message: 'them thanh cong' };
+    return { pageName: 'them thanh cong' };
   }
 
   @Get()
@@ -58,7 +61,7 @@ export class ShipController {
     return {
       ships,
       title: 'Đơn vị giao hàng',
-      message: 'Danh sách đơn vị giao hàng',
+      pageName: 'Danh sách đơn vị giao hàng',
     };
   }
 
@@ -73,7 +76,7 @@ export class ShipController {
     const ship = await this.shipService.findOne(id);
     return {
       ship,
-      message: 'Sửa đơn vị vận chuyển',
+      pageName: 'Sửa đơn vị vận chuyển',
       title: 'Đơn vị giao hàng',
     };
   }

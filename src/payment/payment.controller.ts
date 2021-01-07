@@ -40,7 +40,7 @@ export class PaymentController {
   @Render('admin/partials/payment/create')
   getCreate() {
     return {
-      message: 'Thêm mới phương thức thanh toán!',
+      pageName: 'Thêm mới phương thức thanh toán!',
       title: 'Phương thức thanh toán',
     };
   }
@@ -57,7 +57,7 @@ export class PaymentController {
   async findAll() {
     const getPayments = await this.paymentService.findAll();
     return {
-      message: 'Danh sách phương thức thanh toán',
+      pageName: 'Danh sách phương thức thanh toán',
       getPayments,
       title: 'Phương thức thanh toán',
     };
@@ -73,7 +73,7 @@ export class PaymentController {
   async getUpdate(@Param('id') id: string) {
     const getUpdate = await this.paymentService.findOne(id);
     return {
-      message: 'Cập nhật phương thức thanh toán',
+      pageName: 'Cập nhật phương thức thanh toán',
       getUpdate,
       title: 'Phương thức thanh toán',
     };

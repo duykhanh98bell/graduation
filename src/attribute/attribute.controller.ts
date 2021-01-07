@@ -23,7 +23,7 @@ export class AttributeController {
   @Get('/create')
   @Render('admin/partials/attribute/create')
   async getCreate() {
-    return { message: 'Thêm mới thuộc tính', title: 'Thuộc tính' };
+    return { pageName: 'Thêm mới thuộc tính', title: 'Thuộc tính' };
   }
 
   @Post('/create')
@@ -39,7 +39,7 @@ export class AttributeController {
     if (!findAllAttr) throw new NotFoundException('Khong thay thuoc tinh nao');
     return {
       findAllAttr,
-      message: 'Danh sách thuộc tính',
+      pageName: 'Danh sách thuộc tính',
       title: 'Thuộc tính',
     };
   }
@@ -55,7 +55,7 @@ export class AttributeController {
   @Render('admin/partials/attribute/update')
   async getUpdate(@Param('id') id) {
     const getUpdate = await this.attributeService.findOne(id);
-    return { getUpdate, title: 'Thuộc tính', message: 'Sửa thuộc tính' };
+    return { getUpdate, title: 'Thuộc tính', pageName: 'Sửa thuộc tính' };
   }
 
   @Post('/update/:id')
