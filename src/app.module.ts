@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { BrandModule } from './brand/brand.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CustomerModule } from './customer/customer.module';
 import { BlogCategoryService } from './blog-category/blog-category.service';
 import { BlogCategoryModule } from './blog-category/blog-category.module';
 import { AttributeModule } from './attribute/attribute.module';
@@ -18,14 +17,19 @@ import { CategoryProductModule } from './category-product/category-product.modul
 import { ImageProductModule } from './image-product/image-product.module';
 import { VariantModule } from './variant/variant.module';
 import { VariantValueModule } from './variant-value/variant-value.module';
-import { HomeModule } from './home/home.module';
+import { HomeModule } from './client/home/home.module';
 import { ConfigModule } from '@nestjs/config';
+import { CartModule } from './client/cart/cart.module';
+import { SaleModule } from './sale/sale.module';
+import { CheckoutModule } from './client/checkout/checkout.module';
+import { OrderModule } from './order/order.module';
+import { OrderDetailModule } from './order-detail/order-detail.module';
+import { CustomerModule } from './customer/customer.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({}),
     BrandModule,
-    CustomerModule,
     MongooseModule.forRoot(process.env.DB_CONNECT, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -48,6 +52,12 @@ import { ConfigModule } from '@nestjs/config';
     VariantModule,
     VariantValueModule,
     HomeModule,
+    CartModule,
+    SaleModule,
+    CheckoutModule,
+    OrderModule,
+    OrderDetailModule,
+    CustomerModule,
   ],
   providers: [BlogCategoryService],
   controllers: [],

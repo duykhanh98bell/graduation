@@ -7,6 +7,8 @@ export type VariantDocument = Variant & Document;
 
 @Schema()
 export class Variant {
+  _id: any;
+
   @Prop({ default: 0 })
   quantity: number;
 

@@ -1,66 +1,34 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpStatus,
-  NotFoundException,
-  Param,
-  Post,
-  Put,
-  Res,
-} from '@nestjs/common';
-import { CustomerDTO } from './dto/customer.dto';
+import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
 import { CustomerService } from './customer.service';
+import { CreateCustomerDto } from './dto/create-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 @Controller('customer')
 export class CustomerController {
-  constructor(private CustomerService: CustomerService) {}
+  constructor(private readonly customerService: CustomerService) {}
 
-  @Post('/create')
-  async postCustomer(@Body() payload: CustomerDTO, @Res() res) {
-    const postCustomer = await this.CustomerService.create(payload);
-    return res.status(HttpStatus.OK).json({
-      message: 'Created new Customer !',
-      Customer: postCustomer,
-      title: 'Customer',
-    });
+  @Post()
+  create(@Body() createCustomerDto: CreateCustomerDto) {
+    return this.customerService.create(createCustomerDto);
   }
 
   @Get()
-  async getAllCustomer() {
-    return await this.CustomerService.getAll();
+  findAll() {
+    return this.customerService.findAll();
   }
 
   @Get(':id')
-  async getOneCustomer(@Param('id') id: string) {
-    const getOne = await this.CustomerService.getOne(id);
-    if (!getOne)
-      throw new NotFoundException('Khong tim thay thong tin nguoi dung');
-    return getOne;
+  findOne(@Param('id') id: string) {
+    return this.customerService.findOne(+id);
   }
 
-  @Put('/update/:id')
-  async updateOne(
-    @Res() res,
-    @Body() payload: CustomerDTO,
-    @Param('id') id: string,
-  ) {
-    const updateOne = await this.CustomerService.updateOneCustomer(id, payload);
-    return res.status(HttpStatus.OK).json({
-      message: 'updated !',
-      customer: updateOne,
-      title: 'Customer',
-    });
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto) {
+    return this.customerService.update(+id, updateCustomerDto);
   }
 
-  @Delete('/delete/:id')
-  async deleteOne(@Res() res, @Param('id') id: string) {
-    const deleteOne = await this.CustomerService.deleteOneCustomer(id);
-    return res.status(HttpStatus.OK).json({
-      message: 'Deleted !',
-      customer: deleteOne,
-      title: 'Customer',
-    });
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.customerService.remove(+id);
   }
 }

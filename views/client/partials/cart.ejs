@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <%-include('../layouts/head.ejs')%>
+</head>
+
+<body>
+    
+
+    <%-include('../layouts/header.ejs')%>
+
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <span>Shop</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+            
+    <section class="shop-cart spad">
+        <div class="container">
+            <% if (message) { %>
+                <div class="alert alert-<%=message.type%>"><%= message.message %></div>
+            <% } %>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Màu</th>
+                                    <th>Cỡ</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng tiền</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% var Subtotal = 0 %>
+                            <% if(products){%>
+                            <% products.forEach((product, index)=>{%>
+                            <%if(product!=null){%>
+                            <% Subtotal += product.price*product.quantity %>
+                                <tr>
+                                    <td class="cart__product__item">
+                                        <img width=100 src="/uploads/product/<%=product.image%>" alt="">
+                                        <div class="cart__product__item__title">
+                                            <h6><%=product.name%></h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price"><%=product.price%></td>
+                                    <td class="cart__price"><%=product.color%></td>
+                                    <td class="cart__price"><%=product.size%></td>
+                                    <td class="cart__quantity">
+                                        <div class="" style="display: flex;">
+                                            <form action="/cart/minus" method="POST">
+                                                <input type="hidden" name="id" value="<%=product.id%>">
+                                                <button style="height:30px; margin-right:5px; border:none;" class="">-</button>
+                                            </form>
+                                            <form action="/cart/quantity" method="POST">
+                                                <input style="width:25px; border:none;" name="quantity" type="text" value="<%=product.quantity%>">
+                                                <input type="hidden" name="id" value="<%=product.id%>">
+                                                <button style="display:none;"></button>
+                                            </form>
+                                            <form action="/cart/plus" method="POST">
+                                                <input type="hidden" name="id" value="<%=product.id%>">
+                                                <button style="height:30px;  margin-left:5px; border:none;" class="">+</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td class="cart__total"><%=product.price*product.quantity%></td>
+                                    <td class="cart__close"></span><a href="/cart/delete/<%=product.id%>"><span class="icon_close"></a></td>
+                                </tr>
+                            <%}%>
+                            <% }) %>
+                            <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn">
+                        <a href="/">Tiếp tục mua hàng</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn update__btn">
+                        <a href="#"><span class="icon_loading"></span> Update cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="discount__content">
+                        <h6>Mã giảm giá</h6>
+                        <form action="/cart/apply" method="POST">
+                            <input name="code" type="text" placeholder="Nhập mã giảm giá">
+                            <input name="subtotal" type="hidden" value="<%=Subtotal%>">
+                            
+                            <button type="submit" class="site-btn">Áp dụng</button>
+                             
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4 offset-lg-2">
+                <form action="/cart/warehouse" method="POST">
+                    <div class="cart__total__procced">
+                        <h6>Tổng đơn hàng</h6>
+                        <ul>
+                            <li>Tổng tiền <span><%=Subtotal%></span></li>
+                            <li>Thanh toán <span>
+                            <% if(locals.priceSale > 0){%>
+                            <%=locals.priceSale%>
+                            <input name="total" type="hidden" value="<%=locals.priceSale%>">
+                            <%}else{%>
+                            <%=Subtotal%> 
+                            <input name="total" type="hidden" value="<%=Subtotal%>">
+                            <%} %></span></li>
+                        </ul>
+                        <button href="#" style="width:280px;" class="primary-btn">Proceed to checkout</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script>
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+
+
+<%-include('../layouts/footer.ejs')%>
+
+<!-- Js Plugins -->
+<%-include('../layouts/script.ejs')%>
+</body>
+
+</html>

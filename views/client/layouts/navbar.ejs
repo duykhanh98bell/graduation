@@ -9,14 +9,14 @@
                                 <%all.categoryParent.forEach((cateParent, index)=>{%>
                                     <div class="card">
                                         <div class="card-heading">
-                                            <a href="/home/collection/<%=cateParent.cate_slug%>" data-toggle="collapse" data-target="#collapseOne"><%=cateParent.name%></a>
+                                            <a href="/collection/<%=cateParent.cate_slug%>" data-toggle="collapse" data-target="#collapseOne"><%=cateParent.name%></a>
                                         </div>
                                         <div id="collapseOne" class="collapse" data-parent="#accordionExample">
                                             <div class="card-body">
                                                 <ul>
                                                 <% all.categories.forEach((category, index)=>{%>
                                                 <%if(JSON.stringify(category.parent_id)==JSON.stringify(cateParent._id)){%>
-                                                    <li><a href="/home/collection/<%=category.cate_slug%>"><%=category.name%></a></li>
+                                                    <li><a href="/collection/<%=category.cate_slug%>"><%=category.name%></a></li>
                                                 <%}%>
                                                 <% }); %>
                                                 </ul>

@@ -47,6 +47,11 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
+                <form method=POST action="/cart">
+                    <input name="id" type="hidden" value="<%=detail.detail._id%>" />
+                    <input name="price" type="hidden" value="<%=detail.detail.price%>" />
+                    <input name="image" type="hidden" value="<%=detail.detail.image%>" />
+                    <input name="name" type="hidden" value="<%=detail.detail.name%>" />
                     <div class="product__details__text">
                         <h3><%=detail.detail.name%> <span>Thương hiệu: <%=detail.detail.brand_id.name%></span></h3>
                         <div class="rating">
@@ -63,10 +68,10 @@
                             <div class="quantity">
                                 <span>Quantity:</span>
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <input type="text" value="1" name="quantity">
                                 </div>
                             </div>
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                            <button class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</button>
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
@@ -91,7 +96,7 @@
                                     <% if(valuePro.product_id!=null){ %>
                                     <% if(JSON.stringify(valuePro.value_id.attribute_id)==JSON.stringify(all.attributes[0]._id)){ %>
                                         <label class="form-check-label" style="margin-right: 45px;">
-                                            <input type="radio" class="form-check-input" name="size" id="" value="checkedValue" checked>
+                                            <input type="radio" class="form-check-input" name="size" id="" value="<%=valuePro.value_id.value%>" checked>
                                             <%=valuePro.value_id.value%>
                                         </label>
                                     <%}%>
@@ -106,7 +111,7 @@
                                     <% if(valuePro.product_id!=null){ %>
                                     <% if(JSON.stringify(valuePro.value_id.attribute_id)==JSON.stringify(all.attributes[1]._id)){ %>
                                         <label class="form-check-label" style="margin-right: 45px;">
-                                        <input type="radio" class="form-check-input" name="color" id="" value="checkedValue" checked>
+                                        <input type="radio" class="form-check-input" name="color" id="" value="<%=valuePro.value_id.value%>" checked>
                                         <%=valuePro.value_id.value%>
                                       </label>
                                     <%}%>
@@ -122,7 +127,9 @@
                                 </li>
                             </ul>
                         </div>
+                        
                     </div>
+                </form>
                 </div>
                 <div class="col-lg-12">
                     <div class="product__details__tab">
@@ -199,11 +206,11 @@
                             <ul class="product__hover">
                                 <li><a href="/uploads/product/<%=relate.image%>" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="/home/product/<%=relate._id%>"><span class="icon_bag_alt"></span></a></li>
+                                <li><a href="/product/<%=relate._id%>"><span class="icon_bag_alt"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6><a href="/home/product/<%=relate._id%>"><%=relate.name%></a></h6>
+                            <h6><a href="/product/<%=relate._id%>"><%=relate.name%></a></h6>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>

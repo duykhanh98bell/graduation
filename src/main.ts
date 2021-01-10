@@ -8,6 +8,8 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  // const flash = require('req-flash');
+  // app.use(flash());
 
   // app.setViewEngine('hbs');
   app.setViewEngine('ejs');
@@ -19,6 +21,16 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
   );
+  app.use(function (req, res, next) {
+    res.locals.totalCart = req.session.totalCart;
+    res.locals.priceSale = req.session.priceSale;
+    res.locals.percentSale = req.session.percentSale;
+    res.locals.message = req.session.message;
+    delete req.session.message;
+    res.locals.total = req.session.total;
+    res.locals.orderProducts = req.session.cart;
+    next();
+  });
 
   await app.listen(process.env.PORT);
 }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('../../layouts/head.ejs') %>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <%- include('../../layouts/header.ejs') %>
+  <!-- Left side column. contains the logo and sidebar -->
+  <%- include('../../layouts/sidebar.ejs') %>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <%-include('../../layouts/content-header.ejs')%>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-2">
+        </div>
+        <!--/.col (left) -->
+        <!-- right column -->
+        <div class="col-md-8">
+          <!-- Horizontal Form -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Chương trình khuyến mãi</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal" method="POST">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">Khuyến mãi</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="name" value="<%=Sale.name%>" class="form-control" id="inputEmail3" placeholder="Tên chương trình khuyến mãi">
+                  </div>
+                  
+                  
+                </div>
+                <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Phần trăm</label>
+                  <div class="col-sm-10">
+                    <input type="number" name="percent" value="<%=Sale.percent%>" class="form-control" id="inputEmail3" placeholder="Phần trăm khuyến mãi">
+                  </div>
+                </div>
+                
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" class="btn btn-default">Hủy</button>
+                <button type="submit" class="btn btn-info pull-right">Lưu</button>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+          <!-- /.box -->
+          <!-- general form elements disabled -->
+          
+          <!-- /.box -->
+        </div>
+        <!--/.col (right) -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <%- include('../../layouts/footer.ejs') %>
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<%-include('../../layouts/script.ejs')%>
+</body>
+</html>

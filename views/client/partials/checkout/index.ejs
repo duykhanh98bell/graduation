@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <%-include('../../layouts/head.ejs')%>
+</head>
+
+<body>
+    
+
+    <%-include('../../layouts/header.ejs')%>
+
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <span>Shop</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+            
+    <section class="checkout spad">
+        <div class="container">
+            
+            <form action="/order" class="checkout__form" method="POST">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h5>Thông tin đơn hàng</h5>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="checkout__form__input">
+                                    <p>Họ và tên <span>*</span></p>
+                                    <input type="text" placeholder="Họ và tên" name="nameCustomer">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>Phone <span>*</span></p>
+                                    <input type="text" placeholder="Số điện thoại" name="phoneCustomer">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>Email <span>*</span></p>
+                                    <input type="text" placeholder="Email" name="emailCustomer">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="checkout__form__input">
+                                    <p>Địa chỉ <span>*</span></p>
+                                    <input type="text" placeholder="Địa chỉ" name="addressCustomer">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                  <label for="">Ship</label>
+                                  <select class="form-control" name="ship" id="">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                  </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                  <label for="">Payment</label>
+                                  <select class="form-control" name="payment" id="">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                  </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <button type="submit" class="site-btn">Đặt hàng</button>
+                            </div>
+                            <div class="col-lg-12">
+                                    <div class="checkout__form__input">
+                                        <p>Ghi chú <span>*</span></p>
+                                        <input type="text" placeholder="Thêm ghi chú" name="noteCustomer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="checkout__order">
+                                <h5>Đơn hàng của bạn</h5>
+                                <div class="checkout__order__product">
+                                    <ul>
+                                        <li>
+                                            <span class="top__text">Sản phẩm</span>
+                                            <span class="top__text__right">Tổng</span>
+                                        </li>
+                                        <% var Subtotal = 0 %>
+                                        <% if(orderProducts){%>
+                                        <% orderProducts.forEach((product, index)=>{%>
+                                        <%if(product != null){%>
+                                        <% Subtotal += product.price*product.quantity %>
+                                        <li><%=product.quantity %> x <%=product.name%> <span><%=product.price*product.quantity%></span></li>
+                                        <%}%>
+                                        <%})%>
+                                        <%}%>
+                                    </ul>
+                                </div>
+                                <div class="checkout__order__total">
+                                    <ul>
+                                        <li>Tổng tiền <span><%=Subtotal%></span></li>
+                                        <li>Thanh toán <span><%=(total)?total:0%></span></li>
+                                    </ul>
+                                </div>
+                                
+                                <button type="submit" class="site-btn">Đặt hàng</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+<script>
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+
+
+<%-include('../../layouts/footer.ejs')%>
+
+<!-- Js Plugins -->
+<%-include('../../layouts/script.ejs')%>
+</body>
+
+</html>
