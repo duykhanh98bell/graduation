@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { HomeService } from './home.service';
 import { HomeController } from './home.controller';
 import { Product, ProductSchema } from 'src/product/entities/product.entity';
@@ -12,7 +12,7 @@ import { ImageProductSchema } from 'src/image-product/entities/image-product.ent
 import { ValueSchema } from 'src/value/entities/value.entity';
 import { VariantSchema } from 'src/variant/entities/variant.entity';
 import { VariantValueSchema } from 'src/variant-value/entities/variant-value.entity';
-
+@Global()
 @Module({
   controllers: [HomeController],
   providers: [HomeService],
@@ -34,5 +34,6 @@ import { VariantValueSchema } from 'src/variant-value/entities/variant-value.ent
       { name: 'ValueProduct', schema: ValueProductSchema },
     ]),
   ],
+  exports: [HomeService],
 })
 export class HomeModule {}

@@ -20,7 +20,10 @@ import { Cart } from './entities/cart.entity';
 
 @Controller('cart')
 export class CartController {
-  constructor(private readonly cartService: CartService) {}
+  constructor(
+    private readonly cartService: CartService,
+    private readonly homeService: HomeService,
+  ) {}
 
   @Post('/')
   addCart(@Req() req, @Res() res, @Body() CreateCartDto: CreateCartDto) {
@@ -30,13 +33,19 @@ export class CartController {
   @Get('/')
   @Render('client/partials/cart')
   async listCart(@Req() req) {
-    const all = await this.cartService.findAll();
-    return { title: 'GIỎ HÀNG', products: req.session.cart, all };
+    const nav = await this.homeService.findNav();
+    return { title: 'GIỎ HÀNG', products: req.session.cart, nav };
   }
 
-  @Get('/delete/:id')
-  async deleteItem(@Param('id') id: string, @Req() req, @Res() res) {
-    return await this.cartService.deleteItem(id, req, res);
+  @Get('/delete/:id/:color/:size')
+  async deleteItem(
+    @Param('id') id: string,
+    @Param('color') color: string,
+    @Param('size') size: string,
+    @Req() req,
+    @Res() res,
+  ) {
+    return await this.cartService.deleteItem(id, color, size, req, res);
   }
 
   @Post('/minus')

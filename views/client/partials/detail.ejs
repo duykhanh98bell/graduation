@@ -27,6 +27,9 @@
     <!-- Product Details Section Begin -->
     <section class="product-details spad">
         <div class="container">
+            <% if (message) { %>
+                <div class="alert alert-<%=message.type%>"><%= message.message %></div>
+            <% } %>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="product__details__pic">
@@ -91,13 +94,13 @@
                                 </li>
                                 <li>
                                     <span>Kích cỡ:</span>
-                                    <div class="form-check">
+                                    <div class="btn-group" data-toggle="buttons">
                                     <% all.valueProducts.forEach((valuePro, index)=>{ %>
                                     <% if(valuePro.product_id!=null){ %>
                                     <% if(JSON.stringify(valuePro.value_id.attribute_id)==JSON.stringify(all.attributes[0]._id)){ %>
-                                        <label class="form-check-label" style="margin-right: 45px;">
-                                            <input type="radio" class="form-check-input" name="size" id="" value="<%=valuePro.value_id.value%>" checked>
+                                         <label class="btn btn-success">
                                             <%=valuePro.value_id.value%>
+                                            <input type="radio"  name="size" id=""  autocomplete="off" value="<%=valuePro.value_id.value%>" >
                                         </label>
                                     <%}%>
                                     <% } %>
@@ -106,13 +109,13 @@
                                 </li>
                                 <li>
                                     <span>Màu sắc :</span>
-                                    <div class="form-check">
+                                    <div class="btn-group" data-toggle="buttons">
                                     <% all.valueProducts.forEach((valuePro, index)=>{ %>
                                     <% if(valuePro.product_id!=null){ %>
                                     <% if(JSON.stringify(valuePro.value_id.attribute_id)==JSON.stringify(all.attributes[1]._id)){ %>
-                                        <label class="form-check-label" style="margin-right: 45px;">
-                                        <input type="radio" class="form-check-input" name="color" id="" value="<%=valuePro.value_id.value%>" checked>
+                                         <label class="btn btn-success">
                                         <%=valuePro.value_id.value%>
+                                        <input type="radio" name="color" id=""  autocomplete="off" value="<%=valuePro.value_id.value%>" >
                                       </label>
                                     <%}%>
                                     <% } %>
@@ -206,11 +209,11 @@
                             <ul class="product__hover">
                                 <li><a href="/uploads/product/<%=relate.image%>" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="/product/<%=relate._id%>"><span class="icon_bag_alt"></span></a></li>
+                                <li><a href="/product/<%=relate.product_slug%>"><span class="icon_bag_alt"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6><a href="/product/<%=relate._id%>"><%=relate.name%></a></h6>
+                            <h6><a href="/product/<%=relate.product_slug%>"><%=relate.name%></a></h6>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>

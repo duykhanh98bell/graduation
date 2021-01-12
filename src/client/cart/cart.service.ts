@@ -1,11 +1,6 @@
 import { Injectable, Redirect } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { nextTick } from 'process';
-import {
-  Attribute,
-  AttributeDocument,
-} from 'src/attribute/entities/attribute.entity';
 import {
   CategoryProduct,
   CategoryProductDocument,
@@ -14,18 +9,10 @@ import {
   Category,
   CategoryDocument,
 } from 'src/category/entities/category.entity';
-import { ImageProductDocument } from 'src/image-product/entities/image-product.entity';
 import { Product, ProductDocument } from 'src/product/entities/product.entity';
-import { CreateSaleDto } from 'src/sale/dto/create-sale.dto';
 import { Sale, SaleDocument } from 'src/sale/entities/sale.entity';
-import { Slider, SliderDocument } from 'src/slider/entities/slider.entity';
-import { ValueProductDocument } from 'src/value-product/entities/value-product.entity';
-import { Value, ValueDocument } from 'src/value/entities/value.entity';
 import { VariantValueDocument } from 'src/variant-value/entities/variant-value.entity';
 import { VariantDocument } from 'src/variant/entities/variant.entity';
-import { HomeService } from '../home/home.service';
-import { CreateCartDto } from './dto/create-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
 
 @Injectable()
 export class CartService {
@@ -34,101 +21,90 @@ export class CartService {
     @InjectModel(Category.name) private CategoryModel: Model<CategoryDocument>,
     @InjectModel(CategoryProduct.name)
     private CategoryProductModel: Model<CategoryProductDocument>,
-    // @InjectModel(Slider.name) private SliderModel: Model<SliderDocument>,
-    // @InjectModel(Value.name)
-    // private ValueModel: Model<ValueDocument>,
-    // @InjectModel(Attribute.name)
-    // private AttributeModel: Model<AttributeDocument>,
-    // @InjectModel('Image')
-    // private ImageProductModel: Model<ImageProductDocument>,
     @InjectModel('Variant')
     private VariantModel: Model<VariantDocument>,
     @InjectModel('VariantValue')
     private VariantValueModel: Model<VariantValueDocument>,
-    // @InjectModel('ValueProduct')
-    // private ValueProductModel: Model<ValueProductDocument>,
     @InjectModel(Sale.name)
     private SaleModel: Model<SaleDocument>,
   ) {}
 
   async addNewCart(req: any, res: any, CreateCartDto) {
-    await this.ProductModel.findById(CreateCartDto.id, function (err, product) {
-      if (err) {
-        return res.redirect('/');
-      }
-      if (typeof req.session.cart == 'undefined') {
-        // Khi chưa có sản phẩm nào trong giỏ
-        req.session.cart = [];
-        CreateCartDto.quantity = +CreateCartDto.quantity;
-        // CreateCartDto.price = +CreateCartDto.price * CreateCartDto.quantity;
-        CreateCartDto.price = +CreateCartDto.price;
-        req.session.totalCart = +CreateCartDto.quantity;
-        req.session.cart.push(CreateCartDto);
-      } else {
-        // Cập nhật lại giỏ
-        const cart = req.session.cart;
-        let newItem = true;
-        req.session.totalCart += +CreateCartDto.quantity;
-        for (let i = 0; i < cart.length; i++) {
-          if (cart[i] != null) {
-            if (
-              cart[i].id == CreateCartDto.id &&
-              cart[i].color == CreateCartDto.color &&
-              cart[i].size == CreateCartDto.size
-            ) {
-              cart[i].quantity = +cart[i].quantity + +CreateCartDto.quantity;
-              // cart[i].price = +cart[i].quantity * +CreateCartDto.price;
-              cart[i].price = +cart[i].price;
-              newItem = false;
-              break;
+    if (CreateCartDto.size == null || CreateCartDto.color == null) {
+      req.session.message = {
+        type: 'danger',
+        message: 'Chọn size và màu đi bạn',
+      };
+      res.redirect('back');
+    } else {
+      await this.ProductModel.findById(
+        CreateCartDto.id,
+        function (err, product) {
+          if (err) {
+            return res.redirect('/');
+          }
+          if (typeof req.session.cart == 'undefined') {
+            // Khi chưa có sản phẩm nào trong giỏ
+            req.session.cart = [];
+            CreateCartDto.quantity = +CreateCartDto.quantity;
+            CreateCartDto.price = +CreateCartDto.price;
+            req.session.totalCart = +CreateCartDto.quantity;
+            req.session.cart.push(CreateCartDto);
+          } else {
+            // Cập nhật lại giỏ
+            const cart = req.session.cart;
+            let newItem = true;
+            req.session.totalCart += +CreateCartDto.quantity;
+            for (let i = 0; i < cart.length; i++) {
+              if (cart[i] != null) {
+                if (
+                  cart[i].id == CreateCartDto.id &&
+                  cart[i].color == CreateCartDto.color &&
+                  cart[i].size == CreateCartDto.size
+                ) {
+                  cart[i].quantity =
+                    +cart[i].quantity + +CreateCartDto.quantity;
+                  cart[i].price = +cart[i].price;
+                  newItem = false;
+                  break;
+                }
+              }
+            }
+            if (newItem) {
+              // Thêm sản phẩm vào giỏ
+              CreateCartDto.quantity = +CreateCartDto.quantity;
+              CreateCartDto.price = +CreateCartDto.price;
+              req.session.priceSale = 0;
+              cart.push(CreateCartDto);
             }
           }
-        }
-        if (newItem) {
-          // Thêm sản phẩm vào giỏ
-          CreateCartDto.quantity = +CreateCartDto.quantity;
-          // CreateCartDto.price = +CreateCartDto.price * CreateCartDto.quantity;
-          CreateCartDto.price = +CreateCartDto.price;
-          req.session.priceSale = 0;
-          cart.push(CreateCartDto);
-        }
-      }
-      res.redirect('/');
-    });
+          res.redirect('/cart');
+        },
+      );
+    }
     return;
   }
 
-  async findAll() {
-    const [
-      // products,
-      categoryParent,
-      cateProducts,
-      // categories,
-      // values,
-      // attributes,
-    ] = await Promise.all([
-      // this.ProductModel.find(),
+  async findNav() {
+    const [categoryParent, cateProducts] = await Promise.all([
       this.CategoryModel.find({ parent_id: null, nav_active: true }),
       this.CategoryProductModel.find().populate('category_id'),
-      // this.CategoryModel.find({ nav_active: true }),
-      // this.ValueModel.find(),
-      // this.AttributeModel.find(),
     ]);
     return {
-      // products,
       categoryParent,
       cateProducts,
-      // categories,
-      // values,
-      // attributes,
     };
   }
 
-  async deleteItem(id: string, req, res) {
+  async deleteItem(id: string, color: string, size: string, req, res) {
     const cart = await req.session.cart;
     for (let i = 0; i < cart.length; i++) {
       if (cart[i] != null) {
-        if (cart[i].id == id) {
+        if (
+          cart[i].id == id &&
+          cart[i].color == color &&
+          cart[i].size == size
+        ) {
           req.session.totalCart -= cart[i].quantity;
           delete cart[i];
         }
@@ -148,7 +124,11 @@ export class CartService {
     const id = await req.body.id;
     for (let i = 0; i < cart.length; i++) {
       if (cart[i] != null) {
-        if (cart[i].id == id) {
+        if (
+          cart[i].id == id &&
+          cart[i].color == req.body.color &&
+          cart[i].size == req.body.size
+        ) {
           cart[i].quantity--;
           req.session.totalCart--;
         }
@@ -166,7 +146,11 @@ export class CartService {
     const id = await req.body.id;
     for (let i = 0; i < cart.length; i++) {
       if (cart[i] != null) {
-        if (cart[i].id == id) {
+        if (
+          cart[i].id == id &&
+          cart[i].color == req.body.color &&
+          cart[i].size == req.body.size
+        ) {
           cart[i].quantity++;
           req.session.totalCart++;
         }
@@ -181,7 +165,11 @@ export class CartService {
     const id = await req.body.id;
     for (let i = 0; i < cart.length; i++) {
       if (cart[i] != null) {
-        if (cart[i].id == id) {
+        if (
+          cart[i].id == id &&
+          cart[i].color == req.body.color &&
+          cart[i].size == req.body.size
+        ) {
           if (req.body.quantity > 0) {
             req.session.totalCart += +req.body.quantity - cart[i].quantity;
             cart[i].quantity = +req.body.quantity;
@@ -232,8 +220,15 @@ export class CartService {
 
   async checkWH(req: any, res: any) {
     const cart = await req.session.cart;
+    if (req.body.total == 0) {
+      req.session.message = {
+        type: 'danger',
+        message: 'Giỏ hàng rỗng',
+      };
+      res.redirect('back');
+    }
+
     req.session.total = req.body.total;
-    // console.log(cart, req.body);
 
     for (let i = 0; i < cart.length; i++) {
       if (cart[i] != null) {
@@ -273,9 +268,12 @@ export class CartService {
                       req.session.message = {
                         type: 'danger',
                         message:
-                          'Số lượng ' +
                           cart[i].name +
-                          ' kho còn ' +
+                          ' || Màu: ' +
+                          cart[i].color +
+                          ' || Cỡ: ' +
+                          cart[i].size +
+                          ' || Số lượng còn ' +
                           element.variant_id.quantity,
                       };
                       res.redirect('/cart');

@@ -41,7 +41,7 @@
                             <li class="active"><a href="/">Home</a></li>
                             <li><a href="/">SP Mùa đông</a>
                                 <ul class="dropdown">
-                                <% all.categoryParent.forEach((category, index)=>{%>
+                                <% nav.categoryParent.forEach((category, index)=>{%>
                                     <li><a href="/collection/<%=category.cate_slug%>"><%=category.name%></a></li>
                                 <%})%>
                                 </ul>

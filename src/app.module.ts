@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { BrandModule } from './brand/brand.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BlogCategoryService } from './blog-category/blog-category.service';
@@ -26,6 +26,7 @@ import { OrderModule } from './order/order.module';
 import { OrderDetailModule } from './order-detail/order-detail.module';
 import { CustomerModule } from './customer/customer.module';
 
+@Global()
 @Module({
   imports: [
     ConfigModule.forRoot({}),

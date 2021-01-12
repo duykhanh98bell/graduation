@@ -6,7 +6,7 @@
                             </div>
                             <div class="categories__accordion">
                                 <div class="accordion" id="accordionExample">
-                                <%all.categoryParent.forEach((cateParent, index)=>{%>
+                                <%nav.categoryParent.forEach((cateParent, index)=>{%>
                                     <div class="card">
                                         <div class="card-heading">
                                             <a href="/collection/<%=cateParent.cate_slug%>" data-toggle="collapse" data-target="#collapseOne"><%=cateParent.name%></a>
@@ -14,7 +14,7 @@
                                         <div id="collapseOne" class="collapse" data-parent="#accordionExample">
                                             <div class="card-body">
                                                 <ul>
-                                                <% all.categories.forEach((category, index)=>{%>
+                                                <% nav.categories.forEach((category, index)=>{%>
                                                 <%if(JSON.stringify(category.parent_id)==JSON.stringify(cateParent._id)){%>
                                                     <li><a href="/collection/<%=category.cate_slug%>"><%=category.name%></a></li>
                                                 <%}%>

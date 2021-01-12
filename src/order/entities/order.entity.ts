@@ -30,11 +30,11 @@ export class Order {
   @Prop({ required: true })
   sale: number;
 
-  @Prop({ required: true, default: true })
-  payment: boolean;
+  @Prop({ required: true })
+  payment: string;
 
-  @Prop({ required: true, default: true })
-  ship: boolean;
+  @Prop({ required: true })
+  total: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Customer' })
   Customer_id: Customer;

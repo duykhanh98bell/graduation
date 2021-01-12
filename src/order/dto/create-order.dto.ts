@@ -8,8 +8,8 @@ export class CreateOrderDto {
   emailCustomer: string;
   addressCustomer: string;
   noteCustomer: string;
-  payment_id: Payment;
-  ship_id: Ship;
+  payment: string;
+  total: number;
   customer_id: Customer;
   createdAt: Date;
 }

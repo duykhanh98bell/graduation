@@ -24,7 +24,7 @@
             <div class="col-lg-8 col-md-8">
                 <ul class="filter__controls">
                     <li class="active" data-filter="*">All</li>
-                    <% all.categoryParent.forEach((category, index)=>{%>
+                    <% nav.categoryParent.forEach((category, index)=>{%>
                     <li data-filter=".<%=category.cate_slug%>"><%=category.name%></li>
                     <%});%>
                 </ul>

@@ -56,28 +56,18 @@
                                     <input type="text" placeholder="Địa chỉ" name="addressCustomer">
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group">
-                                  <label for="">Ship</label>
-                                  <select class="form-control" name="ship" id="">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                  </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group">
-                                  <label for="">Payment</label>
-                                  <select class="form-control" name="payment" id="">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                  </select>
-                                </div>
-                            </div>
+                            
                             <div class="col-lg-12">
-                                <button type="submit" class="site-btn">Đặt hàng</button>
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-success active">
+                                    Thanh toán khi giao hàng
+                                        <input type="radio" value="Thanh toán khi giao hàng" name="payment" id="" autocomplete="off" checked>
+                                    </label>
+                                    <label class="btn btn-success">
+                                    Chuyển khoản
+                                        <input type="radio" value="Chuyển khoản" name="payment" id="" autocomplete="off">
+                                    </label>
+                                </div>
                             </div>
                             <div class="col-lg-12">
                                     <div class="checkout__form__input">
@@ -109,13 +99,20 @@
                                 </div>
                                 <div class="checkout__order__total">
                                     <ul>
-                                        <li>Tổng tiền <span><%=Subtotal%></span></li>
-                                        <li>Thanh toán <span><%=(total)?total:0%></span></li>
+                                        <li>Tổng phụ <span><%=Subtotal%></span></li>
+                                        <li>Sau khuyến mãi <span><%=(total)?total:0%></span></li>
+                                        <li>ship <span>30000</span></li>
                                     </ul>
                                 </div>
-                                
+                                <div class="checkout__order__total">
+                                    <ul>
+                                        <li>Toàn bộ <span><%=(total)?+total+30000:0%></span></li>
+                                    </ul>
+                                </div>
+                                <input type="hidden" name="toal" value="<%=(total)?+total+30000:0%>" />
                                 <button type="submit" class="site-btn">Đặt hàng</button>
                             </div>
+                            
                         </div>
                     </div>
                 </form>

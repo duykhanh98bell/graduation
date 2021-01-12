@@ -52,27 +52,27 @@ export class HomeService {
     return 'This action adds a new home';
   }
 
-  async findAll() {
-    const [
-      products,
-      categoryParent,
-      cateProducts,
-      categories,
-      values,
-      attributes,
-    ] = await Promise.all([
-      this.ProductModel.find(),
+  async findNav() {
+    const [categoryParent, categories] = await Promise.all([
       this.CategoryModel.find({ parent_id: null, nav_active: true }),
-      this.CategoryProductModel.find().populate('category_id'),
       this.CategoryModel.find({ nav_active: true }),
+    ]);
+    return {
+      categoryParent,
+      categories,
+    };
+  }
+
+  async findAll() {
+    const [products, cateProducts, values, attributes] = await Promise.all([
+      this.ProductModel.find(),
+      this.CategoryProductModel.find().populate('category_id'),
       this.ValueModel.find(),
       this.AttributeModel.find(),
     ]);
     return {
       products,
-      categoryParent,
       cateProducts,
-      categories,
       values,
       attributes,
     };

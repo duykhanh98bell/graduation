@@ -19,27 +19,32 @@ export class HomeController {
   @Get()
   @Render('client/partials/index')
   async home() {
-    const all = await this.homeService.findAll();
-    return { all, title: 'Trang chủ' };
+    const [nav, all] = await Promise.all([
+      this.homeService.findNav(),
+      this.homeService.findAll(),
+    ]);
+    return { nav, all, title: 'Trang chủ' };
   }
 
   @Get('collection/:cate')
   @Render('client/partials/collection')
   async filter(@Param('cate') slug: string) {
-    const [all, filter] = await Promise.all([
+    const [nav, all, filter] = await Promise.all([
+      this.homeService.findNav(),
       this.homeService.findAll(),
       this.homeService.filterCate(slug),
     ]);
-    return { all, filter, title: filter.title };
+    return { nav, all, filter, title: filter.title };
   }
 
   @Get('product/:slug')
   @Render('client/partials/detail')
   async detail(@Param('slug') slug: string) {
-    const [all, detail] = await Promise.all([
+    const [nav, all, detail] = await Promise.all([
+      this.homeService.findNav(),
       this.homeService.findDetail(slug),
       this.homeService.detail(slug),
     ]);
-    return { all, title: 'CHI TIẾT SẢN PHẨM', detail };
+    return { nav, all, title: 'CHI TIẾT SẢN PHẨM', detail };
   }
 }

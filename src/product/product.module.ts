@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -22,7 +22,7 @@ import { CategoryProductSchema } from 'src/category-product/entities/category-pr
 import { ImageProductSchema } from 'src/image-product/entities/image-product.entity';
 import { VariantSchema } from 'src/variant/entities/variant.entity';
 import { VariantValueSchema } from 'src/variant-value/entities/variant-value.entity';
-
+@Global()
 @Module({
   controllers: [ProductController],
   providers: [ProductService],
