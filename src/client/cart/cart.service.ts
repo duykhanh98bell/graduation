@@ -4,15 +4,18 @@ import { Model } from 'mongoose';
 import {
   CategoryProduct,
   CategoryProductDocument,
-} from 'src/category-product/entities/category-product.entity';
+} from 'src/admin/category-product/entities/category-product.entity';
 import {
   Category,
   CategoryDocument,
-} from 'src/category/entities/category.entity';
-import { Product, ProductDocument } from 'src/product/entities/product.entity';
-import { Sale, SaleDocument } from 'src/sale/entities/sale.entity';
-import { VariantValueDocument } from 'src/variant-value/entities/variant-value.entity';
-import { VariantDocument } from 'src/variant/entities/variant.entity';
+} from 'src/admin/category/entities/category.entity';
+import {
+  Product,
+  ProductDocument,
+} from 'src/admin/product/entities/product.entity';
+import { Sale, SaleDocument } from 'src/admin/sale/entities/sale.entity';
+import { VariantValueDocument } from 'src/admin/variant-value/entities/variant-value.entity';
+import { VariantDocument } from 'src/admin/variant/entities/variant.entity';
 
 @Injectable()
 export class CartService {

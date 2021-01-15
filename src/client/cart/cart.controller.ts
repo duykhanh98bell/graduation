@@ -11,7 +11,7 @@ import {
   Render,
   Redirect,
 } from '@nestjs/common';
-import { CreateSaleDto } from 'src/sale/dto/create-sale.dto';
+import { CreateSaleDto } from 'src/admin/sale/dto/create-sale.dto';
 import { HomeService } from '../home/home.service';
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';

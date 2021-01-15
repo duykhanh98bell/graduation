@@ -10,7 +10,7 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import { CreateOrderDto } from 'src/order/dto/create-order.dto';
+import { CreateOrderDto } from 'src/admin/order/dto/create-order.dto';
 import { HomeService } from '../home/home.service';
 import { CheckoutService } from './checkout.service';
 import { CreateCheckoutDto } from './dto/create-checkout.dto';

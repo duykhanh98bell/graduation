@@ -1,17 +1,20 @@
 import { Global, Module } from '@nestjs/common';
 import { HomeService } from './home.service';
 import { HomeController } from './home.controller';
-import { Product, ProductSchema } from 'src/product/entities/product.entity';
+import {
+  Product,
+  ProductSchema,
+} from 'src/admin/product/entities/product.entity';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SliderSchema } from 'src/slider/entities/slider.entity';
-import { CategorySchema } from 'src/category/entities/category.entity';
-import { CategoryProductSchema } from 'src/category-product/entities/category-product.entity';
-import { ValueProductSchema } from 'src/value-product/entities/value-product.entity';
-import { AttributeSchema } from 'src/attribute/entities/attribute.entity';
-import { ImageProductSchema } from 'src/image-product/entities/image-product.entity';
-import { ValueSchema } from 'src/value/entities/value.entity';
-import { VariantSchema } from 'src/variant/entities/variant.entity';
-import { VariantValueSchema } from 'src/variant-value/entities/variant-value.entity';
+import { SliderSchema } from 'src/admin/slider/entities/slider.entity';
+import { CategorySchema } from 'src/admin/category/entities/category.entity';
+import { CategoryProductSchema } from 'src/admin/category-product/entities/category-product.entity';
+import { ValueProductSchema } from 'src/admin/value-product/entities/value-product.entity';
+import { AttributeSchema } from 'src/admin/attribute/entities/attribute.entity';
+import { ImageProductSchema } from 'src/admin/image-product/entities/image-product.entity';
+import { ValueSchema } from 'src/admin/value/entities/value.entity';
+import { VariantSchema } from 'src/admin/variant/entities/variant.entity';
+import { VariantValueSchema } from 'src/admin/variant-value/entities/variant-value.entity';
 @Global()
 @Module({
   controllers: [HomeController],

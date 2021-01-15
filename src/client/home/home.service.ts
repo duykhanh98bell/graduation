@@ -5,25 +5,31 @@ import { Model } from 'mongoose';
 import {
   Attribute,
   AttributeDocument,
-} from 'src/attribute/entities/attribute.entity';
+} from 'src/admin/attribute/entities/attribute.entity';
 import {
   CategoryProduct,
   CategoryProductDocument,
-} from 'src/category-product/entities/category-product.entity';
+} from 'src/admin/category-product/entities/category-product.entity';
 import {
   Category,
   CategoryDocument,
-} from 'src/category/entities/category.entity';
+} from 'src/admin/category/entities/category.entity';
 import {
   ImageProduct,
   ImageProductDocument,
-} from 'src/image-product/entities/image-product.entity';
-import { Product, ProductDocument } from 'src/product/entities/product.entity';
-import { Slider, SliderDocument } from 'src/slider/entities/slider.entity';
-import { ValueProductDocument } from 'src/value-product/entities/value-product.entity';
-import { Value, ValueDocument } from 'src/value/entities/value.entity';
-import { VariantValueDocument } from 'src/variant-value/entities/variant-value.entity';
-import { VariantDocument } from 'src/variant/entities/variant.entity';
+} from 'src/admin/image-product/entities/image-product.entity';
+import {
+  Product,
+  ProductDocument,
+} from 'src/admin/product/entities/product.entity';
+import {
+  Slider,
+  SliderDocument,
+} from 'src/admin/slider/entities/slider.entity';
+import { ValueProductDocument } from 'src/admin/value-product/entities/value-product.entity';
+import { Value, ValueDocument } from 'src/admin/value/entities/value.entity';
+import { VariantValueDocument } from 'src/admin/variant-value/entities/variant-value.entity';
+import { VariantDocument } from 'src/admin/variant/entities/variant.entity';
 import { CreateHomeDto } from './dto/create-home.dto';
 import { UpdateHomeDto } from './dto/update-home.dto';
 

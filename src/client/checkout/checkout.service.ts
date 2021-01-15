@@ -4,14 +4,17 @@ import { Model } from 'mongoose';
 import {
   CategoryProduct,
   CategoryProductDocument,
-} from 'src/category-product/entities/category-product.entity';
+} from 'src/admin/category-product/entities/category-product.entity';
 import {
   Category,
   CategoryDocument,
-} from 'src/category/entities/category.entity';
-import { CreateOrderDto } from 'src/order/dto/create-order.dto';
-import { Payment, PaymentDocument } from 'src/payment/entities/payment.entity';
-import { Ship, ShipDocument } from 'src/ship/entities/ship.entity';
+} from 'src/admin/category/entities/category.entity';
+import { CreateOrderDto } from 'src/admin/order/dto/create-order.dto';
+import {
+  Payment,
+  PaymentDocument,
+} from 'src/admin/payment/entities/payment.entity';
+import { Ship, ShipDocument } from 'src/admin/ship/entities/ship.entity';
 import { CreateCheckoutDto } from './dto/create-checkout.dto';
 import { UpdateCheckoutDto } from './dto/update-checkout.dto';
 
