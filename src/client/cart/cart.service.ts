@@ -16,6 +16,7 @@ import {
 import { Sale, SaleDocument } from 'src/admin/sale/entities/sale.entity';
 import { VariantValueDocument } from 'src/admin/variant-value/entities/variant-value.entity';
 import { VariantDocument } from 'src/admin/variant/entities/variant.entity';
+import { CreateCartDto } from './dto/create-cart.dto';
 
 @Injectable()
 export class CartService {
@@ -32,7 +33,14 @@ export class CartService {
     private SaleModel: Model<SaleDocument>,
   ) {}
 
-  async addNewCart(req: any, res: any, CreateCartDto) {
+  async addNewCart(req: any, res: any, CreateCartDto: CreateCartDto) {
+    if (+CreateCartDto.quantity <= 0) {
+      req.session.message = {
+        type: 'danger',
+        message: 'Số lượng mua ít nhất là 1 sản phẩm',
+      };
+      return res.redirect('back');
+    }
     if (CreateCartDto.size == null || CreateCartDto.color == null) {
       req.session.message = {
         type: 'danger',
@@ -86,17 +94,6 @@ export class CartService {
       );
     }
     return;
-  }
-
-  async findNav() {
-    const [categoryParent, cateProducts] = await Promise.all([
-      this.CategoryModel.find({ parent_id: null, nav_active: true }),
-      this.CategoryProductModel.find().populate('category_id'),
-    ]);
-    return {
-      categoryParent,
-      cateProducts,
-    };
   }
 
   async deleteItem(id: string, color: string, size: string, req, res) {
@@ -265,6 +262,7 @@ export class CartService {
                   JSON.stringify(element.variant_id._id) ==
                   JSON.stringify(elementC.variant_id._id)
                 ) {
+                  cart[i].variant = element.variant_id._id;
                   if (cart[i].quantity > +element.variant_id.quantity) {
                     next.nextCheckout = 1;
                     if (next.nextCheckout) {

@@ -7,22 +7,21 @@ import { Customer } from 'src/admin/customer/entities/customer.entity';
 
 export type OrderDocument = Order & Document;
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class Order {
   @Prop({ required: true })
-  nameCustomer: string;
+  total: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Customer' })
+  customer_id: Customer;
 
   @Prop({ required: true })
-  phoneCustomer: string;
-
-  @Prop({ required: true })
-  emailCustomer: string;
-
-  @Prop({ required: true })
-  addressCustomer: string;
+  address: string;
 
   @Prop()
-  noteCustomer: string;
+  note: string;
 
   @Prop({ default: false })
   status: boolean;
@@ -32,15 +31,6 @@ export class Order {
 
   @Prop({ required: true })
   payment: string;
-
-  @Prop({ required: true })
-  total: string;
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Customer' })
-  Customer_id: Customer;
-
-  @Prop({ default: Date.now })
-  createdAt: Date;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

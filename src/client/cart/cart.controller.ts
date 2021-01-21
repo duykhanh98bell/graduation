@@ -49,17 +49,17 @@ export class CartController {
   }
 
   @Post('/minus')
-  async minusQuantity(@Req() req, @Res() res) {
+  async minusQuantity(@Req() req: any, @Res() res: any) {
     return await this.cartService.minus(req, res);
   }
 
   @Post('/plus')
-  async plusQuantity(@Req() req, @Res() res) {
+  async plusQuantity(@Req() req: any, @Res() res: any) {
     return await this.cartService.plus(req, res);
   }
 
   @Post('/quantity')
-  async upQuantity(@Req() req, @Res() res) {
+  async upQuantity(@Req() req: any, @Res() res: any) {
     return await this.cartService.quantity(req, res);
   }
 

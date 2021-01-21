@@ -27,7 +27,7 @@
     <section class="checkout spad">
         <div class="container">
             
-            <form action="/order" class="checkout__form" method="POST">
+            <form action="/checkout/order" class="checkout__form" method="POST">
                 <div class="row">
                     <div class="col-lg-8">
                         <h5>Thông tin đơn hàng</h5>
@@ -35,25 +35,25 @@
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Họ và tên <span>*</span></p>
-                                    <input type="text" placeholder="Họ và tên" name="nameCustomer">
+                                    <input type="text" placeholder="Họ và tên" name="name">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
                                     <p>Phone <span>*</span></p>
-                                    <input type="text" placeholder="Số điện thoại" name="phoneCustomer">
+                                    <input type="text" placeholder="Số điện thoại" name="phone">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
                                     <p>Email <span>*</span></p>
-                                    <input type="text" placeholder="Email" name="emailCustomer">
+                                    <input type="text" placeholder="Email" name="email">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Địa chỉ <span>*</span></p>
-                                    <input type="text" placeholder="Địa chỉ" name="addressCustomer">
+                                    <input type="text" placeholder="Địa chỉ" name="address">
                                 </div>
                             </div>
                             
@@ -69,10 +69,11 @@
                                     </label>
                                 </div>
                             </div>
+                            
                             <div class="col-lg-12">
                                     <div class="checkout__form__input">
                                         <p>Ghi chú <span>*</span></p>
-                                        <input type="text" placeholder="Thêm ghi chú" name="noteCustomer">
+                                        <input type="text" placeholder="Thêm ghi chú" name="note">
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +92,7 @@
                                         <% orderProducts.forEach((product, index)=>{%>
                                         <%if(product != null){%>
                                         <% Subtotal += product.price*product.quantity %>
-                                        <li><%=product.quantity %> x <%=product.name%> <span><%=product.price*product.quantity%></span></li>
+                                        <li><%=product.quantity %> x <%=product.name%><br>Cỡ: <%=product.size%> | Màu: <%=product.color%> <span><%=product.price*product.quantity%></span></li>
                                         <%}%>
                                         <%})%>
                                         <%}%>
@@ -109,7 +110,8 @@
                                         <li>Toàn bộ <span><%=(total)?+total+30000:0%></span></li>
                                     </ul>
                                 </div>
-                                <input type="hidden" name="toal" value="<%=(total)?+total+30000:0%>" />
+                                <input type="hidden" name="percent" value="<%=percentSale%>" />
+                                <input type="hidden" name="total" value="<%=(total)?+total+30000:0%>" />
                                 <button type="submit" class="site-btn">Đặt hàng</button>
                             </div>
                             

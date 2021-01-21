@@ -21,7 +21,7 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
   );
-  app.use(function (req, res, next) {
+  app.use(function (req: { session: any }, res: { locals: any }, next) {
     res.locals.totalCart = req.session.totalCart;
     res.locals.priceSale = req.session.priceSale;
     res.locals.percentSale = req.session.percentSale;

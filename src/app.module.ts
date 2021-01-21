@@ -23,6 +23,7 @@ import { CheckoutModule } from './client/checkout/checkout.module';
 import { OrderModule } from './admin/order/order.module';
 import { OrderDetailModule } from './admin/order-detail/order-detail.module';
 import { CustomerModule } from './admin/customer/customer.module';
+import { AuthModule } from './admin/auth/auth.module';
 
 @Global()
 @Module({
@@ -56,6 +57,7 @@ import { CustomerModule } from './admin/customer/customer.module';
     OrderModule,
     OrderDetailModule,
     CustomerModule,
+    AuthModule,
   ],
   providers: [],
   controllers: [],

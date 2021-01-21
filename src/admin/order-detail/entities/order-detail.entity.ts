@@ -9,7 +9,7 @@ import { Order } from 'src/admin/order/entities/order.entity';
 
 export type OrderDetailDocument = OrderDetail & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class OrderDetail {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
   product_id: Product;
@@ -31,9 +31,6 @@ export class OrderDetail {
 
   @Prop({ default: true })
   status: boolean;
-
-  @Prop({ default: Date.now })
-  createdAt: Date;
 }
 
 export const OrderDetailSchema = SchemaFactory.createForClass(OrderDetail);

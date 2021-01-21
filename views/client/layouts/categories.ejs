@@ -1,6 +1,9 @@
 <!-- Categories Section Begin -->
     <section class="categories">
         <div class="container-fluid">
+            <% if (message) { %>
+                <div class="alert alert-<%=message.type%>"><%= message.message %></div>
+            <% } %>
             <div class="row">
                 <div class="col-lg-6 p-0">
                     <div class="categories__item categories__large__item set-bg"

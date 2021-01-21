@@ -10,6 +10,8 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
+import { CreateCustomerDto } from 'src/admin/customer/dto/create-customer.dto';
+import { CreateOrderDetailDto } from 'src/admin/order-detail/dto/create-order-detail.dto';
 import { CreateOrderDto } from 'src/admin/order/dto/create-order.dto';
 import { HomeService } from '../home/home.service';
 import { CheckoutService } from './checkout.service';
@@ -31,7 +33,19 @@ export class CheckoutController {
   }
 
   @Post('/order')
-  async order(@Body() CreateOrderDto: CreateOrderDto, @Req() req, @Res() res) {
-    return;
+  async order(
+    @Body() CreateOrderDto: CreateOrderDto,
+    @Body() CreateCustomerDto: CreateCustomerDto,
+    @Body() CreateOrderDetailDto: CreateOrderDetailDto,
+    @Req() req: any,
+    @Res() res: any,
+  ) {
+    return await this.checkoutService.order(
+      CreateOrderDto,
+      CreateCustomerDto,
+      CreateOrderDetailDto,
+      req,
+      res,
+    );
   }
 }

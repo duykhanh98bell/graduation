@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../../layouts/head.ejs')%>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+      <%- include('../../layouts/header.ejs')%>
+      <!-- Left side column. contains the logo and sidebar -->
+      <%- include('../../layouts/sidebar.ejs')%>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <%-include('../../layouts/content-header.ejs')%>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <!-- /.box -->
+
+              <div class="box">
+                <div class="box-header">
+                <a class="btn btn-success" href="/order">Hóa đơn</a>
+
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <table
+                    id="example1"
+                    class="table table-bordered table-striped"
+                  >
+                    <thead>
+                      <tr>
+                        <th>STT</th>
+                        <th>Mã sản phẩm</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Ảnh</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Cỡ</th>
+                        <th>Màu</th>
+                        <th>Trạng thái</th>
+                        <th Width=100>Ngày tạo</th>
+                        <th Width=100>Ngày cập nhật</th>
+                        <th width=100>Tùy chọn</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% findDetail.forEach((product, index)=>{ %>
+                      <tr>
+                        <td><%= index+1 %></td>
+                        <td><%=product.product_id.product_code%></td>
+                        <td><%=product.product_id.name%></td>
+                        <td>
+                        <td><img width=100 src="/uploads/product/<%=product.product_id.image%>" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt=""></td>
+                        
+                        </td>
+
+                        <td><%=product.price%></td>
+                        <td><%=product.quantity%></td>
+                        <td><%=product.size%></td>
+                        <td><%=product.color%></td>
+                        <td>
+                            <% if (product.status === true) { %>
+                            <form action="/order-detail/status/<%=product._id%>" method="POST">
+                                <button  class="btn btn-success">Tốt</button>
+                            </form>
+                            <% }else if(product.status === false) { %>
+                            <form action="/order-detail/status/<%=product._id%>" method="POST">
+                                <button  class="btn btn-danger">Lỗi</button>
+                            </form>
+                            <% }; %>
+                        </td>
+                        <td><%=product.createdAt%></td>
+                        <td><%=product.updatedAt%></td>
+                        <td>
+                          <a class="btn btn-warning" href="/order/update/<%=product._id%>">Sửa</a>
+                          <a
+                            class="btn btn-danger"
+                            href="/order/delete/<%=product._id%>"
+                            onclick="return confirm('xác nhận xóa')"
+                            >Xóa</a
+                          >
+                        </td>
+                      </tr>
+                      <% }); %>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>STT</th>
+                        <th>Mã sản phẩm</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Ảnh</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Cỡ</th>
+                        <th>Màu</th>
+                        <th>Trạng thái</th>
+                        <th Width=100>Ngày tạo</th>
+                        <th Width=100>Ngày cập nhật</th>
+                        <th width=150>Tùy chọn</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+      <%- include('../../layouts/footer.ejs')%>
+      <!-- /.control-sidebar -->
+      <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <%-include('../../layouts/script.ejs')%>
+  </body>
+</html>

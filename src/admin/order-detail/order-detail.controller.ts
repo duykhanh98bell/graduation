@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+  Redirect,
+} from '@nestjs/common';
 import { OrderDetailService } from './order-detail.service';
 import { CreateOrderDetailDto } from './dto/create-order-detail.dto';
 import { UpdateOrderDetailDto } from './dto/update-order-detail.dto';
@@ -19,11 +28,20 @@ export class OrderDetailController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.orderDetailService.findOne(+id);
+    return this.orderDetailService.findOne(id);
+  }
+
+  @Post('status/:id')
+  @Redirect('back')
+  async toggleStatus(@Param('id') id: string) {
+    return await this.orderDetailService.toggle(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateOrderDetailDto: UpdateOrderDetailDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateOrderDetailDto: UpdateOrderDetailDto,
+  ) {
     return this.orderDetailService.update(+id, updateOrderDetailDto);
   }
 

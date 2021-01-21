@@ -6,6 +6,8 @@ import {
   Put,
   Param,
   Delete,
+  Render,
+  Redirect,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -21,13 +23,27 @@ export class OrderController {
   }
 
   @Get()
-  findAll() {
-    return this.orderService.findAll();
+  @Render('admin/partials/order/read')
+  async findAll() {
+    const allBill = await this.orderService.findAll();
+    return { title: 'HÓA ĐƠN', pageName: 'DANH SÁCH HÓA ĐƠN', allBill };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.orderService.findOne(+id);
+  @Render('admin/partials/order/read-detail')
+  async findDetail(@Param('id') id: string) {
+    const findDetail = await this.orderService.findDetail(id);
+    return {
+      title: 'CHI TIẾT HÓA ĐƠN',
+      pageName: 'DANH SÁCH CHI TIẾT',
+      findDetail,
+    };
+  }
+
+  @Post('status/:id')
+  @Redirect('back')
+  async toggleStatus(@Param('id') id: string) {
+    return await this.orderService.toggle(id);
   }
 
   @Put(':id')
