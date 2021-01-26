@@ -13,6 +13,7 @@ import {
   Res,
   UploadedFile,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -23,6 +24,7 @@ import path = require('path');
 import { CreateImageProductDto } from './dto/create-image-product.dto';
 import { CreateVariantDto } from 'src/admin/variant/dto/create-variant.dto';
 import { UpdateVariantDto } from 'src/admin/variant/dto/update-variant.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 export const storage = {
   storage: multer.diskStorage({
@@ -36,7 +38,7 @@ export const storage = {
     },
   }),
 };
-
+@UseGuards(JwtAuthGuard)
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}

@@ -11,6 +11,7 @@ import {
   UploadedFile,
   Redirect,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import multer = require('multer');
@@ -18,6 +19,7 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import path = require('path');
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 export const storage = {
   storage: multer.diskStorage({
@@ -33,6 +35,7 @@ export const storage = {
   }),
 };
 
+@UseGuards(JwtAuthGuard)
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}

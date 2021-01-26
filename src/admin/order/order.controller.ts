@@ -8,11 +8,14 @@ import {
   Delete,
   Render,
   Redirect,
+  UseGuards,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
