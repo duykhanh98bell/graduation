@@ -1,8 +1,19 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { VariantValueService } from './variant-value.service';
 import { CreateVariantValueDto } from './dto/create-variant-value.dto';
 import { UpdateVariantValueDto } from './dto/update-variant-value.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('variant-value')
 export class VariantValueController {
   constructor(private readonly variantValueService: VariantValueService) {}
@@ -23,7 +34,10 @@ export class VariantValueController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateVariantValueDto: UpdateVariantValueDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateVariantValueDto: UpdateVariantValueDto,
+  ) {
     return this.variantValueService.update(+id, updateVariantValueDto);
   }
 

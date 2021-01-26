@@ -9,11 +9,14 @@ import {
   Render,
   Redirect,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { ValueService } from './value.service';
 import { CreateValueDto } from './dto/create-value.dto';
 import { UpdateValueDto } from './dto/update-value.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('value')
 export class ValueController {
   constructor(private readonly valueService: ValueService) {}

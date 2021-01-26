@@ -12,11 +12,14 @@ import {
   Render,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { BrandService } from './brand.service';
 import { CreateBrandDTO } from './dtos/create-brand.dto';
 import { Brand } from './interfaces/brand.interface';
 
+@UseGuards(JwtAuthGuard)
 @Controller('brand')
 export class BrandController {
   constructor(private brandService: BrandService) {}

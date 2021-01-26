@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Redirect,
+  UseGuards,
 } from '@nestjs/common';
 import { ShipService } from './ship.service';
 import { CreateShipDto } from './dto/create-ship.dto';
@@ -19,6 +20,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import path = require('path');
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 export const storage = {
   storage: diskStorage({
@@ -33,6 +35,7 @@ export const storage = {
   }),
 };
 
+@UseGuards(JwtAuthGuard)
 @Controller('ship')
 export class ShipController {
   constructor(private readonly shipService: ShipService) {}

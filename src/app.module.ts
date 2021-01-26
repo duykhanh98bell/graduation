@@ -28,7 +28,9 @@ import { AuthModule } from './admin/auth/auth.module';
 @Global()
 @Module({
   imports: [
-    ConfigModule.forRoot({}),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     BrandModule,
     MongooseModule.forRoot(process.env.DB_CONNECT, {
       useNewUrlParser: true,

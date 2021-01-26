@@ -11,6 +11,7 @@ import {
   Res,
   Render,
   Redirect,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TrendService } from './trend.service';
@@ -20,6 +21,7 @@ import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import path = require('path');
 import multer = require('multer');
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 // export const storage = {
 //   storage: diskStorage({
@@ -46,6 +48,7 @@ export const storage = {
   }),
 };
 
+@UseGuards(JwtAuthGuard)
 @Controller('trend')
 export class TrendController {
   constructor(private readonly trendService: TrendService) {}

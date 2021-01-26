@@ -8,11 +8,14 @@ import {
   Delete,
   Render,
   Redirect,
+  UseGuards,
 } from '@nestjs/common';
 import { SaleService } from './sale.service';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('sale')
 export class SaleController {
   constructor(private readonly saleService: SaleService) {}
