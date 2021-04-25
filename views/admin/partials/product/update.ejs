@@ -42,8 +42,16 @@
                   <input value="<%=select.product.product_code%>" type="text" name="product_code" class="form-control" id="exampleInputEmail2" placeholder="Mã sản phẩm">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail3">Giá gốc</label>
-                  <input value="<%=select.product.price%>" type="number" name="price" class="form-control" id="exampleInputEmail3" placeholder="Giá gốc">
+                  <label for="price_in">Giá nhập</label>
+                  <input value="<%=select.product.price_in%>" type="number" name="price_in" class="form-control" id="price_in" placeholder="Giá nhập">
+                </div>
+                <div class="form-group">
+                  <label for="price_old">Giá cũ</label>
+                  <input value="<%=select.product.price_old%>" type="number" name="price_old" class="form-control" id="price_old" placeholder="Giá cũ">
+                </div>
+                <div class="form-group">
+                  <label for="price">Giá gốc</label>
+                  <input value="<%=select.product.price%>" type="number" name="price" class="form-control" id="price" placeholder="Giá gốc">
                 </div>
                 <div class="form-group">
                   <label for="description">Mô tả</label>
@@ -53,6 +61,17 @@
                   <label for="detail">Chi tiết</label>
                   <textarea class="form-control" name="detail" id="detail" rows="3"><%=select.product.detail%></textarea>
                 </div>
+
+                <div class="form-group">
+                  <label for="status">Trạng thái</label>
+                  <select class="form-control" name="status" id="status">
+                    <option value="0" <%=(select.product.status===0)?"selected":""%> >Hàng mới về</option>
+                    <option value="1" <%=(select.product.status===1)?"selected":""%>>Đang giảm giá</option>
+                    <option value="2" <%=(select.product.status===2)?"selected":""%>>Hết hàng</option>
+                    <option value="3" <%=(select.product.status===3)?"selected":""%>>Mặc định</option>
+                  </select>
+                </div>
+
                 <label for="">Danh muc</label>
                 <div class="form-check">
                 <% select.categories.forEach((category, index)=>{ %>
@@ -81,14 +100,6 @@
                   <select class="form-control" name="brand_id" id="brand">
                   <% select.brands.forEach((brand, index)=>{ %>
                     <option <% if(JSON.stringify(select.product.brand_id)==JSON.stringify(brand._id)){ %> selected <% } %> value="<%=brand._id%>"><%=brand.name%></option>
-                  <% }); %>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="trend">Trend</label>
-                  <select class="form-control" name="trend_id" id="trend">
-                  <% select.trends.forEach((trend, index)=>{%>
-                    <option <% if(JSON.stringify(select.product.trend_id)==JSON.stringify(trend._id)){ %> selected <% } %> value="<%=trend._id%>" ><%=trend.name%></option>
                   <% }); %>
                   </select>
                 </div>
@@ -141,5 +152,23 @@
 <!-- ./wrapper -->
 
 <%-include('../../layouts/script.ejs')%>
+    <script>
+      $(function () {
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace('description')
+        //bootstrap WYSIHTML5 - text editor
+        $('.textarea').wysihtml5()
+      })
+    </script>
+    <script>
+      $(function () {
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace('detail')
+        //bootstrap WYSIHTML5 - text editor
+        $('.textarea').wysihtml5()
+      })
+    </script>
 </body>
 </html>

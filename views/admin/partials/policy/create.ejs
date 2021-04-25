@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <%- include('../../layouts/head.ejs')%>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+      <%- include('../../layouts/header.ejs') %>
+      <!-- Left side column. contains the logo and sidebar -->
+      <%- include('../../layouts/sidebar.ejs') %>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <%-include('../../layouts/content-header.ejs')%>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <!-- left column -->
+            <!--/.col (left) -->
+            <div class="col-md-2"></div>
+            <!-- right column -->
+            <div class="col-md-8">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form method="POST">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Nội dung</label>
+                    </div>
+                    <textarea name="content" id="policy" cols="30" rows="10"></textarea>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                      <button type="submit" class="btn btn-info pull-right">Lưu</button>
+                    </div>
+                  </div>
+                  <!-- /.box-footer -->
+                </form>
+              </div>
+            </div>
+            <!--/.col (right) -->
+          </div>
+          <!-- /.row -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+      <%- include('../../layouts/footer.ejs') %>
+      <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery 3 -->
+    <%-include('../../layouts/script.ejs')%>
+    <script>
+  $(function () {
+      // Replace the <textarea id="editor1"> with a CKEditor
+      // instance, using default configuration.
+      CKEDITOR.replace('policy')
+      //bootstrap WYSIHTML5 - text editor
+      $('.textarea').wysihtml5()
+    })
+  </script>
+  </body>
+</html>

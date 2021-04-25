@@ -18,6 +18,7 @@ import {
   ImageProduct,
   ImageProductDocument,
 } from 'src/admin/image-product/entities/image-product.entity';
+import { PolicyDocument } from 'src/admin/policy/entities/policy.entity';
 import {
   Product,
   ProductDocument,
@@ -53,6 +54,8 @@ export class HomeService {
     private VariantValueModel: Model<VariantValueDocument>,
     @InjectModel('ValueProduct')
     private ValueProductModel: Model<ValueProductDocument>,
+    @InjectModel('Policy')
+    private PolicyModel: Model<PolicyDocument>,
   ) {}
   create(createHomeDto: CreateHomeDto) {
     return 'This action adds a new home';
@@ -70,21 +73,29 @@ export class HomeService {
   }
 
   async findAll() {
-    const [products, cateProducts, values, attributes] = await Promise.all([
+    const [
+      products,
+      cateProducts,
+      values,
+      attributes,
+      slider,
+    ] = await Promise.all([
       this.ProductModel.find(),
-      this.CategoryProductModel.find().populate('category_id'),
+      this.CategoryProductModel.find().populate({ path: 'category_id' }),
       this.ValueModel.find(),
       this.AttributeModel.find(),
+      this.SliderModel.find({ active: true }),
     ]);
     return {
       products,
       cateProducts,
       values,
       attributes,
+      slider,
     };
   }
 
-  async filterCate(cate: string) {
+  async filterCate(cate: string, page: number) {
     const findCate = await this.CategoryModel.findOne({ cate_slug: cate });
     const findPro = await this.CategoryProductModel.find({
       category_id: findCate._id,
@@ -94,6 +105,9 @@ export class HomeService {
 
   async findDetail(slug: string) {
     const detail = await this.ProductModel.findOne({ product_slug: slug });
+    const categoryProductChoose = await this.CategoryProductModel.findOne({
+      product_id: detail._id,
+    });
     const [
       categoryParent,
       cateProducts,
@@ -112,7 +126,12 @@ export class HomeService {
           match: { _id: detail._id },
         })
         .populate({ path: 'value_id' }),
-      this.ProductModel.find({ trend_id: detail.trend_id }).limit(4),
+      this.CategoryProductModel.find({
+        category_id: categoryProductChoose.category_id,
+        product_id: { $ne: categoryProductChoose.product_id },
+      })
+        .populate('product_id')
+        .limit(4),
     ]);
     return {
       categoryParent,
@@ -132,6 +151,10 @@ export class HomeService {
       product_id: detail._id,
     });
     return { detail, images };
+  }
+
+  async policy() {
+    return await this.PolicyModel.find();
   }
 
   findOne(id: number) {

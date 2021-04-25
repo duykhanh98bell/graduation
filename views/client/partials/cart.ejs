@@ -69,7 +69,7 @@
                                     <td class="cart__price"><%=product.color%></td>
                                     <td class="cart__price"><%=product.size%></td>
                                     <td class="cart__quantity">
-                                        <div class="" style="display: flex;">
+                                        <div class="" style="display: flex; width: 120px;justify-content: space-between;">
                                             <form action="/cart/minus" method="POST">
                                                 <input type="hidden" name="id" value="<%=product.id%>">
                                                 <input type="hidden" name="color" value="<%=product.color%>">
@@ -77,7 +77,7 @@
                                                 <button style="height:30px; margin-right:5px; border:none;" class="">-</button>
                                             </form>
                                             <form action="/cart/quantity" method="POST">
-                                                <input style="width:25px; border:none;" name="quantity" type="text" value="<%=product.quantity%>">
+                                                <input style="width:50px; border:none;" name="quantity" type="text" value="<%=product.quantity%>">
                                                 <input type="hidden" name="id" value="<%=product.id%>">
                                                 <input type="hidden" name="color" value="<%=product.color%>">
                                                 <input type="hidden" name="size" value="<%=product.size%>">

@@ -40,6 +40,7 @@ export class ValueService {
       id,
       {
         value: updateValueDto.value,
+        code: updateValueDto.code,
         attribute_id: updateValueDto.attribute_id,
         updatedAt: new Date(),
       },

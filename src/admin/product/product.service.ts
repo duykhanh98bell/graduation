@@ -12,7 +12,7 @@ import {
   Category,
   CategoryDocument,
 } from 'src/admin/category/entities/category.entity';
-import { Trend, TrendDocument } from 'src/admin/trend/entities/trend.entity';
+// import { Trend, TrendDocument } from 'src/admin/trend/entities/trend.entity';
 import {
   ValueProduct,
   ValueProductDocument,
@@ -33,7 +33,7 @@ import { UpdateVariantDto } from 'src/admin/variant/dto/update-variant.dto';
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private ProductModel: Model<ProductDocument>,
-    @InjectModel(Trend.name) private TrendModel: Model<TrendDocument>,
+    // @InjectModel(Trend.name) private TrendModel: Model<TrendDocument>,
     @InjectModel(Brand.name) private BrandModel: Model<BrandDocument>,
     @InjectModel(Category.name) private CategoryModel: Model<CategoryDocument>,
     @InjectModel('Value') private ValueModel: Model<ValueDocument>,
@@ -54,9 +54,9 @@ export class ProductService {
   getBrand() {
     return this.BrandModel.find();
   }
-  getTrend() {
-    return this.TrendModel.find();
-  }
+  // getTrend() {
+  //   return this.TrendModel.find();
+  // }
   getCategory() {
     return this.CategoryModel.find();
   }
@@ -73,10 +73,13 @@ export class ProductService {
       product_slug: slugify(createProductDto.name, { lower: true }),
       product_code: createProductDto.product_code,
       price: createProductDto.price,
+      price_old: createProductDto.price_old,
+      price_in: createProductDto.price_in,
       description: createProductDto.description,
       detail: createProductDto.detail,
+      status: createProductDto.status,
       brand_id: createProductDto.brand_id,
-      trend_id: createProductDto.trend_id,
+      // trend_id: createProductDto.trend_id,
       image: file.filename,
       highlight: createProductDto.highlight,
     });
@@ -85,6 +88,13 @@ export class ProductService {
     const checkProduct = await this.ProductModel.findOne({
       product_code: createProductDto.product_code,
     });
+
+    const imageFirst = new this.ImageProductModel({
+      image: file.filename,
+      product_id: checkProduct._id,
+    });
+    await imageFirst.save();
+
     if (createProductDto.value) {
       for (let index = 0; index < createProductDto.value.length; index++) {
         const element = createProductDto.value[index];
@@ -109,7 +119,7 @@ export class ProductService {
 
   async findAll() {
     const select = Promise.all([
-      this.ProductModel.find().populate('brand_id').populate('trend_id').exec(),
+      this.ProductModel.find().populate('brand_id').exec(),
       this.CategoryProductModel.find().populate('category_id').exec(),
     ]).then(([products, categoryPros]) => {
       return { products, categoryPros };
@@ -123,7 +133,7 @@ export class ProductService {
       categoryProduct,
       valueProduct,
       brands,
-      trends,
+      // trends,
       categories,
       values,
       attributes,
@@ -132,7 +142,7 @@ export class ProductService {
       this.CategoryProductModel.find({ product_id: id }),
       this.ValueProductModel.find({ product_id: id }).populate('value_id'),
       this.BrandModel.find(),
-      this.TrendModel.find(),
+      // this.TrendModel.find(),
       this.CategoryModel.find(),
       this.ValueModel.find(),
       this.AttributeModel.find(),
@@ -142,7 +152,7 @@ export class ProductService {
       categoryProduct,
       valueProduct,
       brands,
-      trends,
+      // trends,
       categories,
       values,
       attributes,
@@ -163,11 +173,14 @@ export class ProductService {
           name: updateProductDto.name,
           product_slug: slugify(updateProductDto.name, { lower: true }),
           product_code: updateProductDto.product_code,
-          price: updateProductDto.price,
+          price: +updateProductDto.price,
+          price_old: +updateProductDto.price_old,
+          price_in: +updateProductDto.price_in,
           description: updateProductDto.description,
           detail: updateProductDto.detail,
+          status: updateProductDto.status,
           brand_id: updateProductDto.brand_id,
-          trend_id: updateProductDto.trend_id,
+          // trend_id: updateProductDto.trend_id,
           image: file.filename,
           highlight: updateProductDto.highlight,
         },
@@ -178,11 +191,14 @@ export class ProductService {
           name: updateProductDto.name,
           product_slug: slugify(updateProductDto.name, { lower: true }),
           product_code: updateProductDto.product_code,
-          price: updateProductDto.price,
+          price: +updateProductDto.price,
+          price_old: +updateProductDto.price_old,
+          price_in: +updateProductDto.price_in,
           description: updateProductDto.description,
           detail: updateProductDto.detail,
+          status: updateProductDto.status,
           brand_id: updateProductDto.brand_id,
-          trend_id: updateProductDto.trend_id,
+          // trend_id: updateProductDto.trend_id,
           highlight: updateProductDto.highlight,
         },
       });

@@ -52,9 +52,9 @@
                             <div class="size__list">
                             <% all.values.forEach((value, index)=>{%>
                             <% if(JSON.stringify(value.attribute_id)==JSON.stringify(attr._id)){ %>
-                                <label for="xxs">
+                                <label>
                                     <%=value.value%>
-                                    <input type="checkbox" id="xxs">
+                                    <input type="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
                             <%}%>

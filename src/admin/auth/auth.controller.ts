@@ -37,12 +37,14 @@ export class AuthController {
     return await this.authService.postLogin(LoginDto, req, res);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('register')
   @Render('admin/partials/auth/register')
   async register() {
     return await this.authService;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('register')
   @Redirect('/auth')
   async postRegister(

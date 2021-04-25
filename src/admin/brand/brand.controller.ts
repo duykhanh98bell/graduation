@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Body,
   Controller,
@@ -19,7 +20,7 @@ import { BrandService } from './brand.service';
 import { CreateBrandDTO } from './dtos/create-brand.dto';
 import { Brand } from './interfaces/brand.interface';
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('brand')
 export class BrandController {
   constructor(private brandService: BrandService) {}

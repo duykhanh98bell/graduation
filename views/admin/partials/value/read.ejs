@@ -22,7 +22,7 @@
 
               <div class="box">
                 <div class="box-header">
-                  <h3 class="box-title">Data Table With Full Features</h3>
+                  <h3 class="box-title"><a class="btn btn-success" href="/value/create">Thêm mới</a></h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -34,6 +34,7 @@
                       <tr>
                         <th>STT</th>
                         <th>Tên giá trị</th>
+                        <th>Mã</th>
                         <th>Thuộc tính</th>
                         <th>Ngày tạo</th>
                         <th>Ngày cập nhật</th>
@@ -45,6 +46,7 @@
                       <tr>
                         <td><%- index+1 %></td>
                         <td><%-value.value%></td>
+                        <td><%-value.code%></td>
                         <td><%-value.attribute_id.name%></td>
                         <td><%-value.createdAt%></td>
                         <td><%-value.updatedAt%></td>
@@ -63,8 +65,9 @@
                     <tfoot>
                       <tr>
                         <th>STT</th>
-                        <th>Tên đơn vị</th>
-                        <th>Giá</th>
+                        <th>Tên giá trị</th>
+                        <th>Mã</th>
+                        <th>Thuộc tính</th>
                         <th>Ngày tạo</th>
                         <th>Ngày cập nhật</th>
                         <th>Tùy chọn</th>

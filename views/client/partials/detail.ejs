@@ -15,8 +15,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <span>Shop</span>
+                        <a href="./index.html"><i class="fa fa-home"></i> Trang chủ</a>
+                        <span>Chi tiết sản phẩm</span>
                     </div>
                 </div>
             </div>
@@ -65,16 +65,27 @@
                             <i class="fa fa-star"></i>
                             <span>( 138 reviews )</span>
                         </div>
-                        <div class="product__details__price"><%=detail.detail.price%> vnđ<span><%=detail.detail.price%> vnđ</span></div>
-                        <p><%=detail.detail.description%></p>
+                        <div class="product__details__price">
+                        <% if(detail.detail.status===1) { %>
+                            <%=detail.detail.price%> vnđ
+                            <span><%=detail.detail.price_old%> vnđ</span>
+                        <% } else { %>
+                            <%=detail.detail.price%> vnđ
+                        <% } %>
+                        </div>
+
+                        <p><%-detail.detail.description%></p>
                         <div class="product__details__button">
                             <div class="quantity">
-                                <span>Quantity:</span>
+                                <span>Số lượng:</span>
                                 <div class="pro-qty">
                                     <input type="text" value="1" name="quantity">
                                 </div>
                             </div>
-                            <button class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</button>
+                            <% if(detail.detail.status!==2) { %>
+                                <button class="cart-btn"><span class="icon_bag_alt"></span> Thêm vào giỏ</button>
+                            <% } %>
+                            
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
@@ -83,13 +94,17 @@
                         <div class="product__details__widget">
                             <ul>
                                 <li>
-                                    <span>Availability:</span>
+                                    <span>Tình trạng kho:</span>
                                     <div class="stock__checkbox">
+                                    <% if(detail.detail.status===2) { %>
                                         <label for="stockin">
-                                            In Stock
-                                            <input type="checkbox" id="stockin">
-                                            <span class="checkmark"></span>
+                                            Hết hàng
                                         </label>
+                                    <% }else { %>
+                                        <label for="stockin">
+                                            Còn hàng
+                                        </label>
+                                    <% } %>
                                     </div>
                                 </li>
                                 <li>
@@ -98,7 +113,7 @@
                                     <% all.valueProducts.forEach((valuePro, index)=>{ %>
                                     <% if(valuePro.product_id!=null){ %>
                                     <% if(JSON.stringify(valuePro.value_id.attribute_id)==JSON.stringify(all.attributes[0]._id)){ %>
-                                         <label class="btn btn-success">
+                                         <label class="btn" style="border: 1px solid black;">
                                             <%=valuePro.value_id.value%>
                                             <input type="radio"  name="size" id=""  autocomplete="off" value="<%=valuePro.value_id.value%>" >
                                         </label>
@@ -113,10 +128,17 @@
                                     <% all.valueProducts.forEach((valuePro, index)=>{ %>
                                     <% if(valuePro.product_id!=null){ %>
                                     <% if(JSON.stringify(valuePro.value_id.attribute_id)==JSON.stringify(all.attributes[1]._id)){ %>
-                                         <label class="btn btn-success">
+                                        <label class="btn" style="border: 1px solid black;padding-left: 50px; position: relative; font-size: 12px;">
+                                        <label style="padding: 15px;
+                                        background-color: <%=valuePro.value_id.code%>;
+                                        position: absolute;
+                                        left: 0px;
+                                        top: 0px"></label>
                                         <%=valuePro.value_id.value%>
+                                        
                                         <input type="radio" name="color" id=""  autocomplete="off" value="<%=valuePro.value_id.value%>" >
-                                      </label>
+                                        </label>
+                                        
                                     <%}%>
                                     <% } %>
                                     <% }) %>
@@ -150,11 +172,11 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <h6>Mô tả</h6>
-                                <p><%=detail.detail.description%></p>
+                                <p><%-detail.detail.description%></p>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <h6>Chi tiết</h6>
-                                <p><%=detail.detail.detail%></p>
+                                <p><%-detail.detail.detail%></p>
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <h6>Đánh giá</h6>
@@ -204,16 +226,16 @@
                 <% all.relateds.forEach((relate, index)=>{%>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="/uploads/product/<%=relate.image%>">
+                        <div class="product__item__pic set-bg" data-setbg="/uploads/product/<%=relate.product_id.image%>">
                             <div class="label new">New</div>
                             <ul class="product__hover">
-                                <li><a href="/uploads/product/<%=relate.image%>" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="/uploads/product/<%=relate.product_id.image%>" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="/product/<%=relate.product_slug%>"><span class="icon_bag_alt"></span></a></li>
+                                <li><a href="/detail/<%=relate.product_id.product_slug%>"><span class="icon_bag_alt"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6><a href="/product/<%=relate.product_slug%>"><%=relate.name%></a></h6>
+                            <h6><a href="/detail/<%=relate.product_id.product_slug%>"><%=relate.product_id.name%></a></h6>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -221,7 +243,7 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                             </div>
-                            <div class="product__price"><%=relate.price%> vnđ</div>
+                            <div class="product__price"><%=relate.product_id.price%> vnđ</div>
                         </div>
                     </div>
                 </div>

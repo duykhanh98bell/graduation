@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -11,12 +12,18 @@ import {
   NotFoundException,
   Render,
   Redirect,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AttributeService } from './attribute.service';
 import { CreateAttributeDto } from './dto/create-attribute.dto';
 import { UpdateAttributeDto } from './dto/update-attribute.dto';
 
 @Controller('attribute')
+@UseGuards(JwtAuthGuard)
+@UsePipes(new ValidationPipe)
 export class AttributeController {
   constructor(private readonly attributeService: AttributeService) {}
 

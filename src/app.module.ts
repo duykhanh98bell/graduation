@@ -24,6 +24,7 @@ import { OrderModule } from './admin/order/order.module';
 import { OrderDetailModule } from './admin/order-detail/order-detail.module';
 import { CustomerModule } from './admin/customer/customer.module';
 import { AuthModule } from './admin/auth/auth.module';
+import { PolicyModule } from './admin/policy/policy.module';
 
 @Global()
 @Module({
@@ -60,6 +61,7 @@ import { AuthModule } from './admin/auth/auth.module';
     OrderDetailModule,
     CustomerModule,
     AuthModule,
+    PolicyModule,
   ],
   providers: [],
   controllers: [],

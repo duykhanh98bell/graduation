@@ -6,7 +6,7 @@ import * as mongoose from 'mongoose';
 
 export type ProductDocument = Product & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Product {
   @Prop({ required: true, unique: true })
   name: string;
@@ -18,6 +18,12 @@ export class Product {
   product_code: string;
 
   @Prop()
+  price_in: number;
+
+  @Prop()
+  price_old: number;
+
+  @Prop()
   price: number;
 
   @Prop({ default: null })
@@ -25,6 +31,9 @@ export class Product {
 
   @Prop({ default: null })
   detail: string;
+
+  @Prop()
+  status: number;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Brand' })
   brand_id: Brand;
@@ -37,12 +46,6 @@ export class Product {
 
   @Prop({ default: true })
   highlight: boolean;
-
-  @Prop({ default: Date.now })
-  createdAt: Date;
-
-  @Prop({ default: Date.now })
-  updatedAt: Date;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
