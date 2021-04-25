@@ -38,24 +38,17 @@
                 <div class="col-xl-6 col-lg-7">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="/">Home</a></li>
-                            <li><a href="/">SP Mùa đông</a>
+                            <li class="active"><a href="/">Trang chủ</a></li>
+                            <li><a href="/">Sản phẩm</a>
                                 <ul class="dropdown">
                                 <% nav.categoryParent.forEach((category, index)=>{%>
                                     <li><a href="/collection/<%=category.cate_slug%>"><%=category.name%></a></li>
                                 <%})%>
                                 </ul>
                             </li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./product-details.html">Product Details</a></li>
-                                    <li><a href="./shop-cart.html">Shop Cart</a></li>
-                                    <li><a href="./checkout.html">Checkout</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contact</a></li>
+                            <li><a href="/policy-discount">Chính sách đổi trả hàng</a></li>
+                            <li><a href="./blog.html">Tin tức</a></li>
+                            <li><a href="./contact.html">Liên hệ</a></li>
                         </ul>
                     </nav>
                 </div>

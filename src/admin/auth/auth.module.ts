@@ -41,7 +41,7 @@ import { JwtStrategy } from './jwt.strategy';
     PassportModule,
     JwtModule.register({
       secret: process.env.TOKEN_SECRET,
-      // signOptions: { expiresIn: '900s' },
+      signOptions: { expiresIn: '1d' },
     }),
   ],
 })

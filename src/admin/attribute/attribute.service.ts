@@ -29,7 +29,6 @@ export class AttributeService {
       {
         $set: {
           name: updateAttributeDto.name,
-          updatedAt: new Date(),
         },
       },
       { new: true },

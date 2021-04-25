@@ -251,39 +251,67 @@ export class CartService {
             match: { product_id: cart[i].id },
           });
 
+        let checkDefind = 0;
         for (let index = 0; index < variantValueSize.length; index++) {
           const element = variantValueSize[index];
           if (element.variant_id != null && element.value_id != null) {
-            const next = { nextCheckout: 0 };
+            let nextCheckout = 0;
             for (let c = 0; c < variantValueColor.length; c++) {
               const elementC = variantValueColor[c];
               if (elementC.variant_id != null && elementC.value_id != null) {
+                // Kiểm tra biến thể với màu sắc kích cỡ có tồn tại hay không
+
                 if (
-                  JSON.stringify(element.variant_id._id) ==
+                  JSON.stringify(element.variant_id._id) ===
                   JSON.stringify(elementC.variant_id._id)
                 ) {
-                  cart[i].variant = element.variant_id._id;
-                  if (cart[i].quantity > +element.variant_id.quantity) {
-                    next.nextCheckout = 1;
-                    if (next.nextCheckout) {
-                      req.session.message = {
-                        type: 'danger',
-                        message:
-                          cart[i].name +
-                          ' || Màu: ' +
-                          cart[i].color +
-                          ' || Cỡ: ' +
-                          cart[i].size +
-                          ' || Số lượng còn ' +
-                          element.variant_id.quantity,
-                      };
-                      res.redirect('/cart');
+                  // Kiểm tra trong kho có tồn tại biến thể sản phẩm hay không
+                  checkDefind++;
+
+                  if (checkDefind) {
+                    // Khi đã nhập kho
+
+                    cart[i].variant = element.variant_id._id;
+                    if (cart[i].quantity > +element.variant_id.quantity) {
+                      // Kiểm tra số lượng trong kho có đáp ứng đủ hay không
+
+                      nextCheckout = 1;
+                      if (nextCheckout) {
+                        req.session.message = {
+                          type: 'danger',
+                          message:
+                            cart[i].name +
+                            ' || Màu: ' +
+                            cart[i].color +
+                            ' || Cỡ: ' +
+                            cart[i].size +
+                            ' || Số lượng còn: ' +
+                            element.variant_id.quantity,
+                        };
+                        res.redirect('/cart');
+                      }
                     }
                   }
                 }
               }
             }
           }
+        }
+        if (checkDefind === 0) {
+          // Khi chưa nhập vào kho
+
+          req.session.message = {
+            type: 'danger',
+            message:
+              cart[i].name +
+              ' || Màu: ' +
+              cart[i].color +
+              ' || Cỡ: ' +
+              cart[i].size +
+              ' || Số lượng còn: ' +
+              0,
+          };
+          res.redirect('/cart');
         }
       }
     }

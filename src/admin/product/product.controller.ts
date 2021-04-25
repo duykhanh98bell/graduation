@@ -14,6 +14,8 @@ import {
   UploadedFile,
   UseInterceptors,
   UseGuards,
+  ValidationPipe,
+  UsePipes,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -40,6 +42,7 @@ export const storage = {
 };
 @UseGuards(JwtAuthGuard)
 @Controller('product')
+@UsePipes(new ValidationPipe({ transform: true }))
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
@@ -48,12 +51,12 @@ export class ProductController {
   async getCreate() {
     const select = await Promise.all([
       this.productService.getBrand(),
-      this.productService.getTrend(),
+      // this.productService.getTrend(),
       this.productService.getCategory(),
       this.productService.getValue(),
       this.productService.getAttribute(),
-    ]).then(([brands, trends, categories, values, attributes]) => {
-      return { brands, trends, categories, values, attributes };
+    ]).then(([brands, categories, values, attributes]) => {
+      return { brands, categories, values, attributes };
     });
     return { pageName: 'Thêm mới sản phẩm', select, title: 'Sản phẩm' };
   }

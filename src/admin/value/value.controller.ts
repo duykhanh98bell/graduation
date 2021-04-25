@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -10,6 +11,8 @@ import {
   Redirect,
   Res,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ValueService } from './value.service';
 import { CreateValueDto } from './dto/create-value.dto';
@@ -18,6 +21,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('value')
+@UsePipes(new ValidationPipe())
 export class ValueController {
   constructor(private readonly valueService: ValueService) {}
 

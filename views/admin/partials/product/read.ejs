@@ -36,9 +36,10 @@
                         <th>Tên sản phẩm</th>
                         <th>Mã sản phẩm</th>
                         <th>Danh mục</th>
-                        <th>Giá</th>
+                        <th>Giá Nhập</th>
+                        <th>Giá cũ</th>
+                        <th>Giá bán</th>
                         <th>Thương hiệu</th>
-                        <th>Xu hướng</th>
                         <th>Nổi bật</th>
                         <th>Ngày tạo</th>
                         <th>Tùy chọn</th>
@@ -62,10 +63,10 @@
                         <%  }%>
                         <% }); %>
                         </td>
-
+                        <td><%=product.price_in%> vnđ</td>
+                        <td><%=product.price_old%> vnđ</td>
                         <td><%=product.price%> vnđ</td>
                         <td><%=product.brand_id.name%></td>
-                        <td><%=product.trend_id.name%></td>
                         <% if(product.highlight===true){%>
                         <td>Nổi bật</td>
                         <% }else{ %>
@@ -95,9 +96,10 @@
                         <th>Tên sản phẩm</th>
                         <th>Mã sản phẩm</th>
                         <th>Danh mục</th>
+                        <th>Giá Nhập</th>
+                        <th>Giá cũ</th>
                         <th>Giá</th>
                         <th>Thương hiệu</th>
-                        <th>Xu hướng</th>
                         <th>Nổi bật</th>
                         <th>Ngày tạo</th>
                         <th>Tùy chọn</th>

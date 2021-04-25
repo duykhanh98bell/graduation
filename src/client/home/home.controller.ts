@@ -26,18 +26,18 @@ export class HomeController {
     return { nav, all, title: 'Trang chủ' };
   }
 
-  @Get('collection/:cate')
+  @Get('collection/:slug')
   @Render('client/partials/collection')
-  async filter(@Param('cate') slug: string) {
+  async filter(@Param() params: string[]) {
     const [nav, all, filter] = await Promise.all([
       this.homeService.findNav(),
       this.homeService.findAll(),
-      this.homeService.filterCate(slug),
+      this.homeService.filterCate(params['slug'], params['page']),
     ]);
     return { nav, all, filter, title: filter.title };
   }
 
-  @Get('product/:slug')
+  @Get('detail/:slug')
   @Render('client/partials/detail')
   async detail(@Param('slug') slug: string) {
     const [nav, all, detail] = await Promise.all([
@@ -46,5 +46,13 @@ export class HomeController {
       this.homeService.detail(slug),
     ]);
     return { nav, all, title: 'CHI TIẾT SẢN PHẨM', detail };
+  }
+
+  @Get('policy-discount')
+  @Render('client/partials/policy')
+  async policy() {
+    const [nav] = await Promise.all([this.homeService.findNav()]);
+    const policy = await this.homeService.policy();
+    return { nav, policy, title: 'Chính sách' };
   }
 }

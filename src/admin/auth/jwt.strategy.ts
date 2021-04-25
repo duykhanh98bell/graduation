@@ -1,14 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable prettier/prettier */
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
-const jwt = require('jsonwebtoken');
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
-    const cookieExtractor = function (req) {
+    const cookieExtractor = function (req: any) {
       let token = null;
       if (req.cookies['jwt']) {
         token = req.cookies['jwt'];

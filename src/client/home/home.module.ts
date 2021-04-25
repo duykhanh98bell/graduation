@@ -15,6 +15,7 @@ import { ImageProductSchema } from 'src/admin/image-product/entities/image-produ
 import { ValueSchema } from 'src/admin/value/entities/value.entity';
 import { VariantSchema } from 'src/admin/variant/entities/variant.entity';
 import { VariantValueSchema } from 'src/admin/variant-value/entities/variant-value.entity';
+import { PolicySchema } from 'src/admin/policy/entities/policy.entity';
 @Global()
 @Module({
   controllers: [HomeController],
@@ -36,6 +37,7 @@ import { VariantValueSchema } from 'src/admin/variant-value/entities/variant-val
     MongooseModule.forFeature([
       { name: 'ValueProduct', schema: ValueProductSchema },
     ]),
+    MongooseModule.forFeature([{ name: 'Policy', schema: PolicySchema }]),
   ],
   exports: [HomeService],
 })
