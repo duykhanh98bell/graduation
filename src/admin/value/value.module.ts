@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ValueService } from './value.service';
 import { ValueController } from './value.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -8,6 +8,7 @@ import {
   AttributeSchema,
 } from 'src/admin/attribute/entities/attribute.entity';
 
+@Global()
 @Module({
   controllers: [ValueController],
   providers: [ValueService],

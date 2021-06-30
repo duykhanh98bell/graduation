@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../../layouts/head.ejs')%>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+      <%- include('../../layouts/header.ejs')%>
+      <!-- Left side column. contains the logo and sidebar -->
+      <%- include('../../layouts/sidebar.ejs')%>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <%-include('../../layouts/content-header.ejs')%>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <!-- /.box -->
+
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title"><a class="btn btn-success" href="/promotion/create">Thêm mới</a></h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <table
+                    id="example1"
+                    class="table table-bordered table-striped"
+                  >
+                    <thead>
+                      <tr>
+                        <th>STT</th>
+                        <th>Tên khuyến mãi</th>
+                        <th>Phần trăm</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th width=150>Tùy chọn</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% list.forEach((promotion, index)=>{ %>
+                      <tr>
+                        <td><%= index+1 %></td>
+                        <td><%=promotion.name %></td>
+                        <td><%=promotion.percent%> %</td>
+                        <td><%-new Date(promotion.start_date).toLocaleDateString()%></td>
+                        <td><%=new Date(promotion.end_date).toLocaleDateString()%></td>
+                        <%if((promotion.end_date).valueOf() < (Date.now().valueOf()) ){ %>
+                        <td>Đã kết thúc</td>
+                        <%}else{%>
+                        <td>Đang diễn ra</td>
+                        <%}%>
+                        <td><%=new Date(promotion.createdAt).toLocaleDateString() + ' ' + new Date(promotion.createdAt).toLocaleTimeString() %></td>
+                        <td>
+                          <a class="btn btn-primary" href="/promotion/detail/<%=promotion._id%>">Chi tiết</a>
+                          <a class="btn btn-warning" href="/promotion/update/<%=promotion._id%>">Sửa</a>
+                          <a
+                            class="btn btn-danger"
+                            href="/promotion/delete/<%=promotion._id%>"
+                            onclick="return confirm('xác nhận xóa')"
+                            >Xóa</a
+                          >
+                        </td>
+                      </tr>
+                      <% }); %>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>STT</th>
+                        <th>Tên khuyến mãi</th>
+                        <th>Phần trăm</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Ngày tạo</th>
+                        <th width=150>Tùy chọn</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+      <%- include('../../layouts/footer.ejs')%>
+      <!-- /.control-sidebar -->
+      <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <%-include('../../layouts/script.ejs')%>
+  </body>
+</html>

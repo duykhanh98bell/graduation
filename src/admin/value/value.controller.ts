@@ -13,13 +13,16 @@ import {
   UseGuards,
   UsePipes,
   ValidationPipe,
+  UseFilters,
 } from '@nestjs/common';
 import { ValueService } from './value.service';
 import { CreateValueDto } from './dto/create-value.dto';
 import { UpdateValueDto } from './dto/update-value.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ViewAuthFilter } from '../http-exception/http-exception.filter';
 
 @UseGuards(JwtAuthGuard)
+@UseFilters(ViewAuthFilter)
 @Controller('value')
 @UsePipes(new ValidationPipe())
 export class ValueController {

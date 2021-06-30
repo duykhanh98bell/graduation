@@ -32,14 +32,23 @@
                 <div class="col-lg-9 col-md-9">
                     <div class="row">
                     <% filter.findPro.forEach((pro, index)=>{%>
+                        <% if(pro.product_id) {%>
                         <div class="col-lg-4 col-md-6">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="/uploads/product/<%=pro.product_id.image%>">
-                                    <div class="label new">New</div>
+                                        <% if(pro.product_id.promotion_id && ((pro.product_id.promotion_id.start_date).valueOf() < (Date.now().valueOf())) && ((pro.product_id.promotion_id.end_date).valueOf() > (Date.now().valueOf())) && pro.product_id.promotion_active===true){%>
+                                                <div class="label sale"><%=pro.product_id.promotion_id.name%></div>
+                                        <% }else if(pro.product_id.status===0) { %>
+                                        <div class="label new">Mới</div>
+                                        <% } else if(pro.product_id.status===2) { %>
+                                        <div class="label stockout">Hết hàng</div>
+                                        <% } else if(pro.product_id.status===1) { %>
+                                        <div class="label sale">Giảm giá</div>
+                                        <% } %>
                                     <ul class="product__hover">
                                         <li><a href="/uploads/product/<%=pro.product_id.image%>" class="image-popup"><span class="arrow_expand"></span></a></li>
                                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                        <li><a href="/product/<%=pro.product_id.product_slug%>"><span class="icon_bag_alt"></span></a></li>
+                                        <li><a href="/detail/<%=pro.product_id.product_slug%>"><span class="icon_bag_alt"></span></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
@@ -51,18 +60,38 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                     </div>
-                                    <div class="product__price"><%=pro.product_id.price%> vnđ</div>
+                                    <% if(pro.product_id.promotion_id && ((pro.product_id.promotion_id.start_date).valueOf() < (Date.now().valueOf())) && ((pro.product_id.promotion_id.end_date).valueOf() > (Date.now().valueOf())) && pro.product_id.promotion_active===true){%>
+                                            <div class="product__price"><%=pro.product_id.price_old*(100-pro.product_id.promotion_id.percent)/100%> vnđ<span><%=pro.product_id.price_old%> vnđ</span></div>
+                                    <% }else if(pro.product_id.status===1) { %>
+                                    <div class="product__price"><%=pro.product_id.price%> vnđ<span><%=pro.product_id.price_old%> vnđ</span></div>
+                                    <% }else { %>
+                                    <div class="product__price"><%=pro.product_id.price_old%> vnđ</div>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
+                        <% } %>
                     <% }); %>
                         <div class="col-lg-12 text-center">
                             <div class="pagination__option">
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <a href="#"><i class="fa fa-angle-right"></i></a>
+                            <% if(parseInt(filter.page) > 1) {%>
+                                <a href="?page=<%=parseInt(filter.page)-1 %>"><i class="fa fa-angle-left"></i></a>
+                            <% } %>
+                            <% if(Math.floor(parseInt(filter.totalPage + 1)) > 1) {%>
+                                <% for(var i = 1; i <= Math.floor(parseInt(filter.totalPage + 1)); i++) {%>
+                                
+                                    <a href="?page=<%=i%>" <% if(i===parseInt(filter.page) || (i===1 && !filter.page)){%> style="background-color: black; color: white;" <%}%>  ><%=i%></a>
+                                <% } %>
+                                <% if(parseInt(filter.page) !== Math.floor(parseInt(filter.totalPage + 1))){%>
+                                    <a href="?page=<%=(parseInt(filter.page))?parseInt(filter.page)+1:2 %>"><i class="fa fa-angle-right"></i></a>
+                                <% }%>
+                            <% }else {%>
+                            <a href="#">1</a>
+                            <% } %>
                             </div>
+                            
+                                
+                                
                         </div>
                     </div>
                 </div>
@@ -70,8 +99,6 @@
         </div>
     </section>
     <!-- Shop Section End -->
-
-
 
 <%-include('../layouts/footer.ejs')%>
 

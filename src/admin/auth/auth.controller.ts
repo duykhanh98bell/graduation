@@ -11,7 +11,9 @@ import {
   Res,
   Redirect,
   UseGuards,
+  UseFilters,
 } from '@nestjs/common';
+import { ViewAuthFilter } from '../http-exception/http-exception.filter';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { LoginDto } from './dto/login.dto';
@@ -45,6 +47,7 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @UseFilters(ViewAuthFilter)
   @Post('register')
   @Redirect('/auth')
   async postRegister(
@@ -92,6 +95,7 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @UseFilters(ViewAuthFilter)
   @Get('logout')
   @Redirect('/auth')
   async logout(@Req() req, @Res() res) {

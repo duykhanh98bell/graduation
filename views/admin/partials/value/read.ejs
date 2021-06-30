@@ -48,8 +48,8 @@
                         <td><%-value.value%></td>
                         <td><%-value.code%></td>
                         <td><%-value.attribute_id.name%></td>
-                        <td><%-value.createdAt%></td>
-                        <td><%-value.updatedAt%></td>
+                        <td><%=new Date(value.createdAt).toLocaleDateString() + ' ' + new Date(value.createdAt).toLocaleTimeString() %></td>
+                        <td><%=new Date(value.updatedAt).toLocaleDateString() + ' ' + new Date(value.updatedAt).toLocaleTimeString() %></td>
                         <td>
                           <a href="/value/update/<%-value._id%>">Sửa</a>
                           <a href="/value/<%-value._id%>">Chi tiết</a>

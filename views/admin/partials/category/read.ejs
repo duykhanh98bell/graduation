@@ -64,7 +64,7 @@
                                 <a href="/category/nav_active/<%-category._id%>"  class="btn btn-default">Off</a>
                             <% }; %>
                         </td>
-                        <td><%-category.createdAt%></td>
+                        <td><%=new Date(category.createdAt).toLocaleDateString() + ' ' + new Date(category.createdAt).toLocaleTimeString() %></td>
                         <td>
                           <a class="btn btn-warning" href="/category/update/<%-category._id%>">Sửa</a>
                           <a

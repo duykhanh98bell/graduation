@@ -42,8 +42,8 @@
                 <tr>
                   <td><%- index+1 %></td>
                   <td><%-attr.name%></td>
-                  <td><%-attr.createdAt%></td>
-                  <td><%-attr.updatedAt%></td>
+                  <td><%=new Date(attr.createdAt).toLocaleDateString() + ' ' + new Date(attr.createdAt).toLocaleTimeString() %></td>
+                        <td><%=new Date(attr.updatedAt).toLocaleDateString() + ' ' + new Date(attr.updatedAt).toLocaleTimeString() %></td>
                   <td>
                     <a class="btn btn-warning" href="/attribute/update/<%-attr._id%>" >Sửa</a>
                     <a class="btn btn-danger" href="/attribute/delete/<%-attr._id%>" onclick= "return confirm('xác nhận xóa')" >Xóa</a>
@@ -78,6 +78,7 @@
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
+  <%-include('../../layouts/script.ejs')%>
 </div>
 <!-- ./wrapper -->
 

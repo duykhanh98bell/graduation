@@ -8,6 +8,7 @@ import {
   OrderDetail,
   OrderDetailSchema,
 } from '../order-detail/entities/order-detail.entity';
+import { Customer, CustomerSchema } from '../customer/entities/customer.entity';
 
 @Global()
 @Module({
@@ -15,6 +16,9 @@ import {
   providers: [OrderService],
   imports: [
     MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),
+    MongooseModule.forFeature([
+      { name: Customer.name, schema: CustomerSchema },
+    ]),
     MongooseModule.forFeature([
       { name: OrderDetail.name, schema: OrderDetailSchema },
     ]),

@@ -48,8 +48,8 @@
                         <td><%-ship.name%></td>
                         <td><%-ship.price%></td>
                         <td><img width=70 src="uploads/ship/<%-ship.logo%>" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt=""></td>
-                        <td><%-ship.createdAt%></td>
-                        <td><%-ship.updatedAt%></td>
+                        <td><%=new Date(ship.createdAt).toLocaleDateString() + ' ' + new Date(ship.createdAt).toLocaleTimeString() %></td>
+                        <td><%=new Date(ship.updatedAt).toLocaleDateString() + ' ' + new Date(ship.updatedAt).toLocaleTimeString() %></td>
                         <td>
                           <a class="btn btn-warning" href="/ship/update/<%-ship._id%>">Sửa</a>
                           <a

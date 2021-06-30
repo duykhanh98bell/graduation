@@ -16,8 +16,8 @@ export class ValueService {
     @InjectModel('Attribute')
     private AttributeModel: Model<AttributeDocument>,
   ) {}
-  getAttribute() {
-    return this.AttributeModel.find();
+  async getAttribute() {
+    return await this.AttributeModel.find();
   }
   async create(createValueDto: CreateValueDto) {
     const postValue = await this.ValueModel.create(createValueDto);

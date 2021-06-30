@@ -12,8 +12,4 @@ export class CreateCustomerDto {
   @IsEmail()
   @IsNotEmpty({ message: 'Email khong duoc de trong' })
   email: string;
-
-  @IsNotEmpty({ message: 'Dia chi khong duoc de trong' })
-  @Length(10, 100, { message: 'Dia chi 10 - 100 ki tu' })
-  address: string;
 }

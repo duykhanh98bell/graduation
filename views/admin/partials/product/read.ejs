@@ -73,7 +73,7 @@
                         <td>Thường</td>
                         <% } %>
 
-                        <td width=100><%=product.createdAt%></td>
+                        <td width=100><%=new Date(product.createdAt).toLocaleDateString() + ' ' + new Date(product.createdAt).toLocaleTimeString() %></td>
                         <td width=220>
                           <a class="btn btn-warning" href="/product/update/<%=product._id%>">Sửa</a>
                           <a

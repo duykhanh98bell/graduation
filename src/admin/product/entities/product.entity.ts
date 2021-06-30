@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import { Brand } from 'src/admin/brand/schemas/brand.schema';
 import { Trend } from 'src/admin/trend/entities/trend.entity';
 import * as mongoose from 'mongoose';
+import { Promotion } from 'src/admin/promotion/entities/promotion.entity';
 
 export type ProductDocument = Product & Document;
 
@@ -26,6 +27,12 @@ export class Product {
   @Prop()
   price: number;
 
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Promotion' })
+  promotion_id: Promotion;
+
+  @Prop()
+  promotion_active: boolean;
+
   @Prop({ default: null })
   description: string;
 
@@ -38,8 +45,10 @@ export class Product {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Brand' })
   brand_id: Brand;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Trend' })
-  trend_id: Trend;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Trend' })
+  // trend_id: Trend;
+  @Prop()
+  value: string[];
 
   @Prop({ required: true })
   image: string;

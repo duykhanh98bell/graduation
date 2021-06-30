@@ -36,11 +36,11 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-            <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            <li><a href="/dashboard"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+            <li><a id="click"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <!-- <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Layout Options</span>
@@ -95,7 +95,28 @@
             <li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
           </ul>
         </li>
-        <li><a href="/order"><i class="fa fa-book"></i> <span>Hóa đơn</span></a></li>
+        -->
+        <li><a href="/order"><i class="fa fa-book"></i> 
+          <span>Đơn hàng</span>
+          <span class="pull-right-container">
+            <small class="label pull-right bg-green"><div id="tong_da_xac_nhan"></div></small>
+            <small class="label pull-right bg-yellow"><div id="tong_dang_xac_nhan"></div></small>
+            <small class="label pull-right bg-red"><div id="tong_chua_xu_ly"></div></small>
+          </span></a>
+        </li>
+
+        <li><a href="/bill"><i class="fa fa-book"></i> 
+          <span>Hóa đơn</span>
+          <span class="pull-right-container">
+            <small class="label pull-right bg-red"><div id="tong_hoa_don_loi"></div></small>
+          </span>
+        </a></li>
+
+        <li><a href="/product-back"><i class="fa fa-book"></i> 
+          <span>Sản phẩm lỗi</span>
+          <span class="pull-right-container">
+            <small class="label pull-right bg-red"><div id="tong_san_phan_loi"></div></small>
+          </span></a></li>
 
         <li><a href="/product"><i class="fa fa-book"></i> <span>Sản phẩm</span></a></li>
 
@@ -103,7 +124,18 @@
 
         <li><a href="/brand"><i class="fa fa-book"></i> <span>Thương hiệu</span></a></li>
 
-        <li><a href="/sale"><i class="fa fa-book"></i> <span>Khuyến mại</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-table"></i> <span>Khuyến mãi</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/sale"><i class="fa fa-book"></i> <span>Coupon</span></a></li>
+            <li><a href="/promotion"><i class="fa fa-circle-o"></i> Chương trình</a></li>
+          </ul>
+        </li>
 
         <li><a href="/attribute"><i class="fa fa-book"></i> <span>Thuộc tính</span></a></li>
 
@@ -113,7 +145,7 @@
 
         <li><a href="/payment"><i class="fa fa-book"></i> <span>Phương thức thanh toán</span></a></li>
 
-        <li><a href="/trend"><i class="fa fa-book"></i> <span>Trend</span></a></li>
+        
 
         <li><a href="/slider"><i class="fa fa-book"></i> <span>Slider</span></a></li>
 
@@ -121,7 +153,7 @@
 
         <li><a href="/policy"><i class="fa fa-book"></i> <span>Chính sách</span></a></li>
 
-        <li class="treeview">
+        <!-- <li class="treeview">
           <a href="#">
             <i class="fa fa-table"></i> <span>Tables</span>
             <span class="pull-right-container">
@@ -209,6 +241,7 @@
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+        -->
       </ul>
     </section>
     <!-- /.sidebar -->

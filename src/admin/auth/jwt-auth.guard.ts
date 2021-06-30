@@ -1,7 +1,11 @@
 /* eslint-disable prettier/prettier */
 import {
   ExecutionContext,
+  GoneException,
   Injectable,
+  Redirect,
+  Req,
+  Res,
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';

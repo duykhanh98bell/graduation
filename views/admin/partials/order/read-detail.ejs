@@ -22,7 +22,7 @@
 
               <div class="box">
                 <div class="box-header">
-                <a class="btn btn-success" href="/order">Hóa đơn</a>
+                <a class="btn btn-success" href="/order">Đơn hàng</a>
 
                 </div>
                 <!-- /.box-header -->
@@ -73,8 +73,8 @@
                             </form>
                             <% }; %>
                         </td>
-                        <td><%=product.createdAt%></td>
-                        <td><%=product.updatedAt%></td>
+                        <td><%=new Date(product.createdAt).toLocaleDateString() + ' ' + new Date(product.createdAt).toLocaleTimeString() %></td>
+                        <td><%=new Date(product.updatedAt).toLocaleDateString() + ' ' + new Date(product.updatedAt).toLocaleTimeString() %></td>
                         <td>
                           <a class="btn btn-warning" href="/order/update/<%=product._id%>">Sửa</a>
                           <a

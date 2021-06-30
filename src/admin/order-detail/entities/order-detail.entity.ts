@@ -14,6 +14,9 @@ export class OrderDetail {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
   product_id: Product;
 
+  @Prop()
+  product_id_string: string;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Order' })
   order_id: Order;
 
@@ -31,6 +34,12 @@ export class OrderDetail {
 
   @Prop({ default: true })
   status: boolean;
+
+  @Prop({ default: 1 })
+  repair: number;
+
+  @Prop({ default: 0 })
+  quantityError: number;
 }
 
 export const OrderDetailSchema = SchemaFactory.createForClass(OrderDetail);

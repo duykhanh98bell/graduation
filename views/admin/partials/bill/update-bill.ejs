@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('../../layouts/head.ejs')%>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <%- include('../../layouts/header.ejs') %>
+  <!-- Left side column. contains the logo and sidebar -->
+  <%- include('../../layouts/sidebar.ejs') %>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <%-include('../../layouts/content-header.ejs')%>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-2">
+        </div>
+        <!--/.col (left) -->
+        <!-- right column -->
+        <div class="col-md-8">
+          <!-- Horizontal Form -->
+          <div class="box box-info">
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form  method="POST" >
+                <div class="box-header">
+                  <h3 class="box-title"><a class="btn btn-success" href="/bill">Quay về</a></h3>
+                </div>
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="name">Tên khách hàng</label>
+                  <input value="<%=findOrder.customer_id.name%>" type="text" name="name" class="form-control" id="name" placeholder="Tên sản phẩm">
+                </div>
+                <div class="form-group">
+                  <label for="phone">Số điện thoại</label>
+                  <input value="<%=findOrder.customer_id.phone%>" type="text" name="phone" class="form-control" id="phone" placeholder="Mã sản phẩm">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input value="<%=findOrder.customer_id.email%>" type="text" name="email" class="form-control" id="email" placeholder="Giá nhập">
+                </div>
+                <div class="form-group">
+                  <label for="address">Địa chỉ giao hàng</label>
+                  <input value="<%=findOrder.address%>" type="text" name="address" class="form-control" id="address" placeholder="Địa chỉ giao hàng">
+                </div>
+                <div class="form-group">
+                  <label for="total">Tổng tiền</label>
+                  <input value="<%=findOrder.total%>" type="number" name="total" class="form-control" id="total" placeholder="Tổng tiền">
+                </div>
+                <div class="form-group">
+                  <label for="note">Ghi chú</label>
+                  <textarea class="form-control" name="note" id="note" rows="3"><%=findOrder.note%></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="sale">Giảm giá</label>
+                  <input value="<%=findOrder.sale%>" type="number" name="sale" class="form-control" id="sale" placeholder="Giá gốc">
+                </div>
+
+                <div class="form-group">
+                  <label for="status">Trạng thái</label>
+                  <select class="form-control" name="status" id="status">
+                    <option value="1" <%=(findOrder.status === 1)?"Selected":""%>>Chờ xác nhận</option>
+                    <option value="2" <%=(findOrder.status === 2)?"Selected":""%>>Khách hủy</option>
+                    <option value="3" <%=(findOrder.status === 3)?"Selected":""%>>Đang xác nhận</option>
+                    <option value="4" <%=(findOrder.status === 4)?"Selected":""%>>Đã xác nhận</option>
+                    <option value="5" <%=(findOrder.status === 5)?"Selected":""%>>Hệ thống hủy</option>
+                    <option value="6" <%=(findOrder.status === 6)?"Selected":""%>>Đã thanh toán</option>
+                  </select>
+                </div>
+                <label for="">Phương thức thanh toán</label>
+                <div class="form-check">
+                    <input <% if(findOrder.payment==="Thanh toán khi giao hàng"){%> checked <% } %> value="Thanh toán khi giao hàng" type="radio" class="form-check-input" name="payment" id="">Thanh toán khi giao hàng <br/>
+                    <input <% if(findOrder.payment==="Chuyển khoản"){%> checked <% } %> value="Chuyển khoản" type="radio" class="form-check-input" name="payment" id="">Chuyển khoản
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                  <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+          <!-- /.box -->
+          <!-- general form elements disabled -->
+          
+          <!-- /.box -->
+        </div>
+        <!--/.col (right) -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <%- include('../../layouts/footer.ejs') %>
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<%-include('../../layouts/script.ejs')%>
+    <script>
+      $(function () {
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace('note')
+        //bootstrap WYSIHTML5 - text editor
+        $('.textarea').wysihtml5()
+      })
+    </script>
+</body>
+</html>

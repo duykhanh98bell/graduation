@@ -34,6 +34,8 @@ export class OrderDetailService {
     return await this.OrderDetailModel.findByIdAndUpdate(id, {
       $set: {
         status: !check.status,
+        repair: 1,
+        quantityError: 1,
       },
     });
   }

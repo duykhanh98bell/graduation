@@ -12,6 +12,7 @@ import {
   Render,
   Redirect,
   UseGuards,
+  UseFilters,
 } from '@nestjs/common';
 import { SliderService } from './slider.service';
 import { CreateSliderDto } from './dto/create-slider.dto';
@@ -20,6 +21,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import path = require('path');
 import multer = require('multer');
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ViewAuthFilter } from '../http-exception/http-exception.filter';
 
 export const storage = {
   storage: multer.diskStorage({
@@ -35,6 +37,7 @@ export const storage = {
 };
 
 @UseGuards(JwtAuthGuard)
+@UseFilters(ViewAuthFilter)
 @Controller('slider')
 export class SliderController {
   constructor(private readonly sliderService: SliderService) {}

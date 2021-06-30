@@ -66,13 +66,13 @@
                     </div>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                     cilisis.</p>
-                    <div class="footer__payment">
+                    <!--<div class="footer__payment">
                         <a href="#"><img src="../../img/payment/payment-1.png" alt=""></a>
                         <a href="#"><img src="../../img/payment/payment-2.png" alt=""></a>
                         <a href="#"><img src="../../img/payment/payment-3.png" alt=""></a>
                         <a href="#"><img src="../../img/payment/payment-4.png" alt=""></a>
                         <a href="#"><img src="../../img/payment/payment-5.png" alt=""></a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-lg-2 col-md-3 col-sm-5">
@@ -104,13 +104,13 @@
                         <input type="text" placeholder="Email">
                         <button type="submit" class="site-btn">Subscribe</button>
                     </form>
-                    <div class="footer__social">
+                    <!--<div class="footer__social">
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>
                         <a href="#"><i class="fa fa-youtube-play"></i></a>
                         <a href="#"><i class="fa fa-instagram"></i></a>
                         <a href="#"><i class="fa fa-pinterest"></i></a>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -131,8 +131,9 @@
 <div class="search-model">
     <div class="h-100 d-flex align-items-center justify-content-center">
         <div class="search-close-switch">+</div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here.....">
+        <form class="search-model-form" action="/search">
+            <input name="q" type="text" id="search-input" placeholder="Search here.....">
+            <button type="submit" style="display: none;"></button>
         </form>
     </div>
 </div>

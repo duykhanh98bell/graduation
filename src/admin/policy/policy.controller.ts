@@ -11,13 +11,17 @@ import {
   UseGuards,
   Render,
   Redirect,
+  UseFilters,
 } from '@nestjs/common';
 import { PolicyService } from './policy.service';
 import { CreatePolicyDto } from './dto/create-policy.dto';
 import { UpdatePolicyDto } from './dto/update-policy.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ViewAuthFilter } from '../http-exception/http-exception.filter';
 
-@UseGuards()
+@UseGuards(JwtAuthGuard)
+@UseFilters(ViewAuthFilter)
 @Controller('policy')
 @UsePipes(new ValidationPipe())
 export class PolicyController {

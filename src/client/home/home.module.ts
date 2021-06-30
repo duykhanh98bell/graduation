@@ -16,6 +16,11 @@ import { ValueSchema } from 'src/admin/value/entities/value.entity';
 import { VariantSchema } from 'src/admin/variant/entities/variant.entity';
 import { VariantValueSchema } from 'src/admin/variant-value/entities/variant-value.entity';
 import { PolicySchema } from 'src/admin/policy/entities/policy.entity';
+import {
+  OrderDetail,
+  OrderDetailSchema,
+} from 'src/admin/order-detail/entities/order-detail.entity';
+import { BrandSchema } from 'src/admin/brand/schemas/brand.schema';
 @Global()
 @Module({
   controllers: [HomeController],
@@ -24,6 +29,7 @@ import { PolicySchema } from 'src/admin/policy/entities/policy.entity';
     MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
     MongooseModule.forFeature([{ name: 'Slider', schema: SliderSchema }]),
     MongooseModule.forFeature([{ name: 'Category', schema: CategorySchema }]),
+    MongooseModule.forFeature([{ name: 'Brand', schema: BrandSchema }]),
     MongooseModule.forFeature([
       { name: 'CategoryProduct', schema: CategoryProductSchema },
     ]),
@@ -38,6 +44,9 @@ import { PolicySchema } from 'src/admin/policy/entities/policy.entity';
       { name: 'ValueProduct', schema: ValueProductSchema },
     ]),
     MongooseModule.forFeature([{ name: 'Policy', schema: PolicySchema }]),
+    MongooseModule.forFeature([
+      { name: OrderDetail.name, schema: OrderDetailSchema },
+    ]),
   ],
   exports: [HomeService],
 })

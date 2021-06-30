@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../../layouts/head.ejs')%>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+      <%- include('../../layouts/header.ejs')%>
+      <!-- Left side column. contains the logo and sidebar -->
+      <%- include('../../layouts/sidebar.ejs')%>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <%-include('../../layouts/content-header.ejs')%>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <!-- /.box -->
+
+              <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <table
+                    id="example1"
+                    class="table table-bordered table-striped"
+                  >
+                    <thead>
+                      <tr>
+                        <th>STT</th>
+                        <th>Mã hóa đơn</th>
+                        <th>Tên khách hàng</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Địa chỉ giao hàng</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Ghi Chú</th>
+                        <th>Giảm giá</th>
+                        <th>Phương thức thanh toán</th>
+                        <th width=150>Tùy chọn</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% allBill.forEach((bill, index)=>{ %>
+                      <tr>
+                        <td><%= index+1 %></td>
+                        <td><%=bill.code%></td>
+                        <td><%=bill.customer_id.name%> <br/> <%=new Date(bill.createdAt).toLocaleDateString() + ' ' + new Date(bill.createdAt).toLocaleTimeString() %></td>
+                        <td><%=bill.customer_id.phone%></td>
+                        <td><%=bill.customer_id.email%></td>
+                        <td><%=bill.address%></td>
+                        <td><%=bill.total%></td>
+                        <td width="100">
+                          <form action="/bill/status/<%=bill._id%>" method="POST" style="display: flex;">
+                            <select class="form-control" name="status">
+                              <option value="1" <%=(bill.status === 1)?"Selected":""%>>Chờ xác nhận</option>
+                              <option value="2" <%=(bill.status === 2)?"Selected":""%>>Khách hủy</option>
+                              <option value="3" <%=(bill.status === 3)?"Selected":""%>>Đang xác nhận</option>
+                              <option value="4" <%=(bill.status === 4)?"Selected":""%>>Đã xác nhận</option>
+                              <option value="5" <%=(bill.status === 5)?"Selected":""%>>Hệ thống hủy</option>
+                              <option value="6" <%=(bill.status === 6)?"Selected":""%>>Đã thanh toán</option>
+                              <option value="7" <%=(bill.status === 7)?"Selected":""%>>Xử lý hàng lỗi</option>
+
+                            </select>
+                            <button  class="btn btn-success">Cập nhật</button>
+                          </form>
+                        </td>
+                        <td><%-bill.note%></td>
+                        <td><%=bill.sale%> %</td>
+                        <td><%=bill.payment%></td>
+                        <td>
+                          <a class="btn btn-primary" href="/bill/<%=bill._id%>">Chi tiết</a>
+                          <a class="btn btn-warning" href="/bill/update/<%=bill._id%>">Sửa</a>
+                          <a
+                            class="btn btn-danger"
+                            href="/bill/delete/<%=bill._id%>"
+                            onclick="return confirm('xác nhận xóa')"
+                            >Xóa</a
+                          >
+                        </td>
+                      </tr>
+                      <% }); %>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>STT</th>
+                        <th>Mã hóa đơn</th>
+                        <th>Tên khách hàng</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Địa chỉ giao hàng</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Ghi Chú</th>
+                        <th>Giảm giá</th>
+                        <th>Phương thức thanh toán</th>
+                        <th>Tùy chọn</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+      <%- include('../../layouts/footer.ejs')%>
+      <!-- /.control-sidebar -->
+      <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <%-include('../../layouts/script.ejs')%>
+  </body>
+</html>

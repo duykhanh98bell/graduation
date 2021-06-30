@@ -7,13 +7,16 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseFilters,
 } from '@nestjs/common';
 import { VariantValueService } from './variant-value.service';
 import { CreateVariantValueDto } from './dto/create-variant-value.dto';
 import { UpdateVariantValueDto } from './dto/update-variant-value.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ViewAuthFilter } from '../http-exception/http-exception.filter';
 
 @UseGuards(JwtAuthGuard)
+@UseFilters(ViewAuthFilter)
 @Controller('variant-value')
 export class VariantValueController {
   constructor(private readonly variantValueService: VariantValueService) {}

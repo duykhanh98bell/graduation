@@ -9,6 +9,7 @@ import {
 } from 'class-validator';
 import { Brand } from 'src/admin/brand/schemas/brand.schema';
 import { Category } from 'src/admin/category/entities/category.entity';
+import { Promotion } from 'src/admin/promotion/entities/promotion.entity';
 // import { Trend } from 'src/admin/trend/entities/trend.entity';
 import { Value } from 'src/admin/value/entities/value.entity';
 import { CreateProductDto } from './create-product.dto';
@@ -33,6 +34,8 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
   @IsNotEmpty({ message: 'Giá bán sản phẩm không được để trống' })
   price: number;
 
+  promotion_id: Promotion;
+
   description: string;
 
   detail: string;
@@ -47,7 +50,7 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
   highlight: boolean;
 
   @IsArray()
-  value: Value[];
+  value: string[];
 
   @IsArray()
   category: Category[];

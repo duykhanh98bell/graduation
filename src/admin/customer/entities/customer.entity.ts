@@ -13,9 +13,6 @@ export class Customer {
 
   @Prop({ required: true })
   email: string;
-
-  @Prop({ required: true })
-  address: string;
 }
 
 export const CustomerSchema = SchemaFactory.createForClass(Customer);

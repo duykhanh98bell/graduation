@@ -25,6 +25,10 @@ import { OrderDetailModule } from './admin/order-detail/order-detail.module';
 import { CustomerModule } from './admin/customer/customer.module';
 import { AuthModule } from './admin/auth/auth.module';
 import { PolicyModule } from './admin/policy/policy.module';
+import { BillModule } from './admin/bill/bill.module';
+import { ProductBackModule } from './admin/product-back/product-back.module';
+import { PromotionModule } from './admin/promotion/promotion.module';
+import { DashboardModule } from './admin/dashboard/dashboard.module';
 
 @Global()
 @Module({
@@ -62,6 +66,10 @@ import { PolicyModule } from './admin/policy/policy.module';
     CustomerModule,
     AuthModule,
     PolicyModule,
+    BillModule,
+    ProductBackModule,
+    PromotionModule,
+    DashboardModule,
   ],
   providers: [],
   controllers: [],
