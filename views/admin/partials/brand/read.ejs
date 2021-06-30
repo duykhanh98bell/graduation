@@ -41,7 +41,7 @@
                 <tr>
                   <td><%- index+1 %></td>
                   <td><%-brand.name%></td>
-                  <td><%-brand.createdAt%></td>
+                  <td><%=new Date(brand.createdAt).toLocaleDateString() + ' ' + new Date(brand.createdAt).toLocaleTimeString() %></td>
                   <td>
                     <a class="btn btn-warning" href="/brand/update/<%-brand._id%>" >Sửa</a>
                     <a class="btn btn-danger" href="/brand/delete/<%-brand._id%>" onclick= "return confirm('xác nhận xóa')" >Xóa</a>

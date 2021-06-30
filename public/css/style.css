@@ -138,6 +138,12 @@ ol {
   background-position: top center;
 }
 
+.set-bg-payment {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
+}
+
 .spad {
   padding-top: 100px;
   padding-bottom: 100px;
@@ -1165,6 +1171,12 @@ ol {
   overflow: hidden;
 }
 
+.product__item__payment {
+  height: 50px;
+  position: relative;
+  overflow: hidden;
+}
+
 .product__item__pic .label {
   font-size: 12px;
   color: #ffffff;
@@ -1465,12 +1477,12 @@ ol {
 .filter-range-wrap .range-slider .price-input input {
   font-size: 16px;
   color: #0d0d0d;
-  max-width: 16%;
+  max-width: 40%;
   border: none;
 }
 
 .filter-range-wrap .range-slider .price-input input:nth-child(1) {
-  margin-right: 28px;
+  /* margin-right: 28px; */
 }
 
 .filter-range-wrap .price-range {

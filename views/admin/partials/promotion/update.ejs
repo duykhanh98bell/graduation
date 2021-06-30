@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('../../layouts/head.ejs')%>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <%- include('../../layouts/header.ejs') %>
+  <!-- Left side column. contains the logo and sidebar -->
+  <%- include('../../layouts/sidebar.ejs') %>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <%-include('../../layouts/content-header.ejs')%>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-2">
+        </div>
+        <!--/.col (left) -->
+        <!-- right column -->
+        <div class="col-md-8">
+          <!-- Horizontal Form -->
+          <div class="box box-info">
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form  method="POST">
+              <div class="box-header">
+                <h3 class="box-title"><a class="btn btn-success" href="/promotion">Xem danh sách</a></h3>
+              </div>
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="name">Tên Chương trình khuyến mãi</label>
+                  <input type="text" value="<%=getUpdate.findPromotion.name%>" name="name" class="form-control" id="name" placeholder="Tên Chương trình khuyến mãi">
+                </div>
+               
+                <div class="form-group">
+                  <label for="percent">Phần trăm giảm giá</label>
+                  <input type="number" value="<%=getUpdate.findPromotion.percent%>" name="percent" class="form-control" id="percent" placeholder="Phần trăm giảm giá">
+                </div>
+                
+                <div class="form-check">
+                    <div class="form-group" >
+                        <label>Sản phẩm</label>
+                        <%if(getUpdate.products.length) {%>
+                        <% var arr =[]; %>
+                            <%getUpdate.products.forEach((pro, index)=>{%>
+                            <% 
+                              arr.push(JSON.stringify(pro[0]._id));
+                            %>
+                                
+                            <%})%>
+                        <%}%>
+                        <br/>
+                        <br/>
+                        <select class="js-example-basic-multiple" name="product_id[]" multiple="multiple">
+                        <%if(products.length){%>
+                          <%products.forEach((pr, index)=> {%>
+                            <option value="<%=pr._id%>"><%=pr.name%></option>
+                          <% })%>
+                        <%}%>
+                        </select>
+                        
+                    </div>
+                    <!-- /.form-group -->
+                    
+                </div>
+                <div class="form-group">
+                    <label>Date and time range:</label>
+                    <p><%=(getUpdate.findPromotion.start_date).getDate() + '-' + (getUpdate.findPromotion.start_date).getMonth() + '-' + (getUpdate.findPromotion.start_date).getFullYear()%></p>
+                    <input type="date" name="start_date" id="">
+                    <p><%=(getUpdate.findPromotion.end_date).getDate() + '-' + (getUpdate.findPromotion.end_date).getMonth() + '-' + (getUpdate.findPromotion.end_date).getFullYear()%></p>
+                    <input type="date" name="end_date"  id="">
+                   
+                    <!-- /.input group -->
+                </div>
+                <div class="box-footer">
+                  <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+              
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+          <!-- /.box -->
+          <!-- general form elements disabled -->
+          
+          <!-- /.box -->
+        </div>
+        <!--/.col (right) -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <%- include('../../layouts/footer.ejs') %>
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+<%-include('../../layouts/script.ejs')%>
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2().val([<%-arr%>]).trigger('change');
+    });
+</script>
+    
+</body>
+</html>

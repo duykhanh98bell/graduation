@@ -11,8 +11,11 @@ export type OrderDocument = Order & Document;
   timestamps: true,
 })
 export class Order {
+  @Prop()
+  code: string;
+
   @Prop({ required: true })
-  total: string;
+  total: number;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Customer' })
   customer_id: Customer;
@@ -23,13 +26,13 @@ export class Order {
   @Prop()
   note: string;
 
-  @Prop({ default: false })
-  status: boolean;
+  @Prop({ default: 1 })
+  status: number;
 
-  @Prop({ required: true })
+  @Prop()
   sale: number;
 
-  @Prop({ required: true })
+  @Prop()
   payment: string;
 }
 

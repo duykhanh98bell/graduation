@@ -15,15 +15,18 @@ import {
   UseGuards,
   UsePipes,
   ValidationPipe,
+  UseFilters,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ViewAuthFilter } from '../http-exception/http-exception.filter';
 import { AttributeService } from './attribute.service';
 import { CreateAttributeDto } from './dto/create-attribute.dto';
 import { UpdateAttributeDto } from './dto/update-attribute.dto';
 
 @Controller('attribute')
 @UseGuards(JwtAuthGuard)
-@UsePipes(new ValidationPipe)
+@UseFilters(ViewAuthFilter)
+@UsePipes(new ValidationPipe())
 export class AttributeController {
   constructor(private readonly attributeService: AttributeService) {}
 

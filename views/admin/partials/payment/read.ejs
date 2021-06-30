@@ -46,8 +46,8 @@
                         <td><%- index+1 %></td>
                         <td><%-getPayment.name%></td>
                         <td><img width=70 src="/uploads/payment/<%-getPayment.logo%>" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt=""></td>
-                        <td><%-getPayment.createdAt%></td>
-                        <td><%-getPayment.updatedAt%></td>
+                        <td><%=new Date(getPayment.createdAt).toLocaleDateString() + ' ' + new Date(getPayment.createdAt).toLocaleTimeString() %></td>
+                        <td><%=new Date(getPayment.updatedAt).toLocaleDateString() + ' ' + new Date(getPayment.updatedAt).toLocaleTimeString() %></td>
                         <td>
                           <a class="btn btn-warning" href="/payment/update/<%-getPayment._id%>">Sửa</a>
                           <a

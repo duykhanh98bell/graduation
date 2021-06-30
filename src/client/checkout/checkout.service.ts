@@ -64,14 +64,21 @@ export class CheckoutService {
       name: createCustomerDto.name,
       phone: createCustomerDto.phone,
       email: createCustomerDto.email,
-      address: createCustomerDto.address,
     }).save();
     if (!req.session.percentSale) req.session.percentSale = 0;
-
+    const time = new Date();
+    const code =
+      'DH' +
+      time.getFullYear() +
+      '' +
+      (time.getMonth() + 1) +
+      '' +
+      Math.floor(Math.random() * 10000);
     const order = await new this.OrderModel({
+      code: code,
       total: createOrderDto.total,
       customer_id: customer._id,
-      address: customer.address,
+      address: createOrderDto.address,
       note: createOrderDto.note,
       sale: req.session.percentSale,
       payment: createOrderDto.payment,
@@ -80,6 +87,7 @@ export class CheckoutService {
     cart.forEach(async (product) => {
       new this.OrderDetailModel({
         product_id: product.id,
+        product_id_string: product.id,
         order_id: order._id,
         price: product.price,
         quantity: product.quantity,

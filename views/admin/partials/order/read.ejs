@@ -21,9 +21,6 @@
               <!-- /.box -->
 
               <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">Data Table With Full Features</h3>
-                </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                   <table
@@ -33,6 +30,7 @@
                     <thead>
                       <tr>
                         <th>STT</th>
+                        <th>Mã đơn hàng</th>
                         <th>Tên khách hàng</th>
                         <th>Số điện thoại</th>
                         <th>Email</th>
@@ -42,8 +40,6 @@
                         <th>Ghi Chú</th>
                         <th>Giảm giá</th>
                         <th>Phương thức thanh toán</th>
-                        <th Width=100>Ngày tạo</th>
-                        <th Width=100>Ngày cập nhật</th>
                         <th width=150>Tùy chọn</th>
                       </tr>
                     </thead>
@@ -51,27 +47,30 @@
                       <% allBill.forEach((bill, index)=>{ %>
                       <tr>
                         <td><%= index+1 %></td>
-                        <td><%=bill.customer_id.name%></td>
+                        <td><%=bill.code %></td>
+                        <td><%=bill.customer_id.name%> <br/> <%=new Date(bill.createdAt).toLocaleDateString() + ' ' + new Date(bill.createdAt).toLocaleTimeString() %></td>
                         <td><%=bill.customer_id.phone%></td>
                         <td><%=bill.customer_id.email%></td>
                         <td><%=bill.address%></td>
                         <td><%=bill.total%></td>
-                        <td>
-                            <% if (bill.status === true) { %>
-                            <form action="/order/status/<%=bill._id%>" method="POST">
-                                <button  class="btn btn-success">Đã giao</button>
-                            </form>
-                            <% }else if(bill.status === false) { %>
-                            <form action="/order/status/<%=bill._id%>" method="POST">
-                                <button  class="btn btn-warning">Chưa giao</button>
-                            </form>
-                            <% }; %>
+                        <td width="100">
+                          <form action="/order/status/<%=bill._id%>" method="POST" style="display: flex;">
+                            <select class="form-control" name="status">
+                              <option value="1" <%=(bill.status === 1)?"Selected":""%>>Chờ xác nhận</option>
+                              <option value="2" <%=(bill.status === 2)?"Selected":""%>>Khách hủy</option>
+                              <option value="3" <%=(bill.status === 3)?"Selected":""%>>Đang xác nhận</option>
+                              <option value="4" <%=(bill.status === 4)?"Selected":""%>>Đã xác nhận</option>
+                              <option value="5" <%=(bill.status === 5)?"Selected":""%>>Hệ thống hủy</option>
+                              <option value="6" <%=(bill.status === 6)?"Selected":""%>>Đã thanh toán</option>
+                              <option value="7" <%=(bill.status === 7)?"Selected":""%>>Xử lý hàng lỗi</option>
+
+                            </select>
+                            <button  class="btn btn-success">Cập nhật</button>
+                          </form>
                         </td>
-                        <td><%=bill.note%></td>
+                        <td><%-bill.note%></td>
                         <td><%=bill.sale%> %</td>
                         <td><%=bill.payment%></td>
-                        <td><%=bill.createdAt%></td>
-                        <td><%=bill.updatedAt%></td>
                         <td>
                           <a class="btn btn-primary" href="/order/<%=bill._id%>">Chi tiết</a>
                           <a class="btn btn-warning" href="/order/update/<%=bill._id%>">Sửa</a>
@@ -88,6 +87,7 @@
                     <tfoot>
                       <tr>
                         <th>STT</th>
+                        <th>Mã đơn hàng</th>
                         <th>Tên khách hàng</th>
                         <th>Số điện thoại</th>
                         <th>Email</th>
@@ -97,8 +97,6 @@
                         <th>Ghi Chú</th>
                         <th>Giảm giá</th>
                         <th>Phương thức thanh toán</th>
-                        <th>Ngày tạo</th>
-                        <th>Ngày cập nhật</th>
                         <th>Tùy chọn</th>
                       </tr>
                     </tfoot>

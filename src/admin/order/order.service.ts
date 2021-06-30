@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { UpdateCustomerDto } from '../customer/dto/update-customer.dto';
+import {
+  Customer,
+  CustomerDocument,
+} from '../customer/entities/customer.entity';
 import {
   OrderDetail,
   OrderDetailDocument,
@@ -14,6 +19,7 @@ import { Order, OrderDocument } from './entities/order.entity';
 export class OrderService {
   constructor(
     @InjectModel(Order.name) private OrderModel: Model<OrderDocument>,
+    @InjectModel(Customer.name) private CustomerModel: Model<CustomerDocument>,
     @InjectModel(OrderDetail.name)
     private OrderDetailModel: Model<OrderDetailDocument>,
   ) {}
@@ -22,7 +28,9 @@ export class OrderService {
   }
 
   async findAll(): Promise<OrderDocument[]> {
-    const allBill = await this.OrderModel.find()
+    const allBill = await this.OrderModel.find({
+      $and: [{ status: { $ne: 6 } }, { status: { $ne: 7 } }],
+    })
       .populate('customer_id')
       .sort({ createdAt: -1 });
     return allBill;
@@ -35,20 +43,50 @@ export class OrderService {
     return findOrder;
   }
 
-  async toggle(id: string) {
-    const checkStatus = await this.OrderModel.findById(id);
+  async toggle(id: string, UpdateOrderDto: UpdateOrderDto) {
     return await this.OrderModel.findByIdAndUpdate(id, {
       $set: {
-        status: !checkStatus.status,
+        status: +UpdateOrderDto.status,
       },
     });
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async findOrder(id: string) {
+    return await this.OrderModel.findById(id).populate({ path: 'customer_id' });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async update(
+    id: string,
+    updateOrderDto: UpdateOrderDto,
+    updateCustomerDto: UpdateCustomerDto,
+  ) {
+    const putOrder = await this.OrderModel.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          status: updateOrderDto.status,
+          total: +updateOrderDto.total,
+          address: updateOrderDto.address,
+          note: updateOrderDto.note,
+          sale: +updateOrderDto.sale,
+          payment: updateOrderDto.payment,
+        },
+      },
+      { new: true },
+    );
+    await this.CustomerModel.findByIdAndUpdate(putOrder.customer_id, {
+      $set: {
+        name: updateCustomerDto.name,
+        phone: updateCustomerDto.phone,
+        email: updateCustomerDto.email,
+      },
+    });
+    return;
+  }
+
+  async remove(id: any) {
+    await this.OrderModel.findByIdAndRemove(id);
+    await this.OrderDetailModel.findOneAndRemove({ order_id: id });
+    return;
   }
 }

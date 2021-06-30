@@ -7,13 +7,16 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseFilters,
 } from '@nestjs/common';
 import { ValueProductService } from './value-product.service';
 import { CreateValueProductDto } from './dto/create-value-product.dto';
 import { UpdateValueProductDto } from './dto/update-value-product.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ViewAuthFilter } from '../http-exception/http-exception.filter';
 
 @UseGuards(JwtAuthGuard)
+@UseFilters(ViewAuthFilter)
 @Controller('value-product')
 export class ValueProductController {
   constructor(private readonly valueProductService: ValueProductService) {}

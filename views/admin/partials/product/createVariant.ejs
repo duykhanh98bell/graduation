@@ -38,7 +38,7 @@
                         <% }) %>
                         <th>Số lượng</th>
                         <th>Đã bán</th>
-                        <th>Ngày Tao</th>
+                        <th>Trả kho</th>
                         <th>Tùy chọn</th>
                       </tr>
                     </thead>
@@ -56,23 +56,29 @@
                         
                         </td>
                         <td><%=variant.sold%></td>
-                        <td><%=variant.createdAt%></td>
                         <td>
-                        <form action="/product/variant/update/<%=variant._id%>"  method="POST" >
-                            <div class="form-group">
-                              <label for="">Thêm số lượng</label>
-                              <input type="number"
-                                class="form-control" name="quantity" id="" placeholder="Thêm số lượng">
-                              <button class="btn btn-warning">Thêm</button>
-                              <a
-                                class="btn btn-danger"
-                                href="/product/variant/delete/<%=variant._id%>"
-                                onclick="return confirm('xác nhận xóa')"
-                                >Xóa</a
-                              >
-                            </div>
-                        </form>
-                          
+                          <form action="/product/variant/return/<%=variant._id%>"  method="POST" >
+                              <div class="form-group">
+                                <input type="number"
+                                  class="form-control" name="quantity" id="" placeholder="Số lượng">
+                                <button class="btn btn-warning">Trả</button>
+                              </div>
+                          </form>
+                        </td>
+                        <td>
+                          <form action="/product/variant/update/<%=variant._id%>"  method="POST" >
+                              <div class="form-group">
+                                <input type="number"
+                                  class="form-control" name="quantity" id="" placeholder="Thêm số lượng">
+                                <button class="btn btn-warning">Thêm</button>
+                                <a
+                                  class="btn btn-danger"
+                                  href="/product/variant/delete/<%=variant._id%>"
+                                  onclick="return confirm('xác nhận xóa')"
+                                  >Xóa</a
+                                >
+                              </div>
+                          </form>
                         </td>
                       </tr>
                       <% }) %>

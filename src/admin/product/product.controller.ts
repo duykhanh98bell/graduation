@@ -16,6 +16,7 @@ import {
   UseGuards,
   ValidationPipe,
   UsePipes,
+  UseFilters,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -27,6 +28,7 @@ import { CreateImageProductDto } from './dto/create-image-product.dto';
 import { CreateVariantDto } from 'src/admin/variant/dto/create-variant.dto';
 import { UpdateVariantDto } from 'src/admin/variant/dto/update-variant.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ViewAuthFilter } from '../http-exception/http-exception.filter';
 
 export const storage = {
   storage: multer.diskStorage({
@@ -41,6 +43,7 @@ export const storage = {
   }),
 };
 @UseGuards(JwtAuthGuard)
+@UseFilters(ViewAuthFilter)
 @Controller('product')
 @UsePipes(new ValidationPipe({ transform: true }))
 export class ProductController {
@@ -162,6 +165,18 @@ export class ProductController {
   ) {
     if (updateVariantDto.quantity) {
       await this.productService.updateQuantity(id, updateVariantDto);
+    }
+    return res.redirect('back');
+  }
+
+  @Post('variant/return/:id')
+  async returnWH(
+    @Body() updateVariantDto: UpdateVariantDto,
+    @Param('id') id: string,
+    @Res() res,
+  ) {
+    if (updateVariantDto.quantity) {
+      await this.productService.returnWH(id, updateVariantDto);
     }
     return res.redirect('back');
   }

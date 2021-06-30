@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Render,
+  Query,
 } from '@nestjs/common';
 import { HomeService } from './home.service';
 import { CreateHomeDto } from './dto/create-home.dto';
@@ -18,21 +19,39 @@ export class HomeController {
 
   @Get()
   @Render('client/partials/index')
-  async home() {
+  async home(@Query() query: any) {
     const [nav, all] = await Promise.all([
       this.homeService.findNav(),
-      this.homeService.findAll(),
+      this.homeService.findAll(query['page']),
     ]);
     return { nav, all, title: 'Trang chủ' };
   }
 
+  @Get('/search')
+  @Render('client/partials/index')
+  async searched(@Query() query: any) {
+    const [nav, all] = await Promise.all([
+      this.homeService.findNav(),
+      this.homeService.search(query['q']),
+    ]);
+    return { nav, all, title: 'Search' };
+  }
+
   @Get('collection/:slug')
   @Render('client/partials/collection')
-  async filter(@Param() params: string[]) {
+  async filter(@Param() params: string[], @Query() query: any) {
     const [nav, all, filter] = await Promise.all([
       this.homeService.findNav(),
-      this.homeService.findAll(),
-      this.homeService.filterCate(params['slug'], params['page']),
+      this.homeService.collection(query['page']),
+      this.homeService.filterCate(
+        params['slug'],
+        query['xx'],
+        query['page'],
+        query['priceMin'],
+        query['priceMax'],
+        query['value'],
+        query['q'],
+      ),
     ]);
     return { nav, all, filter, title: filter.title };
   }

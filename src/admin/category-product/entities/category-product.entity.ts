@@ -3,9 +3,11 @@ import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Product } from 'src/admin/product/entities/product.entity';
 import { Category } from 'src/admin/category/entities/category.entity';
+import { Global } from '@nestjs/common';
 
 export type CategoryProductDocument = CategoryProduct & Document;
 
+@Global()
 @Schema()
 export class CategoryProduct {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })

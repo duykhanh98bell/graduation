@@ -51,10 +51,22 @@
                 </div>
                 <div class="col-lg-6">
                 <form method=POST action="/cart">
+                <%# start input hidden --------------------------------------%>
                     <input name="id" type="hidden" value="<%=detail.detail._id%>" />
-                    <input name="price" type="hidden" value="<%=detail.detail.price%>" />
+                    
                     <input name="image" type="hidden" value="<%=detail.detail.image%>" />
                     <input name="name" type="hidden" value="<%=detail.detail.name%>" />
+                    <% if(detail.detail.promotion_id && ((detail.detail.promotion_id.start_date).valueOf() < (Date.now().valueOf())) && ((detail.detail.promotion_id.end_date).valueOf() > (Date.now().valueOf())) && detail.detail.promotion_active===true){%>
+                        <input name="price" type="hidden" value="<%=detail.detail.price_old*(100-detail.detail.promotion_id.percent)/100%>" />
+                        <input name="promotion" type="hidden" value="<%=detail.detail.promotion_id.percent%>" />
+                    <%}else if(detail.detail.status==1) { %>
+                        <input name="price" type="hidden" value="<%=detail.detail.price%>" />
+
+                    <% } else { %>
+                        <input name="price" type="hidden" value="<%=detail.detail.price_old%>" />
+
+                    <% } %>
+                <%# End input hidden --------------------------------------%>
                     <div class="product__details__text">
                         <h3><%=detail.detail.name%> <span>Thương hiệu: <%=detail.detail.brand_id.name%></span></h3>
                         <div class="rating">
@@ -66,11 +78,14 @@
                             <span>( 138 reviews )</span>
                         </div>
                         <div class="product__details__price">
-                        <% if(detail.detail.status===1) { %>
+                        <% if(detail.detail.promotion_id && ((detail.detail.promotion_id.start_date).valueOf() < (Date.now().valueOf())) && ((detail.detail.promotion_id.end_date).valueOf() > (Date.now().valueOf())) && detail.detail.promotion_active===true){%>
+                            <%=detail.detail.price_old*(100-detail.detail.promotion_id.percent)/100%> vnđ
+                            <span><%=detail.detail.price_old%> vnđ</span>
+                        <%}else if(detail.detail.status===1) { %>
                             <%=detail.detail.price%> vnđ
                             <span><%=detail.detail.price_old%> vnđ</span>
                         <% } else { %>
-                            <%=detail.detail.price%> vnđ
+                            <%=detail.detail.price_old%> vnđ
                         <% } %>
                         </div>
 

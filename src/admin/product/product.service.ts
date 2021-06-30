@@ -80,6 +80,7 @@ export class ProductService {
       status: createProductDto.status,
       brand_id: createProductDto.brand_id,
       // trend_id: createProductDto.trend_id,
+      value: createProductDto.value,
       image: file.filename,
       highlight: createProductDto.highlight,
     });
@@ -95,7 +96,7 @@ export class ProductService {
     });
     await imageFirst.save();
 
-    if (createProductDto.value) {
+    if (createProductDto.value !== undefined) {
       for (let index = 0; index < createProductDto.value.length; index++) {
         const element = createProductDto.value[index];
         const postProValue = new this.ValueProductModel({
@@ -119,7 +120,7 @@ export class ProductService {
 
   async findAll() {
     const select = Promise.all([
-      this.ProductModel.find().populate('brand_id').exec(),
+      this.ProductModel.find().populate('brand_id').sort({ createdAt: -1 }),
       this.CategoryProductModel.find().populate('category_id').exec(),
     ]).then(([products, categoryPros]) => {
       return { products, categoryPros };
@@ -181,10 +182,17 @@ export class ProductService {
           status: updateProductDto.status,
           brand_id: updateProductDto.brand_id,
           // trend_id: updateProductDto.trend_id,
+          value: updateProductDto.value,
           image: file.filename,
           highlight: updateProductDto.highlight,
         },
       });
+
+      const imageFirst = new this.ImageProductModel({
+        image: file.filename,
+        product_id: checkProduct._id,
+      });
+      await imageFirst.save();
     } else {
       await this.ProductModel.findByIdAndUpdate(id, {
         $set: {
@@ -199,6 +207,7 @@ export class ProductService {
           status: updateProductDto.status,
           brand_id: updateProductDto.brand_id,
           // trend_id: updateProductDto.trend_id,
+          value: updateProductDto.value,
           highlight: updateProductDto.highlight,
         },
       });
@@ -236,10 +245,14 @@ export class ProductService {
       this.ProductModel.findOne({ _id: id }),
       this.ImageProductModel.find({ product_id: id }),
     ]);
-    fs.unlinkSync('public/uploads/product/' + checkProduct.image);
+    if (fs.existsSync('public/uploads/product/' + checkProduct.image)) {
+      fs.unlinkSync('public/uploads/product/' + checkProduct.image);
+    }
     for (let index = 0; index < checkImagePro.length; index++) {
       const element = checkImagePro[index];
-      fs.unlinkSync('public/uploads/product/' + element.image);
+      if (fs.existsSync('public/uploads/product/' + element.image)) {
+        fs.unlinkSync('public/uploads/product/' + element.image);
+      }
     }
     await Promise.all([
       this.ImageProductModel.deleteMany({ product_id: id }),
@@ -263,7 +276,9 @@ export class ProductService {
 
   async editImage(id: string, file: any) {
     const checkImage = await this.ImageProductModel.findById(id);
-    fs.unlinkSync('public/uploads/product/' + checkImage.image);
+    if (fs.existsSync('public/uploads/product/' + checkImage.image)) {
+      fs.unlinkSync('public/uploads/product/' + checkImage.image);
+    }
     await this.ImageProductModel.findByIdAndUpdate(id, {
       $set: {
         image: file.filename,
@@ -273,7 +288,9 @@ export class ProductService {
 
   async removeImage(id: string) {
     const checkImage = await this.ImageProductModel.findById(id);
-    fs.unlinkSync('public/uploads/product/' + checkImage.image);
+    if (fs.existsSync('public/uploads/product/' + checkImage.image)) {
+      fs.unlinkSync('public/uploads/product/' + checkImage.image);
+    }
     await this.ImageProductModel.deleteOne({ _id: id });
   }
 
@@ -306,6 +323,16 @@ export class ProductService {
     await this.VariantModel.findByIdAndUpdate(id, {
       $set: {
         quantity: variant.quantity + +updateVariantDto.quantity,
+      },
+    });
+  }
+
+  async returnWH(id: string, updateVariantDto: UpdateVariantDto) {
+    const variant = await this.VariantModel.findById(id);
+    await this.VariantModel.findByIdAndUpdate(id, {
+      $set: {
+        quantity: variant.quantity + +updateVariantDto.quantity,
+        sold: variant.sold - +updateVariantDto.quantity,
       },
     });
   }
