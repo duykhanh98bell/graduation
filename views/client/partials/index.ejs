@@ -60,26 +60,26 @@
                         <% } %>
                         <ul class="product__hover">
                             <li><a href="/uploads/product/<%=product.image%>" class="image-popup"><span class="arrow_expand"></span></a></li>
-                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                            <!--<li><a href="#"><span class="icon_heart_alt"></span></a></li>-->
                             <li><a href="/detail/<%=product.product_slug%>"><span class="icon_bag_alt"></span></a></li>
                            
                         </ul>
                     </div>
                     <div class="product__item__text">
                         <h6><a href="/detail/<%=product.product_slug%>"><%=product.name%></a></h6>
-                        <div class="rating">
+                        <!--<div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
-                        </div>
+                        </div>-->
                         <% if(product.promotion_id && ((product.promotion_id.start_date).valueOf() < (Date.now().valueOf())) && ((product.promotion_id.end_date).valueOf() > (Date.now().valueOf())) && product.promotion_active===true){%>
-                            <div class="product__price"><%=product.price_old*(100-product.promotion_id.percent)/100%> vnđ<span><%=product.price_old%> vnđ</span></div>
+                            <div class="product__price"><%=(product.price_old*(100-product.promotion_id.percent)/100).toLocaleString()%> vnđ<span><%=product.price_old.toLocaleString()%> vnđ</span></div>
                         <% }else if(product.status===1) { %>
-                        <div class="product__price"><%=product.price%> vnđ<span><%=product.price_old%> vnđ</span></div>
+                        <div class="product__price"><%=product.price.toLocaleString()%> vnđ<span><%=product.price_old.toLocaleString()%> vnđ</span></div>
                         <% }else { %>
-                        <div class="product__price"><%=product.price_old%> vnđ</div>
+                        <div class="product__price"><%=product.price_old.toLocaleString()%> vnđ</div>
                         <% } %>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
             <div class="col-lg-4 col-md-4 col-sm-6">
                 <div class="trend__content">
                     <div class="section-title">
-                        <h4>Hot Trend</h4>
+                        <h4>Nổi bật</h4>
                     </div>
                     <%if(all.productHighlight){%>
                     <% all.productHighlight.forEach((pro, index)=>{%>
@@ -126,14 +126,14 @@
                         </div>
                         <div class="trend__item__text">
                             <h6><a href="/detail/<%=pro.product_slug%>"  style="color: black;"><%=pro.name%></a></h6>
-                            <div class="rating">
+                            <!--<div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price"><%=pro.price_old%> vnđ</div>
+                            </div>-->
+                            <div class="product__price"><%=pro.price_old.toLocaleString()%> vnđ</div>
                         </div>
                     </div>
 
@@ -144,7 +144,7 @@
             <div class="col-lg-4 col-md-4 col-sm-6">
                 <div class="trend__content">
                     <div class="section-title">
-                        <h4>Best seller</h4>
+                        <h4>Bán chạy</h4>
                     </div>
                     <% if(all.topSeller) {%>
                     <% all.topSeller.forEach((pro, index)=>{ %>
@@ -154,14 +154,14 @@
                         </div>
                         <div class="trend__item__text">
                             <h6><a href="/detail/<%=pro.product.product_slug%>"  style="color: black;"><%=pro.product.name%></a></h6>
-                            <div class="rating">
+                            <!--<div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price"><%=pro.product.price_old%> vnđ</div>
+                            </div>-->
+                            <div class="product__price"><%=pro.product.price_old.toLocaleString()%> vnđ</div>
                         </div>
                     </div>
                     <% })%>
@@ -171,56 +171,28 @@
             <div class="col-lg-4 col-md-4 col-sm-6">
                 <div class="trend__content">
                     <div class="section-title">
-                        <h4>Feature</h4>
+                        <h4>Hàng mới</h4>
                     </div>
+                    <% if(all.productNew) {%>
+                    <% all.productNew.forEach((pro, index)=>{ %>
                     <div class="trend__item">
                         <div class="trend__item__pic">
-                            <img src="img/trend/f-1.jpg" alt="">
+                            <a href="/detail/<%=pro.product_slug%>"><img src="/uploads/product/<%=pro.image%>" alt="" width=90></a>
                         </div>
                         <div class="trend__item__text">
-                            <h6>Bow wrap skirt</h6>
-                            <div class="rating">
+                            <h6><a href="/detail/<%=pro.product_slug%>"  style="color: black;"><%=pro.name%></a></h6>
+                            <!--<div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
+                            </div>-->
+                            <div class="product__price"><%=pro.price_old.toLocaleString()%> vnđ</div>
                         </div>
                     </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="img/trend/f-2.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Metallic earrings</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="img/trend/f-3.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Flap cross-body bag</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
+                    <% })%>
+                    <% }%>
                 </div>
             </div>
         </div>

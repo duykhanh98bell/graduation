@@ -7,6 +7,6 @@ import { Ship, ShipSchema } from './entities/ship.entity';
 @Module({
   controllers: [ShipController],
   providers: [ShipService],
-  imports: [MongooseModule.forFeature([{ name: 'Ship', schema: ShipSchema }])],
+  imports: [MongooseModule.forFeature([{ name: 'Ship', schema: ShipSchema }])]
 })
 export class ShipModule {}

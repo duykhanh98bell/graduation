@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -5,6 +6,7 @@ import { Product, ProductDocument } from '../product/entities/product.entity';
 import { CreatePromotionDto } from './dto/create-promotion.dto';
 import { UpdatePromotionDto } from './dto/update-promotion.dto';
 import { Promotion, PromotionDocument } from './entities/promotion.entity';
+const moment = require('moment');
 
 @Injectable()
 export class PromotionService {
@@ -12,12 +14,12 @@ export class PromotionService {
     @InjectModel(Promotion.name)
     private PromotionModel: Model<PromotionDocument>,
     @InjectModel(Product.name)
-    private ProductModel: Model<ProductDocument>,
+    private ProductModel: Model<ProductDocument>
   ) {}
 
   async listProduct() {
     return await this.ProductModel.find({
-      $or: [{ promotion_active: false }, { promotion_active: undefined }],
+      $or: [{ promotion_active: false }, { promotion_active: undefined }]
     });
   }
 
@@ -26,8 +28,8 @@ export class PromotionService {
       $or: [
         { promotion_active: false },
         { promotion_active: undefined },
-        { promotion_id: id },
-      ],
+        { promotion_id: id }
+      ]
     });
   }
 
@@ -42,6 +44,12 @@ export class PromotionService {
     if (start > end) {
       return res.redirect('back');
     }
+    createPromotionDto.start_date = moment(
+      createPromotionDto.start_date
+    ).startOf('day');
+    createPromotionDto.end_date = moment(createPromotionDto.end_date).endOf(
+      'day'
+    );
     const postPromotion = new this.PromotionModel(createPromotionDto);
     const getPromotion = await postPromotion.save();
 
@@ -53,9 +61,9 @@ export class PromotionService {
           {
             $set: {
               promotion_id: getPromotion._id,
-              promotion_active: true,
-            },
-          },
+              promotion_active: true
+            }
+          }
         );
       }
     }
@@ -76,7 +84,7 @@ export class PromotionService {
         const element = await findPromotion.product_id[index];
         const product = await this.ProductModel.find({
           _id: element,
-          promotion_active: true,
+          promotion_active: true
         });
         products.push(product);
       }
@@ -94,9 +102,9 @@ export class PromotionService {
             { _id: element._id },
             {
               $set: {
-                promotion_active: false,
-              },
-            },
+                promotion_active: false
+              }
+            }
           );
         }
       }
@@ -121,10 +129,10 @@ export class PromotionService {
         $set: {
           name: updatePromotionDto.name,
           percent: updatePromotionDto.percent,
-          start_date: updatePromotionDto.start_date,
-          end_date: updatePromotionDto.end_date,
-          product_id: updatePromotionDto.product_id,
-        },
+          start_date: moment(updatePromotionDto.start_date).startOf('day'),
+          end_date: moment(updatePromotionDto.end_date).endOf('day'),
+          product_id: updatePromotionDto.product_id
+        }
       });
       for (const index in updatePromotionDto.product_id) {
         const element = updatePromotionDto.product_id[index];
@@ -133,9 +141,9 @@ export class PromotionService {
           {
             $set: {
               promotion_id: id,
-              promotion_active: true,
-            },
-          },
+              promotion_active: true
+            }
+          }
         );
       }
     } else if (
@@ -158,10 +166,10 @@ export class PromotionService {
         $set: {
           name: updatePromotionDto.name,
           percent: updatePromotionDto.percent,
-          start_date: updatePromotionDto.start_date,
-          end_date: updatePromotionDto.end_date,
-          product_id: updatePromotionDto.product_id,
-        },
+          start_date: moment(updatePromotionDto.start_date).startOf('day'),
+          end_date: moment(updatePromotionDto.end_date).endOf('day'),
+          product_id: updatePromotionDto.product_id
+        }
       });
     } else if (
       !updatePromotionDto.start_date &&
@@ -172,8 +180,8 @@ export class PromotionService {
         $set: {
           name: updatePromotionDto.name,
           percent: updatePromotionDto.percent,
-          product_id: updatePromotionDto.product_id,
-        },
+          product_id: updatePromotionDto.product_id
+        }
       });
       for (const index in updatePromotionDto.product_id) {
         const element = updatePromotionDto.product_id[index];
@@ -182,9 +190,9 @@ export class PromotionService {
           {
             $set: {
               promotion_id: id,
-              promotion_active: true,
-            },
-          },
+              promotion_active: true
+            }
+          }
         );
       }
     }
@@ -199,7 +207,7 @@ export class PromotionService {
         const element = await findPromotion.product_id[index];
         const product = await this.ProductModel.find({
           _id: element,
-          promotion_active: true,
+          promotion_active: true
         });
         products.push(product);
       }
@@ -217,9 +225,9 @@ export class PromotionService {
             { _id: element._id },
             {
               $set: {
-                promotion_active: false,
-              },
-            },
+                promotion_active: false
+              }
+            }
           );
         }
       }

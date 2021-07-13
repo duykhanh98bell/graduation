@@ -6,7 +6,7 @@ export class CreateCustomerDto {
   name: string;
 
   @IsNotEmpty({ message: 'So dien thoai khong duoc de trong' })
-  @Length(10, 10, { message: 'Số điện thoại 10 số' })
+  // @Length(10, 10, { message: 'Số điện thoại 10 số' })
   phone: string;
 
   @IsEmail()

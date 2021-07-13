@@ -35,7 +35,10 @@
                         <th>Số điện thoại</th>
                         <th>Email</th>
                         <th>Địa chỉ giao hàng</th>
-                        <th>Tổng tiền</th>
+                        <th>Tổng tiền hàng</th>
+                        <th>Ship</th>
+                        <th>Đơn vị</th>
+                        <th>Tổng</th>
                         <th>Trạng thái</th>
                         <th>Ghi Chú</th>
                         <th>Giảm giá</th>
@@ -48,11 +51,14 @@
                       <tr>
                         <td><%= index+1 %></td>
                         <td><%=bill.code%></td>
-                        <td><%=bill.customer_id.name%> <br/> <%=new Date(bill.createdAt).toLocaleDateString() + ' ' + new Date(bill.createdAt).toLocaleTimeString() %></td>
+                        <td><%=bill.customer_id.name%> <br/> <%=new Date(bill.soldAt).toLocaleDateString() + ' ' + new Date(bill.soldAt).toLocaleTimeString() %></td>
                         <td><%=bill.customer_id.phone%></td>
                         <td><%=bill.customer_id.email%></td>
                         <td><%=bill.address%></td>
-                        <td><%=bill.total%></td>
+                        <td><%=bill.total.toLocaleString()%></td>
+                        <td><%=bill?.shipTotal.toLocaleString()%></td>
+                        <td><%=bill?.shipName%></td>
+                        <td><%=((bill?.shipTotal || 0) + bill.total).toLocaleString()%></td>
                         <td width="100">
                           <form action="/bill/status/<%=bill._id%>" method="POST" style="display: flex;">
                             <select class="form-control" name="status">
@@ -74,12 +80,12 @@
                         <td>
                           <a class="btn btn-primary" href="/bill/<%=bill._id%>">Chi tiết</a>
                           <a class="btn btn-warning" href="/bill/update/<%=bill._id%>">Sửa</a>
-                          <a
+                          <!--<a
                             class="btn btn-danger"
                             href="/bill/delete/<%=bill._id%>"
                             onclick="return confirm('xác nhận xóa')"
                             >Xóa</a
-                          >
+                          > -->
                         </td>
                       </tr>
                       <% }); %>
@@ -92,7 +98,10 @@
                         <th>Số điện thoại</th>
                         <th>Email</th>
                         <th>Địa chỉ giao hàng</th>
-                        <th>Tổng tiền</th>
+                        <th>Tổng tiền hàng</th>
+                        <th>Ship</th>
+                        <th>Đơn vị</th>
+                        <th>Tổng</th>
                         <th>Trạng thái</th>
                         <th>Ghi Chú</th>
                         <th>Giảm giá</th>

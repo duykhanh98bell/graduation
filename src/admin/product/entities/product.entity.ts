@@ -55,6 +55,9 @@ export class Product {
 
   @Prop({ default: true })
   highlight: boolean;
+
+  @Prop()
+  name_search: string;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

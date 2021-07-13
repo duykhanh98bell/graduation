@@ -40,6 +40,9 @@ export class OrderDetail {
 
   @Prop({ default: 0 })
   quantityError: number;
+
+  @Prop({})
+  total_price: number;
 }
 
 export const OrderDetailSchema = SchemaFactory.createForClass(OrderDetail);

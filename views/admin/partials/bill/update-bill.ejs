@@ -39,19 +39,27 @@
                 </div>
                 <div class="form-group">
                   <label for="phone">Số điện thoại</label>
-                  <input value="<%=findOrder.customer_id.phone%>" type="text" name="phone" class="form-control" id="phone" placeholder="Mã sản phẩm">
+                  <input value="<%=findOrder.customer_id.phone%>" type="text" name="phone" class="form-control" id="phone" placeholder="So dien thoai" disabled>
                 </div>
                 <div class="form-group">
                   <label for="email">Email</label>
-                  <input value="<%=findOrder.customer_id.email%>" type="text" name="email" class="form-control" id="email" placeholder="Giá nhập">
+                  <input value="<%=findOrder.customer_id.email%>" type="text" name="email" class="form-control" id="email" placeholder="Email" disabled>
                 </div>
                 <div class="form-group">
                   <label for="address">Địa chỉ giao hàng</label>
                   <input value="<%=findOrder.address%>" type="text" name="address" class="form-control" id="address" placeholder="Địa chỉ giao hàng">
                 </div>
                 <div class="form-group">
-                  <label for="total">Tổng tiền</label>
-                  <input value="<%=findOrder.total%>" type="number" name="total" class="form-control" id="total" placeholder="Tổng tiền">
+                  <label for="total">Tổng tiền hàng</label>
+                  <input value="<%=findOrder.total%>" type="number" name="total" class="form-control" id="total" placeholder="Tổng tiền" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="total">Đơn vị giao hàng</label>
+                  <select class="form-control" name="ship_id" >
+                    <% findShip.forEach((ship, index)=> {%>
+                   <option value="<%=ship._id %>" <%=(JSON.stringify(findOrder.ship_id) === JSON.stringify(ship._id))?"Selected":""%>><%=ship.name%></option>
+                    <% }) %>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label for="note">Ghi chú</label>
@@ -59,7 +67,7 @@
                 </div>
                 <div class="form-group">
                   <label for="sale">Giảm giá</label>
-                  <input value="<%=findOrder.sale%>" type="number" name="sale" class="form-control" id="sale" placeholder="Giá gốc">
+                  <input value="<%=findOrder.sale%>" type="number" name="sale" class="form-control" id="sale" placeholder="Giá gốc" disabled>
                 </div>
 
                 <div class="form-group">

@@ -3,7 +3,7 @@ import { HomeService } from './home.service';
 import { HomeController } from './home.controller';
 import {
   Product,
-  ProductSchema,
+  ProductSchema
 } from 'src/admin/product/entities/product.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SliderSchema } from 'src/admin/slider/entities/slider.entity';
@@ -18,9 +18,12 @@ import { VariantValueSchema } from 'src/admin/variant-value/entities/variant-val
 import { PolicySchema } from 'src/admin/policy/entities/policy.entity';
 import {
   OrderDetail,
-  OrderDetailSchema,
+  OrderDetailSchema
 } from 'src/admin/order-detail/entities/order-detail.entity';
 import { BrandSchema } from 'src/admin/brand/schemas/brand.schema';
+import { ContactSchema } from 'src/admin/contact/entities/contact.entity';
+import { Comment, CommentSchema } from '../comment/entities/comment.entity';
+import { Blog, BlogSchema } from 'src/admin/blog/entities/blog.entity';
 @Global()
 @Module({
   controllers: [HomeController],
@@ -31,23 +34,26 @@ import { BrandSchema } from 'src/admin/brand/schemas/brand.schema';
     MongooseModule.forFeature([{ name: 'Category', schema: CategorySchema }]),
     MongooseModule.forFeature([{ name: 'Brand', schema: BrandSchema }]),
     MongooseModule.forFeature([
-      { name: 'CategoryProduct', schema: CategoryProductSchema },
+      { name: 'CategoryProduct', schema: CategoryProductSchema }
     ]),
     MongooseModule.forFeature([{ name: 'Value', schema: ValueSchema }]),
     MongooseModule.forFeature([{ name: 'Attribute', schema: AttributeSchema }]),
     MongooseModule.forFeature([{ name: 'Image', schema: ImageProductSchema }]),
     MongooseModule.forFeature([{ name: 'Variant', schema: VariantSchema }]),
     MongooseModule.forFeature([
-      { name: 'VariantValue', schema: VariantValueSchema },
+      { name: 'VariantValue', schema: VariantValueSchema }
     ]),
     MongooseModule.forFeature([
-      { name: 'ValueProduct', schema: ValueProductSchema },
+      { name: 'ValueProduct', schema: ValueProductSchema }
     ]),
     MongooseModule.forFeature([{ name: 'Policy', schema: PolicySchema }]),
+    MongooseModule.forFeature([{ name: 'Contact', schema: ContactSchema }]),
+    MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),
+    MongooseModule.forFeature([{ name: Blog.name, schema: BlogSchema }]),
     MongooseModule.forFeature([
-      { name: OrderDetail.name, schema: OrderDetailSchema },
-    ]),
+      { name: OrderDetail.name, schema: OrderDetailSchema }
+    ])
   ],
-  exports: [HomeService],
+  exports: [HomeService]
 })
 export class HomeModule {}

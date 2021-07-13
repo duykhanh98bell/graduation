@@ -29,19 +29,21 @@ import { BillModule } from './admin/bill/bill.module';
 import { ProductBackModule } from './admin/product-back/product-back.module';
 import { PromotionModule } from './admin/promotion/promotion.module';
 import { DashboardModule } from './admin/dashboard/dashboard.module';
+import { CommentModule } from './client/comment/comment.module';
+import { BlogModule } from './admin/blog/blog.module';
 
 @Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
+      isGlobal: true
     }),
     BrandModule,
     MongooseModule.forRoot(process.env.DB_CONNECT, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
-      useCreateIndex: true,
+      useCreateIndex: true
     }),
     AttributeModule,
     PaymentModule,
@@ -70,8 +72,10 @@ import { DashboardModule } from './admin/dashboard/dashboard.module';
     ProductBackModule,
     PromotionModule,
     DashboardModule,
+    CommentModule,
+    BlogModule
   ],
   providers: [],
-  controllers: [],
+  controllers: []
 })
 export class AppModule {}

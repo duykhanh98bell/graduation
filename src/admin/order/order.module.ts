@@ -6,9 +6,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { OrderDetailService } from '../order-detail/order-detail.service';
 import {
   OrderDetail,
-  OrderDetailSchema,
+  OrderDetailSchema
 } from '../order-detail/entities/order-detail.entity';
 import { Customer, CustomerSchema } from '../customer/entities/customer.entity';
+import { Ship, ShipSchema } from '../ship/entities/ship.entity';
 
 @Global()
 @Module({
@@ -16,12 +17,13 @@ import { Customer, CustomerSchema } from '../customer/entities/customer.entity';
   providers: [OrderService],
   imports: [
     MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),
+    MongooseModule.forFeature([{ name: 'Ship', schema: ShipSchema }]),
     MongooseModule.forFeature([
-      { name: Customer.name, schema: CustomerSchema },
+      { name: Customer.name, schema: CustomerSchema }
     ]),
     MongooseModule.forFeature([
-      { name: OrderDetail.name, schema: OrderDetailSchema },
-    ]),
-  ],
+      { name: OrderDetail.name, schema: OrderDetailSchema }
+    ])
+  ]
 })
 export class OrderModule {}

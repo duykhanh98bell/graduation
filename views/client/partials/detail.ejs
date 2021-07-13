@@ -69,23 +69,23 @@
                 <%# End input hidden --------------------------------------%>
                     <div class="product__details__text">
                         <h3><%=detail.detail.name%> <span>Thương hiệu: <%=detail.detail.brand_id.name%></span></h3>
-                        <div class="rating">
+                        <!--<div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <span>( 138 reviews )</span>
-                        </div>
+                        </div> -->
                         <div class="product__details__price">
                         <% if(detail.detail.promotion_id && ((detail.detail.promotion_id.start_date).valueOf() < (Date.now().valueOf())) && ((detail.detail.promotion_id.end_date).valueOf() > (Date.now().valueOf())) && detail.detail.promotion_active===true){%>
-                            <%=detail.detail.price_old*(100-detail.detail.promotion_id.percent)/100%> vnđ
-                            <span><%=detail.detail.price_old%> vnđ</span>
+                            <%=(detail.detail.price_old*(100-detail.detail.promotion_id.percent)/100).toLocaleString()%> vnđ
+                            <span><%=detail.detail.price_old.toLocaleString()%> vnđ</span>
                         <%}else if(detail.detail.status===1) { %>
                             <%=detail.detail.price%> vnđ
-                            <span><%=detail.detail.price_old%> vnđ</span>
+                            <span><%=detail.detail.price_old.toLocaleString()%> vnđ</span>
                         <% } else { %>
-                            <%=detail.detail.price_old%> vnđ
+                            <%=detail.detail.price_old.toLocaleString()%> vnđ
                         <% } %>
                         </div>
 
@@ -101,10 +101,10 @@
                                 <button class="cart-btn"><span class="icon_bag_alt"></span> Thêm vào giỏ</button>
                             <% } %>
                             
-                            <ul>
+                            <!--<ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                            </ul>
+                            </ul>-->
                         </div>
                         <div class="product__details__widget">
                             <ul>
@@ -161,10 +161,10 @@
                                 </li>
                                 
                                 
-                                <li>
+                                <!--<li>
                                     <span>Promotions:</span>
                                     <p>Free shipping</p>
-                                </li>
+                                </li>-->
                             </ul>
                         </div>
                         
@@ -181,7 +181,7 @@
                                 <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Chi tiết</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Đánh giá ( 2 )</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Đánh giá ( <%=detail.comments.length%> )</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -195,29 +195,34 @@
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <h6>Đánh giá</h6>
+                                <% if(detail.comments) {%>
+                                <% detail.comments.forEach((cmt, index)=> {%>
                                 <div class="col-md-12" style="margin-bottom: 20px;">
-                                    <b>Ten</b>
-                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium, perferendis!</p>
+                                    <b><%=cmt.name%></b>
+                                    <p><%=cmt.content%></p>
 
                                 </div>
-                                <form class="row g-3 needs-validation" novalidate>
+                                <% }) %>
+                                <% } %>
+                                <form class="row g-3 needs-validation" novalidate action="/comment" method="POST">
+                                    <input name="product_id" type="hidden" class="form-control" id="validationCustom01" value="<%-detail.detail._id%>">
                                     <div class="col-md-12" style="margin-bottom: 20px;">
                                         <label for="validationCustom01" class="form-label">Nhận xét *</label>
-                                        <textarea type="text" class="form-control" id="validationCustom03" value="" required></textarea>
+                                        <textarea name="content" type="text" class="form-control" id="validationCustom03" required></textarea>
                                         <div class="valid-feedback">
                                         Looks good!
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="validationCustom01" class="form-label">Tên *</label>
-                                        <input type="text" class="form-control" id="validationCustom01" value="" required>
+                                        <input name="name" type="text" class="form-control" id="validationCustom01" required>
                                         <div class="valid-feedback">
                                         Looks good!
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="validationCustom02" class="form-label">Email *</label>
-                                        <input type="text" class="form-control" id="validationCustom02" value="" required>
+                                        <input name="email" type="text" class="form-control" id="validationCustom02" required>
                                         <div class="valid-feedback">
                                         Looks good!
                                         </div>
@@ -242,23 +247,23 @@
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="/uploads/product/<%=relate.product_id.image%>">
-                            <div class="label new">New</div>
+                            <!-- <div class="label new">New</div> -->
                             <ul class="product__hover">
                                 <li><a href="/uploads/product/<%=relate.product_id.image%>" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <!--<li><a href="#"><span class="icon_heart_alt"></span></a></li>-->
                                 <li><a href="/detail/<%=relate.product_id.product_slug%>"><span class="icon_bag_alt"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
                             <h6><a href="/detail/<%=relate.product_id.product_slug%>"><%=relate.product_id.name%></a></h6>
-                            <div class="rating">
+                            <!--<div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price"><%=relate.product_id.price%> vnđ</div>
+                            </div>-->
+                            <div class="product__price"><%=relate.product_id.price_old.toLocaleString()%> vnđ</div>
                         </div>
                     </div>
                 </div>

@@ -4,18 +4,18 @@ import { Model } from 'mongoose';
 import slugify from 'slugify';
 import {
   Attribute,
-  AttributeDocument,
+  AttributeDocument
 } from 'src/admin/attribute/entities/attribute.entity';
 import { Brand, BrandDocument } from 'src/admin/brand/schemas/brand.schema';
 import { CategoryProductDocument } from 'src/admin/category-product/entities/category-product.entity';
 import {
   Category,
-  CategoryDocument,
+  CategoryDocument
 } from 'src/admin/category/entities/category.entity';
 // import { Trend, TrendDocument } from 'src/admin/trend/entities/trend.entity';
 import {
   ValueProduct,
-  ValueProductDocument,
+  ValueProductDocument
 } from 'src/admin/value-product/entities/value-product.entity';
 import { Value, ValueDocument } from 'src/admin/value/entities/value.entity';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -48,7 +48,7 @@ export class ProductService {
     @InjectModel('Variant')
     private VariantModel: Model<VariantDocument>,
     @InjectModel('VariantValue')
-    private VariantValueModel: Model<VariantValueDocument>,
+    private VariantValueModel: Model<VariantValueDocument>
   ) {}
 
   getBrand() {
@@ -68,6 +68,7 @@ export class ProductService {
   }
 
   async create(createProductDto: CreateProductDto, file: any) {
+    const name_search = await this.removeVietnameseTones(createProductDto.name);
     const postProduct = new this.ProductModel({
       name: createProductDto.name,
       product_slug: slugify(createProductDto.name, { lower: true }),
@@ -83,16 +84,17 @@ export class ProductService {
       value: createProductDto.value,
       image: file.filename,
       highlight: createProductDto.highlight,
+      name_search
     });
     await postProduct.save();
 
     const checkProduct = await this.ProductModel.findOne({
-      product_code: createProductDto.product_code,
+      product_code: createProductDto.product_code
     });
 
     const imageFirst = new this.ImageProductModel({
       image: file.filename,
-      product_id: checkProduct._id,
+      product_id: checkProduct._id
     });
     await imageFirst.save();
 
@@ -101,7 +103,7 @@ export class ProductService {
         const element = createProductDto.value[index];
         const postProValue = new this.ValueProductModel({
           product_id: checkProduct._id,
-          value_id: element,
+          value_id: element
         });
         postProValue.save();
       }
@@ -111,7 +113,7 @@ export class ProductService {
         const element = createProductDto.category[index];
         const postProCategory = new this.CategoryProductModel({
           product_id: checkProduct._id,
-          category_id: element,
+          category_id: element
         });
         postProCategory.save();
       }
@@ -121,7 +123,7 @@ export class ProductService {
   async findAll() {
     const select = Promise.all([
       this.ProductModel.find().populate('brand_id').sort({ createdAt: -1 }),
-      this.CategoryProductModel.find().populate('category_id').exec(),
+      this.CategoryProductModel.find().populate('category_id').exec()
     ]).then(([products, categoryPros]) => {
       return { products, categoryPros };
     });
@@ -137,7 +139,7 @@ export class ProductService {
       // trends,
       categories,
       values,
-      attributes,
+      attributes
     ] = await Promise.all([
       this.ProductModel.findById(id),
       this.CategoryProductModel.find({ product_id: id }),
@@ -146,7 +148,7 @@ export class ProductService {
       // this.TrendModel.find(),
       this.CategoryModel.find(),
       this.ValueModel.find(),
-      this.AttributeModel.find(),
+      this.AttributeModel.find()
     ]);
     return {
       product,
@@ -156,15 +158,15 @@ export class ProductService {
       // trends,
       categories,
       values,
-      attributes,
+      attributes
     };
   }
 
   async update(id: any, updateProductDto: UpdateProductDto, file: any) {
     const checkProduct = await this.ProductModel.findOne({
-      _id: id,
+      _id: id
     });
-
+    const name_search = await this.removeVietnameseTones(updateProductDto.name);
     if (file) {
       if (checkProduct.image !== null) {
         fs.unlinkSync('public/uploads/product/' + checkProduct.image);
@@ -185,12 +187,13 @@ export class ProductService {
           value: updateProductDto.value,
           image: file.filename,
           highlight: updateProductDto.highlight,
-        },
+          name_search
+        }
       });
 
       const imageFirst = new this.ImageProductModel({
         image: file.filename,
-        product_id: checkProduct._id,
+        product_id: checkProduct._id
       });
       await imageFirst.save();
     } else {
@@ -209,13 +212,14 @@ export class ProductService {
           // trend_id: updateProductDto.trend_id,
           value: updateProductDto.value,
           highlight: updateProductDto.highlight,
-        },
+          name_search
+        }
       });
     }
 
     await Promise.all([
       this.CategoryProductModel.deleteMany({ product_id: id }),
-      this.ValueProductModel.deleteMany({ product_id: id }),
+      this.ValueProductModel.deleteMany({ product_id: id })
     ]);
 
     if (updateProductDto.value) {
@@ -223,7 +227,7 @@ export class ProductService {
         const element = updateProductDto.value[index];
         const postProValue = new this.ValueProductModel({
           product_id: checkProduct._id,
-          value_id: element,
+          value_id: element
         });
         postProValue.save();
       }
@@ -233,7 +237,7 @@ export class ProductService {
         const element = updateProductDto.category[index];
         const postProCategory = new this.CategoryProductModel({
           product_id: checkProduct._id,
-          category_id: element,
+          category_id: element
         });
         postProCategory.save();
       }
@@ -243,7 +247,7 @@ export class ProductService {
   async remove(id: any) {
     const [checkProduct, checkImagePro] = await Promise.all([
       this.ProductModel.findOne({ _id: id }),
-      this.ImageProductModel.find({ product_id: id }),
+      this.ImageProductModel.find({ product_id: id })
     ]);
     if (fs.existsSync('public/uploads/product/' + checkProduct.image)) {
       fs.unlinkSync('public/uploads/product/' + checkProduct.image);
@@ -258,7 +262,7 @@ export class ProductService {
       this.ImageProductModel.deleteMany({ product_id: id }),
       this.CategoryProductModel.deleteMany({ product_id: id }),
       this.ValueProductModel.deleteMany({ product_id: id }),
-      this.ProductModel.deleteOne({ _id: id }),
+      this.ProductModel.deleteOne({ _id: id })
     ]);
   }
 
@@ -269,7 +273,7 @@ export class ProductService {
   async addImage(id: string, file: any) {
     const image = new this.ImageProductModel({
       image: file.filename,
-      product_id: id,
+      product_id: id
     });
     await image.save();
   }
@@ -281,8 +285,8 @@ export class ProductService {
     }
     await this.ImageProductModel.findByIdAndUpdate(id, {
       $set: {
-        image: file.filename,
-      },
+        image: file.filename
+      }
     });
   }
 
@@ -299,7 +303,7 @@ export class ProductService {
       this.ValueProductModel.find({ product_id: id }).populate('value_id'),
       this.AttributeModel.find(),
       this.VariantModel.find({ product_id: id }),
-      this.VariantValueModel.find().populate('value_id'),
+      this.VariantValueModel.find().populate('value_id')
     ]);
     return { values, attributes, variants, variantValues };
   }
@@ -307,13 +311,13 @@ export class ProductService {
   async createVariant(id: string, createVariantDto: CreateVariantDto) {
     const variant = await new this.VariantModel({
       quantity: createVariantDto.quantity,
-      product_id: id,
+      product_id: id
     }).save();
     for (let index = 0; index < createVariantDto.value_id.length; index++) {
       const element = createVariantDto.value_id[index];
       await new this.VariantValueModel({
         variant_id: variant._id,
-        value_id: element,
+        value_id: element
       }).save();
     }
   }
@@ -322,8 +326,8 @@ export class ProductService {
     const variant = await this.VariantModel.findById(id);
     await this.VariantModel.findByIdAndUpdate(id, {
       $set: {
-        quantity: variant.quantity + +updateVariantDto.quantity,
-      },
+        quantity: variant.quantity + +updateVariantDto.quantity
+      }
     });
   }
 
@@ -332,15 +336,47 @@ export class ProductService {
     await this.VariantModel.findByIdAndUpdate(id, {
       $set: {
         quantity: variant.quantity + +updateVariantDto.quantity,
-        sold: variant.sold - +updateVariantDto.quantity,
-      },
+        sold: variant.sold - +updateVariantDto.quantity
+      }
     });
   }
 
   async deleteVariant(id: any) {
     await Promise.all([
       this.VariantModel.deleteOne({ _id: id }),
-      this.VariantValueModel.deleteMany({ variant_id: id }),
+      this.VariantValueModel.deleteMany({ variant_id: id })
     ]);
+  }
+  // chuyển có dấu thành không dấu
+  async removeVietnameseTones(str: any) {
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e');
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, 'i');
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, 'o');
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u');
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y');
+    str = str.replace(/đ/g, 'd');
+    str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, 'A');
+    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, 'E');
+    str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, 'I');
+    str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, 'O');
+    str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, 'U');
+    str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, 'Y');
+    str = str.replace(/Đ/g, 'D');
+    // Some system encode vietnamese combining accent as individual utf-8 characters
+    // Một vài bộ encode coi các dấu mũ, dấu chữ như một kí tự riêng biệt nên thêm hai dòng này
+    str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ''); // ̀ ́ ̃ ̉ ̣  huyền, sắc, ngã, hỏi, nặng
+    str = str.replace(/\u02C6|\u0306|\u031B/g, ''); // ˆ ̆ ̛  Â, Ê, Ă, Ơ, Ư
+    // Remove extra spaces
+    // Bỏ các khoảng trắng liền nhau
+    str = str.replace(/ + /g, ' ');
+    str = str.trim();
+    // Remove punctuations
+    // Bỏ dấu câu, kí tự đặc biệt
+    str = str.replace(
+      /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
+      ' '
+    );
+    return str;
   }
 }

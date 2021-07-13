@@ -9,7 +9,7 @@ import {
   Render,
   Redirect,
   UseGuards,
-  UseFilters,
+  UseFilters
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -43,7 +43,7 @@ export class OrderController {
     return {
       title: 'CHI TIẾT ĐƠN HÀNG',
       pageName: 'DANH SÁCH CHI TIẾT',
-      findDetail,
+      findDetail
     };
   }
 
@@ -51,7 +51,7 @@ export class OrderController {
   @Redirect('back')
   async toggleStatus(
     @Param('id') id: string,
-    @Body() UpdateOrderDto: UpdateOrderDto,
+    @Body() UpdateOrderDto: UpdateOrderDto
   ) {
     return await this.orderService.toggle(id, UpdateOrderDto);
   }
@@ -60,11 +60,12 @@ export class OrderController {
   @Render('admin/partials/order/update')
   async getUpdate(@Param('id') id: string) {
     const findOrder = await this.orderService.findOrder(id);
-
+    const findShip = await this.orderService.findShip();
     return {
       title: 'SỬA ĐƠN HÀNG',
       pageName: 'SỬA ĐƠN HÀNG',
       findOrder,
+      findShip
     };
   }
 
@@ -73,7 +74,7 @@ export class OrderController {
   update(
     @Param('id') id: string,
     @Body() updateOrderDto: UpdateOrderDto,
-    @Body() UpdateCustomerDto: UpdateCustomerDto,
+    @Body() UpdateCustomerDto: UpdateCustomerDto
   ) {
     return this.orderService.update(id, updateOrderDto, UpdateCustomerDto);
   }
