@@ -44,7 +44,7 @@
                         <th>Trạng thái</th>
                         <th Width=100>Ngày tạo</th>
                         <th Width=100>Ngày cập nhật</th>
-                        <th width=100>Tùy chọn</th>
+                        <!--<th width=100>Tùy chọn</th>-->
                       </tr>
                     </thead>
                     <tbody>
@@ -75,7 +75,7 @@
                         </td>
                         <td><%=new Date(product.createdAt).toLocaleDateString() + ' ' + new Date(product.createdAt).toLocaleTimeString() %></td>
                         <td><%=new Date(product.updatedAt).toLocaleDateString() + ' ' + new Date(product.updatedAt).toLocaleTimeString() %></td>
-                        <td>
+                        <!--<td>
                           <a class="btn btn-warning" href="/order/update/<%=product._id%>">Sửa</a>
                           <a
                             class="btn btn-danger"
@@ -83,7 +83,7 @@
                             onclick="return confirm('xác nhận xóa')"
                             >Xóa</a
                           >
-                        </td>
+                        </td>-->
                       </tr>
                       <% }); %>
                     </tbody>
@@ -100,7 +100,7 @@
                         <th>Trạng thái</th>
                         <th Width=100>Ngày tạo</th>
                         <th Width=100>Ngày cập nhật</th>
-                        <th width=150>Tùy chọn</th>
+                        <!--<th width=150>Tùy chọn</th>-->
                       </tr>
                     </tfoot>
                   </table>

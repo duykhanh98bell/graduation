@@ -8,7 +8,7 @@ import { Customer } from 'src/admin/customer/entities/customer.entity';
 export type OrderDocument = Order & Document;
 
 @Schema({
-  timestamps: true,
+  timestamps: true
 })
 export class Order {
   @Prop()
@@ -33,7 +33,19 @@ export class Order {
   sale: number;
 
   @Prop()
+  shipTotal: number;
+
+  @Prop()
+  shipName: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Ship' })
+  ship_id: Ship;
+
+  @Prop()
   payment: string;
+
+  @Prop({ default: Date.now })
+  soldAt: Date;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

@@ -4,13 +4,14 @@ import { ProductBackController } from './product-back.controller';
 import { OrderService } from '../order/order.service';
 import {
   OrderDetail,
-  OrderDetailSchema,
+  OrderDetailSchema
 } from '../order-detail/entities/order-detail.entity';
 import { OrderDetailService } from '../order-detail/order-detail.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Order, OrderSchema } from '../order/entities/order.entity';
 import { Customer, CustomerSchema } from '../customer/entities/customer.entity';
 import { ProductBack } from './entities/product-back.entity';
+import { Ship, ShipSchema } from '../ship/entities/ship.entity';
 
 @Module({
   controllers: [ProductBackController],
@@ -21,11 +22,12 @@ import { ProductBack } from './entities/product-back.entity';
     //   { name: ProductBack.name, schema: ProductBackSchema },
     // ]),
     MongooseModule.forFeature([
-      { name: Customer.name, schema: CustomerSchema },
+      { name: Customer.name, schema: CustomerSchema }
     ]),
     MongooseModule.forFeature([
-      { name: OrderDetail.name, schema: OrderDetailSchema },
+      { name: OrderDetail.name, schema: OrderDetailSchema }
     ]),
-  ],
+    MongooseModule.forFeature([{ name: Ship.name, schema: ShipSchema }])
+  ]
 })
 export class ProductBackModule {}

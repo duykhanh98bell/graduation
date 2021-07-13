@@ -78,7 +78,6 @@
 </script>
 <script>
         $(document).ready(function(){
-          setTimeout(() => { 
             $.get("/dashboard/total-all", (data, status) => {
               $('#tong_da_xac_nhan').html(data.tong_da_xac_nhan);
               $('#tong_dang_xac_nhan').html(data.tong_dang_xac_nhan);
@@ -86,7 +85,6 @@
               $('#tong_hoa_don_loi').html(data.tong_hoa_don_loi);
               $('#tong_san_phan_loi').html(data.tong_san_phan_loi);
             }); 
-          }, 0);
         });
  </script>
 

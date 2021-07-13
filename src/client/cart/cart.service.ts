@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, Redirect } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -203,11 +204,14 @@ export class CartService {
       const total = (req.body.subtotal * (100 - sale.percent)) / 100;
       req.session.priceSale = +total;
       req.session.percentSale = +sale.percent;
+      req.session.codeCoupon = createSaleDto.code;
 
       req.session.message = {
         type: 'success',
         message: 'Áp dụng thành công',
       };
+      console.log(req.session);
+      
       res.redirect('/cart');
     } else {
       req.session.message = {

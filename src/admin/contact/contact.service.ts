@@ -8,41 +8,23 @@ import { Contact, ContactDocument } from './entities/contact.entity';
 @Injectable()
 export class ContactService {
   constructor(
-    @InjectModel(Contact.name) private ContactModel: Model<ContactDocument>,
+    @InjectModel(Contact.name) private ContactModel: Model<ContactDocument>
   ) {}
 
-  create(createContactDto: CreateContactDto) {
-    const con = new this.ContactModel({
-      name: createContactDto.name,
-      phone: createContactDto.phone,
-      email: createContactDto.email,
-      introduce: createContactDto.introduce,
-    });
-    con.save();
+  async create(createContactDto: CreateContactDto) {
+    return await this.ContactModel.create(createContactDto);
   }
 
-  findAll() {
-    return this.ContactModel.find();
+  async findAll() {
+    return await this.ContactModel.find();
   }
 
   findOne(id: string) {
     return this.ContactModel.findById(id);
   }
 
-  update(id: string, updateContactDto: UpdateContactDto) {
-    return this.ContactModel.findByIdAndUpdate(
-      id,
-      {
-        name: updateContactDto.name,
-        phone: updateContactDto.phone,
-        email: updateContactDto.email,
-        introduce: updateContactDto.introduce,
-        updatedAt: new Date(),
-      },
-      {
-        new: true,
-      },
-    );
+  async update(id: string, updateContactDto: UpdateContactDto) {
+    return await this.ContactModel.findByIdAndUpdate(id, updateContactDto);
   }
 
   remove(id: string) {

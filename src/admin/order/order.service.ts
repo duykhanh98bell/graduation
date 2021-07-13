@@ -4,13 +4,14 @@ import { Model } from 'mongoose';
 import { UpdateCustomerDto } from '../customer/dto/update-customer.dto';
 import {
   Customer,
-  CustomerDocument,
+  CustomerDocument
 } from '../customer/entities/customer.entity';
 import {
   OrderDetail,
-  OrderDetailDocument,
+  OrderDetailDocument
 } from '../order-detail/entities/order-detail.entity';
 import { OrderDetailService } from '../order-detail/order-detail.service';
+import { Ship, ShipDocument } from '../ship/entities/ship.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order, OrderDocument } from './entities/order.entity';
@@ -22,6 +23,8 @@ export class OrderService {
     @InjectModel(Customer.name) private CustomerModel: Model<CustomerDocument>,
     @InjectModel(OrderDetail.name)
     private OrderDetailModel: Model<OrderDetailDocument>,
+    @InjectModel(Ship.name)
+    private ShipModel: Model<ShipDocument>
   ) {}
   create(createOrderDto: CreateOrderDto) {
     return 'This action adds a new order';
@@ -29,7 +32,7 @@ export class OrderService {
 
   async findAll(): Promise<OrderDocument[]> {
     const allBill = await this.OrderModel.find({
-      $and: [{ status: { $ne: 6 } }, { status: { $ne: 7 } }],
+      $and: [{ status: { $ne: 6 } }, { status: { $ne: 7 } }]
     })
       .populate('customer_id')
       .sort({ createdAt: -1 });
@@ -38,7 +41,7 @@ export class OrderService {
 
   async findDetail(id: any): Promise<OrderDetailDocument[]> {
     const findOrder = await this.OrderDetailModel.find({
-      order_id: id,
+      order_id: id
     }).populate('product_id');
     return findOrder;
   }
@@ -47,7 +50,8 @@ export class OrderService {
     return await this.OrderModel.findByIdAndUpdate(id, {
       $set: {
         status: +UpdateOrderDto.status,
-      },
+        soldAt: new Date()
+      }
     });
   }
 
@@ -55,32 +59,42 @@ export class OrderService {
     return await this.OrderModel.findById(id).populate({ path: 'customer_id' });
   }
 
+  async findShip() {
+    return await this.ShipModel.find();
+  }
+
   async update(
     id: string,
     updateOrderDto: UpdateOrderDto,
-    updateCustomerDto: UpdateCustomerDto,
+    updateCustomerDto: UpdateCustomerDto
   ) {
+    const ship = await this.ShipModel.findById(updateOrderDto.ship_id);
+    console.log(updateOrderDto);
+
     const putOrder = await this.OrderModel.findByIdAndUpdate(
       id,
       {
         $set: {
           status: updateOrderDto.status,
-          total: +updateOrderDto.total,
+          // total: +updateOrderDto.total,
           address: updateOrderDto.address,
           note: updateOrderDto.note,
-          sale: +updateOrderDto.sale,
+          // sale: +updateOrderDto.sale,
           payment: updateOrderDto.payment,
-        },
+          ship_id: updateOrderDto.ship_id,
+          shipName: ship.name,
+          shipTotal: ship.price
+        }
       },
-      { new: true },
+      { new: true }
     );
-    await this.CustomerModel.findByIdAndUpdate(putOrder.customer_id, {
-      $set: {
-        name: updateCustomerDto.name,
-        phone: updateCustomerDto.phone,
-        email: updateCustomerDto.email,
-      },
-    });
+    // await this.CustomerModel.findByIdAndUpdate(putOrder.customer_id, {
+    //   $set: {
+    //     name: updateCustomerDto.name,
+    //     phone: updateCustomerDto.phone,
+    //     email: updateCustomerDto.email
+    //   }
+    // });
     return;
   }
 

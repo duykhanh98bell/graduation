@@ -3,13 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
   Customer,
-  CustomerDocument,
+  CustomerDocument
 } from '../customer/entities/customer.entity';
 import {
   OrderDetail,
-  OrderDetailDocument,
+  OrderDetailDocument
 } from '../order-detail/entities/order-detail.entity';
 import { Order, OrderDocument } from '../order/entities/order.entity';
+import { Ship, ShipDocument } from '../ship/entities/ship.entity';
 import { CreateBillDto } from './dto/create-bill.dto';
 import { UpdateBillDto } from './dto/update-bill.dto';
 
@@ -18,8 +19,9 @@ export class BillService {
   constructor(
     @InjectModel(Order.name) private OrderModel: Model<OrderDocument>,
     @InjectModel(Customer.name) private CustomerModel: Model<CustomerDocument>,
+    @InjectModel(Ship.name) private ShipModel: Model<ShipDocument>,
     @InjectModel(OrderDetail.name)
-    private OrderDetailModel: Model<OrderDetailDocument>,
+    private OrderDetailModel: Model<OrderDetailDocument>
   ) {}
 
   create(createBillDto: CreateBillDto) {
@@ -28,7 +30,7 @@ export class BillService {
 
   async findAll(): Promise<OrderDocument[]> {
     const allBill = await this.OrderModel.find({
-      $or: [{ status: 6 }, { status: 7 }],
+      $or: [{ status: 6 }, { status: 7 }]
     })
       .populate('customer_id')
       .sort({ createdAt: -1 });

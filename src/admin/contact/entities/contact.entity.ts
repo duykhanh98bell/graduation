@@ -3,25 +3,25 @@ import { Document } from 'mongoose';
 
 export type ContactDocument = Contact & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Contact {
   @Prop()
-  name: string;
+  content: string;
 
-  @Prop()
-  email: string;
+  // @Prop()
+  // email: string;
 
-  @Prop()
-  phone: string;
+  // @Prop()
+  // phone: string;
 
-  @Prop()
-  introduce: string;
+  // @Prop()
+  // introduce: string;
 
-  @Prop({ default: Date.now })
-  createdAt: Date;
+  // @Prop({ default: Date.now })
+  // createdAt: Date;
 
-  @Prop({ default: Date.now })
-  updatedAt: Date;
+  // @Prop({ default: Date.now })
+  // updatedAt: Date;
 }
 
 export const ContactSchema = SchemaFactory.createForClass(Contact);

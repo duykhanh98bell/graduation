@@ -12,7 +12,7 @@ import {
   Redirect,
   Req,
   UseGuards,
-  UseFilters,
+  UseFilters
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import multer = require('multer');
@@ -33,8 +33,8 @@ export const storage = {
       const extension: string = path.parse(file.originalname).ext;
 
       cb(null, file.fieldname + '-' + uniqueSuffix + extension);
-    },
-  }),
+    }
+  })
 };
 
 @UseGuards(JwtAuthGuard)
@@ -56,7 +56,7 @@ export class CategoryController {
   create(
     @Body() createCategoryDto: CreateCategoryDto,
     @Req() req,
-    @UploadedFile() file,
+    @UploadedFile() file
   ) {
     return this.categoryService.create(createCategoryDto, req, file);
   }
@@ -66,14 +66,14 @@ export class CategoryController {
   async findAll() {
     const categoryAndParent = await Promise.all([
       this.categoryService.findAll(),
-      this.categoryService.findParent(),
+      this.categoryService.findParent()
     ]).then(([categories, parents]) => {
       return { categories, parents };
     });
     return {
       pageName: 'Danh sách danh mục',
       categoryAndParent,
-      title: 'Danh mục',
+      title: 'Danh mục'
     };
   }
 
@@ -88,7 +88,7 @@ export class CategoryController {
   async findOne(@Param('id') id: string) {
     const category = await Promise.all([
       this.categoryService.findOne(id),
-      this.categoryService.findParent(),
+      this.categoryService.findParent()
     ]).then(([categoryEdit, categoryParents]) => {
       return { categoryEdit, categoryParents };
     });
@@ -102,7 +102,7 @@ export class CategoryController {
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
     @UploadedFile() file,
-    @Req() req,
+    @Req() req
   ) {
     return this.categoryService.update(id, updateCategoryDto, file, req);
   }

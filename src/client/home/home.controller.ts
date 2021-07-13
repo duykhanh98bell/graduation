@@ -8,10 +8,14 @@ import {
   Delete,
   Render,
   Query,
+  Req,
+  Redirect
 } from '@nestjs/common';
 import { HomeService } from './home.service';
 import { CreateHomeDto } from './dto/create-home.dto';
 import { UpdateHomeDto } from './dto/update-home.dto';
+import { CreateCommentDto } from '../comment/dto/create-comment.dto';
+import { Prop } from '@nestjs/mongoose';
 
 @Controller('')
 export class HomeController {
@@ -22,7 +26,7 @@ export class HomeController {
   async home(@Query() query: any) {
     const [nav, all] = await Promise.all([
       this.homeService.findNav(),
-      this.homeService.findAll(query['page']),
+      this.homeService.findAll(query['page'])
     ]);
     return { nav, all, title: 'Trang chủ' };
   }
@@ -32,7 +36,7 @@ export class HomeController {
   async searched(@Query() query: any) {
     const [nav, all] = await Promise.all([
       this.homeService.findNav(),
-      this.homeService.search(query['q']),
+      this.homeService.search(query['q'])
     ]);
     return { nav, all, title: 'Search' };
   }
@@ -50,8 +54,8 @@ export class HomeController {
         query['priceMin'],
         query['priceMax'],
         query['value'],
-        query['q'],
-      ),
+        query['q']
+      )
     ]);
     return { nav, all, filter, title: filter.title };
   }
@@ -62,7 +66,7 @@ export class HomeController {
     const [nav, all, detail] = await Promise.all([
       this.homeService.findNav(),
       this.homeService.findDetail(slug),
-      this.homeService.detail(slug),
+      this.homeService.detail(slug)
     ]);
     return { nav, all, title: 'CHI TIẾT SẢN PHẨM', detail };
   }
@@ -73,5 +77,26 @@ export class HomeController {
     const [nav] = await Promise.all([this.homeService.findNav()]);
     const policy = await this.homeService.policy();
     return { nav, policy, title: 'Chính sách' };
+  }
+
+  @Get('contact-home')
+  @Render('client/partials/contact')
+  async contact() {
+    const [nav] = await Promise.all([this.homeService.findNav()]);
+    const contact = await this.homeService.contact();
+    return { nav, contact, title: 'Chính sách' };
+  }
+
+  @Post('comment')
+  @Redirect('back')
+  async comment(@Req() req: any, @Body() CreateCommentDto: CreateCommentDto) {
+    return await this.homeService.comment(req, CreateCommentDto);
+  }
+
+  @Get('blog')
+  @Render('client/partials/blog/index')
+  async blog() {
+    const nav = await this.homeService.findNav();
+    return { title: 'Blog', nav };
   }
 }

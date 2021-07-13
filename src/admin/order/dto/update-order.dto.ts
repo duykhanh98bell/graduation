@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { IsNotEmpty, Length } from 'class-validator';
 import { Customer } from 'src/admin/customer/entities/customer.entity';
+import { Ship } from 'src/admin/ship/entities/ship.entity';
 import { CreateOrderDto } from './create-order.dto';
 
 export class UpdateOrderDto extends PartialType(CreateOrderDto) {
@@ -14,4 +15,7 @@ export class UpdateOrderDto extends PartialType(CreateOrderDto) {
   status: number;
   sale: number;
   payment: string;
+  shipTotal: number;
+  shipName: string;
+  ship_id: Ship;
 }

@@ -15,4 +15,7 @@ export class CreateOrderDto {
   status: number;
   sale: number;
   payment: string;
+  shipTotal: number;
+  shipName: string;
+  ship_id: Ship;
 }

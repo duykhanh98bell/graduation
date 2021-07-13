@@ -63,9 +63,9 @@
                         <%  }%>
                         <% }); %>
                         </td>
-                        <td><%=product.price_in%> vnđ</td>
-                        <td><%=product.price_old%> vnđ</td>
-                        <td><%=product.price%> vnđ</td>
+                        <td><%=product.price_in.toLocaleString()%> vnđ</td>
+                        <td><%=product.price_old.toLocaleString()%> vnđ</td>
+                        <td><%=product.price.toLocaleString()%> vnđ</td>
                         <td><%=product.brand_id.name%></td>
                         <% if(product.highlight===true){%>
                         <td>Nổi bật</td>

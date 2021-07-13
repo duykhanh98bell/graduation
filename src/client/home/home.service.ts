@@ -6,6 +6,7 @@ import {
   Attribute,
   AttributeDocument,
 } from 'src/admin/attribute/entities/attribute.entity';
+import { Blog, BlogDocument } from 'src/admin/blog/entities/blog.entity';
 import { Brand, BrandDocument } from 'src/admin/brand/schemas/brand.schema';
 import {
   CategoryProduct,
@@ -15,6 +16,7 @@ import {
   Category,
   CategoryDocument,
 } from 'src/admin/category/entities/category.entity';
+import { ContactDocument } from 'src/admin/contact/entities/contact.entity';
 import {
   ImageProduct,
   ImageProductDocument,
@@ -36,6 +38,8 @@ import { ValueProductDocument } from 'src/admin/value-product/entities/value-pro
 import { Value, ValueDocument } from 'src/admin/value/entities/value.entity';
 import { VariantValueDocument } from 'src/admin/variant-value/entities/variant-value.entity';
 import { VariantDocument } from 'src/admin/variant/entities/variant.entity';
+import { CreateCommentDto } from '../comment/dto/create-comment.dto';
+import { Comment, CommentDocument } from '../comment/entities/comment.entity';
 import { CreateHomeDto } from './dto/create-home.dto';
 import { UpdateHomeDto } from './dto/update-home.dto';
 
@@ -64,6 +68,10 @@ export class HomeService {
     private ValueProductModel: Model<ValueProductDocument>,
     @InjectModel('Policy')
     private PolicyModel: Model<PolicyDocument>,
+    @InjectModel('Contact')
+    private ContactModel: Model<ContactDocument>,
+    @InjectModel(Comment.name) private CommentModel: Model<CommentDocument>,
+    @InjectModel(Blog.name) private BlogModel: Model<BlogDocument>,
   ) {}
 
   async findNav() {
@@ -84,6 +92,9 @@ export class HomeService {
     const productHighlight = await this.ProductModel.find({
       highlight: true,
     }).limit(3);
+
+    // top 3 new
+    const productNew = await this.ProductModel.find().sort({ createdAt: -1 }).limit(3);
 
     // top 3 bán nhiều nhất
     const bestSeller = await this.VariantModel.aggregate([
@@ -113,8 +124,9 @@ export class HomeService {
       topSeller.push(pro);
     }
 
+    // const query =  await this.removeVietnameseTones(q);
     const [products, cateProducts, slider] = await Promise.all([
-      this.ProductModel.find({ name: { $regex: q } }).populate('promotion_id'),
+      this.ProductModel.find({ name_search: { $regex: q, $options: 'i' } }).populate('promotion_id'),
       this.CategoryProductModel.find().populate({
         path: 'category_id',
         populate: { path: 'product_id', populate: { path: 'promotion_id' } },
@@ -127,8 +139,11 @@ export class HomeService {
       slider,
       productHighlight,
       topSeller,
+      productNew
     };
   }
+
+
 
   async collection(page: number) {
     const products = await await this.ProductModel.find().populate(
@@ -153,7 +168,10 @@ export class HomeService {
     // top 3 hightlight
     const productHighlight = await this.ProductModel.find({
       highlight: true,
-    }).limit(3);
+    }).sort({ createdAt: -1 }).limit(3);
+ 
+    // top 3 new
+    const productNew = await this.ProductModel.find().sort({ createdAt: -1 }).limit(3);
 
     // top 3 bán nhiều nhất
     const bestSeller = await this.VariantModel.aggregate([
@@ -216,8 +234,9 @@ export class HomeService {
       slider,
       productHighlight,
       topSeller,
+      productNew,
       totalPage,
-      page
+      page,
     };
   }
 
@@ -230,11 +249,6 @@ export class HomeService {
     value: string,
     q: string,
   ) {
-    // console.log(page);
-    // console.log(priceMin);
-    // console.log(priceMax);
-    // console.log(xx);
-
     const findCate = await this.CategoryModel.findOne({ cate_slug: cate });
     const pageSize = 9;
 
@@ -242,7 +256,6 @@ export class HomeService {
       // Lọc sản phẩm
       const arr = [];
       if (value !== undefined) {
-        console.log(xx);
         
         // Trường hợp có value
         for (const element of value) {
@@ -375,7 +388,7 @@ export class HomeService {
       this.CategoryProductModel.find({
         category_id: categoryProductChoose.category_id,
         product_id: { $ne: categoryProductChoose.product_id },
-      }).populate({ path: 'product_id', populate: 'promotion_id' }),
+      }).populate({ path: 'product_id', populate: 'promotion_id' }).limit(8),
     ]);
     return {
       categoryParent,
@@ -395,11 +408,25 @@ export class HomeService {
     const images = await this.ImageProductModel.find({
       product_id: detail._id,
     });
-    return { detail, images };
+    const comments = await this.CommentModel.find({ product_id: detail._id })
+    return { detail, images, comments };
+  }
+
+  async comment(req: any, CreateCommentDto: CreateCommentDto) {
+    const newComment = new this.CommentModel({
+      content: CreateCommentDto.content,
+      name: CreateCommentDto.name,
+      email: CreateCommentDto.email,
+      product_id: CreateCommentDto.product_id
+    })
+    return await newComment.save();
   }
 
   async policy() {
     return await this.PolicyModel.find();
+  }
+  async contact(){
+    return await this.ContactModel.find();
   }
 
   findOne(id: number) {
@@ -413,4 +440,34 @@ export class HomeService {
   async remove(id: number) {
     return `This action removes a #${id} home`;
   }
+
+  // chuyển có dấu thành không dấu
+  async removeVietnameseTones(str: any) {
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+    str = str.replace(/đ/g,"d");
+    str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+    str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+    str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+    str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+    str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+    str = str.replace(/Đ/g, "D");
+    // Some system encode vietnamese combining accent as individual utf-8 characters
+    // Một vài bộ encode coi các dấu mũ, dấu chữ như một kí tự riêng biệt nên thêm hai dòng này
+    str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // ̀ ́ ̃ ̉ ̣  huyền, sắc, ngã, hỏi, nặng
+    str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // ˆ ̆ ̛  Â, Ê, Ă, Ơ, Ư
+    // Remove extra spaces
+    // Bỏ các khoảng trắng liền nhau
+    str = str.replace(/ + /g," ");
+    str = str.trim();
+    // Remove punctuations
+    // Bỏ dấu câu, kí tự đặc biệt
+    str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
+    return str;
+}
 }

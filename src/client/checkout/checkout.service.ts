@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
@@ -21,6 +22,8 @@ import {
 } from 'src/admin/order-detail/entities/order-detail.entity';
 import { CreateOrderDto } from 'src/admin/order/dto/create-order.dto';
 import { Order, OrderDocument } from 'src/admin/order/entities/order.entity';
+import { Sale, SaleDocument } from 'src/admin/sale/entities/sale.entity';
+import { Ship, ShipDocument } from 'src/admin/ship/entities/ship.entity';
 import {
   Variant,
   VariantDocument,
@@ -40,6 +43,8 @@ export class CheckoutService {
     private OrderDetailModel: Model<OrderDetailDocument>,
     @InjectModel(Customer.name) private CustomerModel: Model<CustomerDocument>,
     @InjectModel(Variant.name) private VariantModel: Model<VariantDocument>,
+    @InjectModel(Ship.name) private ShipModel: Model<ShipDocument>,
+    @InjectModel(Sale.name) private SaleModel: Model<SaleDocument>,
   ) {}
 
   async findAll() {
@@ -74,6 +79,10 @@ export class CheckoutService {
       (time.getMonth() + 1) +
       '' +
       Math.floor(Math.random() * 10000);
+      
+    const arrayShip = await this.ShipModel.find();
+    const randomItem = arrayShip[Math.floor(Math.random()*arrayShip.length)];
+    
     const order = await new this.OrderModel({
       code: code,
       total: createOrderDto.total,
@@ -82,7 +91,14 @@ export class CheckoutService {
       note: createOrderDto.note,
       sale: req.session.percentSale,
       payment: createOrderDto.payment,
+      shipTotal: randomItem.price,
+      shipName: randomItem.name,
+      ship_id: randomItem._id
     }).save();
+
+    // delete coupon
+    await this.SaleModel.findOneAndDelete({ code: req.session.codeCoupon });
+
     const cart = req.session.cart;
     cart.forEach(async (product) => {
       new this.OrderDetailModel({
@@ -91,6 +107,7 @@ export class CheckoutService {
         order_id: order._id,
         price: product.price,
         quantity: product.quantity,
+        total_price: product.price * product.quantity,
         size: product.size,
         color: product.color,
       }).save();
@@ -107,6 +124,7 @@ export class CheckoutService {
     delete req.session.priceSale;
     delete req.session.total;
     delete req.session.percentSale;
+    delete req.session.codeCoupon;
     req.session.message = {
       type: 'success',
       message: 'Mua hàng thành công',

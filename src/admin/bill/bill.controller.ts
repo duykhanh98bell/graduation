@@ -9,7 +9,7 @@ import {
   Render,
   Redirect,
   UsePipes,
-  ValidationPipe,
+  ValidationPipe
 } from '@nestjs/common';
 import { UpdateCustomerDto } from '../customer/dto/update-customer.dto';
 import { UpdateOrderDto } from '../order/dto/update-order.dto';
@@ -23,7 +23,7 @@ import { UpdateBillDto } from './dto/update-bill.dto';
 export class BillController {
   constructor(
     private readonly billService: BillService,
-    private orderService: OrderService,
+    private orderService: OrderService
   ) {}
 
   @Get()
@@ -45,7 +45,7 @@ export class BillController {
     return {
       title: 'CHI TIẾT HÓA ĐƠN',
       pageName: 'DANH SÁCH CHI TIẾT',
-      findDetail,
+      findDetail
     };
   }
 
@@ -53,7 +53,7 @@ export class BillController {
   @Redirect('back')
   async updateStatus(
     @Param('id') id: string,
-    @Body() UpdateOrderDto: UpdateOrderDto,
+    @Body() UpdateOrderDto: UpdateOrderDto
   ) {
     return this.orderService.toggle(id, UpdateOrderDto);
   }
@@ -62,11 +62,12 @@ export class BillController {
   @Render('admin/partials/bill/update-bill')
   async getUpdate(@Param('id') id: string) {
     const findOrder = await this.orderService.findOrder(id);
-
+    const findShip = await this.orderService.findShip();
     return {
       title: 'SỬA HÓA ĐƠN',
       pageName: 'SỬA HÓA ĐƠN',
       findOrder,
+      findShip
     };
   }
 
@@ -75,7 +76,7 @@ export class BillController {
   async update(
     @Param('id') id: string,
     @Body() updateOrderDto: UpdateOrderDto,
-    @Body() UpdateCustomerDto: UpdateCustomerDto,
+    @Body() UpdateCustomerDto: UpdateCustomerDto
   ) {
     return this.orderService.update(id, updateOrderDto, UpdateCustomerDto);
   }

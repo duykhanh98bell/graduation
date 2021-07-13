@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Render,
+  Query
 } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
 import { CreateDashboardDto } from './dto/create-dashboard.dto';
@@ -22,14 +23,25 @@ export class DashboardController {
   }
 
   @Get('total-all')
-  async getTotal() {
-    return await this.dashboardService.total();
+  async getNotification() {
+    return await this.dashboardService.notification();
   }
 
   @Get()
   @Render('admin/partials/dashboard/index')
-  async findAll() {
-    const total = await this.dashboardService.total();
+  async findAll(@Query() query: any) {
+    const total = await this.dashboardService.total(
+      query['timezone'],
+      query['from'],
+      query['to']
+    );
+    return { title: 'Thống kê', pageName: 'Thống kê', total };
+  }
+
+  @Get('/tieuchi-sanpham')
+  @Render('admin/partials/dashboard/tieuChiSanPham')
+  async getReport() {
+    const total = await this.dashboardService.tieuChiSanPham();
     return { title: 'Thống kê', pageName: 'Thống kê', total };
   }
 
@@ -41,7 +53,7 @@ export class DashboardController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() updateDashboardDto: UpdateDashboardDto,
+    @Body() updateDashboardDto: UpdateDashboardDto
   ) {
     return this.dashboardService.update(+id, updateDashboardDto);
   }

@@ -47,25 +47,25 @@
                                         <% } %>
                                     <ul class="product__hover">
                                         <li><a href="/uploads/product/<%=pro.product_id.image%>" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                        <!--<li><a href="#"><span class="icon_heart_alt"></span></a></li>-->
                                         <li><a href="/detail/<%=pro.product_id.product_slug%>"><span class="icon_bag_alt"></span></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
                                     <h6><a href="/product/<%=pro.product_id.product_slug%>"><%=pro.product_id.name%></a></h6>
-                                    <div class="rating">
+                                    <!--<div class="rating">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
-                                    </div>
+                                    </div>-->
                                     <% if(pro.product_id.promotion_id && ((pro.product_id.promotion_id.start_date).valueOf() < (Date.now().valueOf())) && ((pro.product_id.promotion_id.end_date).valueOf() > (Date.now().valueOf())) && pro.product_id.promotion_active===true){%>
-                                            <div class="product__price"><%=pro.product_id.price_old*(100-pro.product_id.promotion_id.percent)/100%> vnđ<span><%=pro.product_id.price_old%> vnđ</span></div>
+                                            <div class="product__price"><%=(pro.product_id.price_old*(100-pro.product_id.promotion_id.percent)/100).toLocaleString()%> vnđ<span><%=pro.product_id.price_old.toLocaleString()%> vnđ</span></div>
                                     <% }else if(pro.product_id.status===1) { %>
-                                    <div class="product__price"><%=pro.product_id.price%> vnđ<span><%=pro.product_id.price_old%> vnđ</span></div>
+                                    <div class="product__price"><%=pro.product_id.price.toLocaleString()%> vnđ<span><%=pro.product_id.price_old.toLocaleString()%> vnđ</span></div>
                                     <% }else { %>
-                                    <div class="product__price"><%=pro.product_id.price_old%> vnđ</div>
+                                    <div class="product__price"><%=pro.product_id.price_old.toLocaleString()%> vnđ</div>
                                     <% } %>
                                 </div>
                             </div>
