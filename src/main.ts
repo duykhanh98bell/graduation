@@ -5,7 +5,6 @@ import { AppModule } from './app.module';
 import * as session from 'express-session';
 import * as cookieParser from 'cookie-parser';
 import * as jwt from 'jsonwebtoken';
-import * as bcrypt from 'bcrypt';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
@@ -21,8 +20,8 @@ async function bootstrap() {
     session({
       secret: 'my-secret',
       resave: false,
-      saveUninitialized: false,
-    }),
+      saveUninitialized: false
+    })
   );
   app.use(function (req: any, res: any, next) {
     res.locals.totalCart = req.session.totalCart;
@@ -34,14 +33,27 @@ async function bootstrap() {
     res.locals.orderProducts = req.session.cart;
     res.locals.emailForgot = req.session.emailForgot;
     if (req.cookies['remember']) {
-      res.locals.user = jwt.verify(
-        req.cookies['jwt'],
-        process.env.TOKEN_SECRET,
-      );
-      res.locals.password = req.cookies['password'];
-      res.locals.remember = req.cookies['remember'];
+      try {
+        res.locals.user = jwt.verify(
+          req.cookies['jwt'],
+          process.env.TOKEN_SECRET
+        );
+        res.locals.password = req.cookies['password'];
+        res.locals.remember = req.cookies['remember'];
+      } catch (error) {
+        res.clearCookie('jwt');
+        res.clearCookie('remember');
+        res.clearCookie('password');
+      }
     } else if (req.session.jwt) {
-      res.locals.user = jwt.verify(req.session.jwt, process.env.TOKEN_SECRET);
+      try {
+        res.locals.user = jwt.verify(req.session.jwt, process.env.TOKEN_SECRET);
+      } catch (error) {
+        req.session.destroy();
+      }
+      // setTimeout(() => {
+      //   req.session.destroy();
+      // }, Number(process.env.EXPIRES_IN));
     }
     next();
   });

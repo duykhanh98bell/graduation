@@ -8,7 +8,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { LoginDto } from './dto/login.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { AuthDocument } from './entities/auth.entity';
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const randomstring = require('randomstring');
 
 @Injectable()
@@ -16,7 +16,7 @@ export class AuthService {
   constructor(
     private readonly mailerService: MailerService,
     private readonly jwtService: JwtService,
-    @InjectModel('User') private AuthModel: Model<AuthDocument>,
+    @InjectModel('User') private AuthModel: Model<AuthDocument>
   ) {}
   create(createAuthDto: CreateAuthDto) {
     return 'This action adds a new auth';
@@ -27,18 +27,18 @@ export class AuthService {
     if (!checkUser) {
       req.session.message = {
         type: 'danger',
-        message: 'Sai Email',
+        message: 'Sai Email'
       };
       return res.redirect('back');
     }
     const checkPass = await bcrypt.compare(
       loginDto.password,
-      checkUser.password,
+      checkUser.password
     );
     if (!checkPass) {
       req.session.message = {
         type: 'danger',
-        message: 'Sai Pass',
+        message: 'Sai Pass'
       };
       return res.redirect('back');
     }
@@ -63,7 +63,7 @@ export class AuthService {
         from: process.env.EMAIL, // sender address
         subject: 'Xác nhận tài khoản admin ✔', // Subject line
         text: 'welcome', // plaintext body
-        html: `<b>Mật khẩu lần đầu đăng nhập: ${pass}</b>`, // HTML body content
+        html: `<b>Mật khẩu lần đầu đăng nhập: ${pass}</b>` // HTML body content
       })
       .then((success) => {
         console.log(success);
@@ -82,7 +82,7 @@ export class AuthService {
     if (checkEmail) {
       req.session.message = {
         type: 'danger',
-        message: 'Email đã được đăng kí',
+        message: 'Email đã được đăng kí'
       };
       return res.redirect('back');
     }
@@ -91,7 +91,7 @@ export class AuthService {
     if (createAuthDto.password !== createAuthDto.repassword) {
       req.session.message = {
         type: 'danger',
-        message: 'Pass không trùng khớp',
+        message: 'Pass không trùng khớp'
       };
       return res.redirect('back');
     }
@@ -99,11 +99,11 @@ export class AuthService {
     await new this.AuthModel({
       name: createAuthDto.name,
       email: createAuthDto.email,
-      password: hashedRandomPass,
+      password: hashedRandomPass
     }).save();
     req.session.message = {
       type: 'success',
-      message: 'Đăng kí thành công',
+      message: 'Đăng kí thành công'
     };
     return;
   }
@@ -113,7 +113,7 @@ export class AuthService {
     if (!checkUser) {
       req.session.message = {
         type: 'danger',
-        message: 'Email không tồn tại',
+        message: 'Email không tồn tại'
       };
       return res.redirect('back');
     }
@@ -123,8 +123,8 @@ export class AuthService {
     const hashedRandomPass = await bcrypt.hash(randomPass, 12);
     await this.AuthModel.findByIdAndUpdate(checkUser._id, {
       $set: {
-        password: hashedRandomPass,
-      },
+        password: hashedRandomPass
+      }
     });
     return;
   }
@@ -134,31 +134,31 @@ export class AuthService {
 
     const checkPass = await bcrypt.compare(
       updateAuthDto.forgotpass,
-      checkUser.password,
+      checkUser.password
     );
     if (!checkPass) {
       req.session.message = {
         type: 'danger',
-        message: 'Mã Không chính xác',
+        message: 'Mã Không chính xác'
       };
       return res.redirect('back');
     }
     if (updateAuthDto.password !== updateAuthDto.repassword) {
       req.session.message = {
         type: 'danger',
-        message: 'Mật khẩu không trùng khớp',
+        message: 'Mật khẩu không trùng khớp'
       };
       return res.redirect('back');
     }
     const hashedPass = await bcrypt.hash(updateAuthDto.password, 12);
     await this.AuthModel.findByIdAndUpdate(checkUser._id, {
       $set: {
-        password: hashedPass,
-      },
+        password: hashedPass
+      }
     });
     req.session.message = {
       type: 'success',
-      message: 'Đổi mật khẩu thành công',
+      message: 'Đổi mật khẩu thành công'
     };
     return;
   }

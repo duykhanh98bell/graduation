@@ -16,33 +16,33 @@ import { JwtStrategy } from './jwt.strategy';
   imports: [
     MongooseModule.forFeature([{ name: 'User', schema: AuthSchema }]),
     ConfigModule.forRoot({
-      isGlobal: true,
+      isGlobal: true
     }),
     MailerModule.forRoot({
       transport: {
         service: 'gmail',
         auth: {
           user: process.env.EMAIL,
-          pass: process.env.PASS,
-        },
+          pass: process.env.PASS
+        }
       },
       defaults: {
-        from: '"No Reply" <no-reply@localhost>',
+        from: '"No Reply" <no-reply@localhost>'
       },
       preview: false,
       template: {
         dir: process.cwd() + '/template/',
         adapter: new EjsAdapter(), // or new PugAdapter() or new EjsAdapter()
         options: {
-          strict: true,
-        },
-      },
+          strict: true
+        }
+      }
     }),
     PassportModule,
     JwtModule.register({
       secret: process.env.TOKEN_SECRET,
-      signOptions: { expiresIn: '1d' },
-    }),
-  ],
+      signOptions: { expiresIn: process.env.EXPIRES_IN }
+    })
+  ]
 })
 export class AuthModule {}

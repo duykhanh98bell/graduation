@@ -1,0 +1,29 @@
+version: '3'
+services:
+  node-service: # Tên service
+    # image: node:16       # Tên image
+    build: .
+    restart: always # khởi động lại khi service gặp lỗi
+    env_file:
+      - docker-compose.env
+    volumes:
+      - .:/var/www/node # ánh xạ source cục bộ
+    command: npm run start:dev
+    ports:
+      - 1998:1998
+    depends_on:
+      - mongodb # yêu cầu chạy db trước khi chạy service
+
+  mongodb:
+    image: mongo:latest
+    restart: always
+    # command: mongod --port 27018 # port mongodb docker
+    ports:
+      - 27018:27017
+    volumes:
+      - ./db:/data/db # volume /data/db cua image
+
+# networks:
+volumes:
+  node-service:
+  mongodb:
