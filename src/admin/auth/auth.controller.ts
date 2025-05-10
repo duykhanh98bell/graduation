@@ -11,7 +11,7 @@ import {
   Res,
   Redirect,
   UseGuards,
-  UseFilters,
+  UseFilters
 } from '@nestjs/common';
 import { ViewAuthFilter } from '../http-exception/http-exception.filter';
 import { AuthService } from './auth.service';
@@ -34,7 +34,7 @@ export class AuthController {
   async postLogin(
     @Body() LoginDto: LoginDto,
     @Req() req: any,
-    @Res() res: any,
+    @Res() res: any
   ) {
     return await this.authService.postLogin(LoginDto, req, res);
   }
@@ -53,7 +53,7 @@ export class AuthController {
   async postRegister(
     @Body() CreateAuthDto: CreateAuthDto,
     @Req() req: any,
-    @Res() res: any,
+    @Res() res: any
   ) {
     return await this.authService.register(CreateAuthDto, req, res);
   }
@@ -63,7 +63,7 @@ export class AuthController {
   async getForgot(
     @Body() UpdateAuthDto: UpdateAuthDto,
     @Req() req: any,
-    @Res() res: any,
+    @Res() res: any
   ) {
     return;
   }
@@ -73,7 +73,7 @@ export class AuthController {
   async forgot(
     @Body() UpdateAuthDto: UpdateAuthDto,
     @Req() req: any,
-    @Res() res: any,
+    @Res() res: any
   ) {
     return await this.authService.forgot(UpdateAuthDto, req, res);
   }
@@ -89,7 +89,7 @@ export class AuthController {
   async postReset(
     @Body() UpdateAuthDto: UpdateAuthDto,
     @Req() req: any,
-    @Res() res: any,
+    @Res() res: any
   ) {
     return await this.authService.resetPass(UpdateAuthDto, req, res);
   }
